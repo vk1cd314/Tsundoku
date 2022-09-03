@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/nokib/Desktop/Academics/CSE 2216 Application Development Lab/Tsundoku/app/src/main/res/layout/activity_explore.xml" value="0.3625" />
+        <entry key="..\:/Users/nokib/Desktop/Academics/CSE 2216 Application Development Lab/Tsundoku/app/src/main/res/layout/activity_login.xml" value="0.3625" />
+        <entry key="..\:/Users/nokib/Desktop/Academics/CSE 2216 Application Development Lab/Tsundoku/app/src/main/res/layout/activity_main.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/nokib/Desktop/Academics/CSE 2216 Application Development Lab/Tsundoku/app/src/main/res/layout/manga_cover_card.xml" value="0.3614583333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18125" />
       </map>
     </option>

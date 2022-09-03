@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Tsundoku</string>
+    <string name="library">Library</string>
+    <string name="updates">Updates</string>
+    <string name="search">Search</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

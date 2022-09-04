@@ -1,6 +1,7 @@
 package com.tsunderead.tsundoku.explore
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,8 +24,9 @@ class ExploreActivity: AppCompatActivity() {
         adapter = MangaCoverAdapter(this, mangaCover!!)
         coverCardRecycler!!.adapter = adapter
 
-        val titleList = arrayListOf<String>("a","a","a","a","a","a","a","a","a")
+        val titleList = arrayListOf<String>("a","b","c","d","e","f","g","h","i")
         for (title in titleList) mangaCover!!.add(MangaCover(title))
+        adapter!!.notifyDataSetChanged()
     }
 
 }

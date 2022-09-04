@@ -14,14 +14,14 @@ class MangaCoverAdapter(private val context: Context, private val coverArrayList
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MangaCoverAdapter.MangaCoverHolder {
+    ): MangaCoverHolder {
         val v: View = LayoutInflater.from(context).inflate(R.layout.manga_cover_card, parent, false)
         return MangaCoverHolder(v)
     }
 
-    override fun onBindViewHolder(holder: MangaCoverAdapter.MangaCoverHolder, position: Int) {
+    override fun onBindViewHolder(holder: MangaCoverHolder, position: Int) {
         val mangaCover: MangaCover = coverArrayList.get(position)
-        holder.title.setText(mangaCover.title)
+        holder.title!!.setText(mangaCover.title)
     }
 
     override fun getItemCount(): Int {

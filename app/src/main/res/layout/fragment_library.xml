@@ -4,11 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Library">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/library_recyler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Library recycler view goes here" />
+        />
 
 </FrameLayout>

@@ -25,7 +25,12 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+        populateLibrary()
+    }
 
+    private fun populateLibrary() {
+        val book1 = Manga(R.drawable.bakemonogatari, "Nisioisin", "Bakemonogatari")
+        mangaList.add(book1)
     }
 
     fun replaceFragment(fragment: Fragment){

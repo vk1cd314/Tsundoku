@@ -7,6 +7,7 @@ import com.tsunderead.tsundoku.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -20,7 +21,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.history -> replaceFragment(History())
                 R.id.settings -> replaceFragment(Settings())
                 else ->{
-
                 }
             }
             true

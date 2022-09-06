@@ -16,6 +16,9 @@
         <activity
             android:name=".MangaDetailActivity"
             android:exported="false" />
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".CreateAccountActivity"/>
+        <activity android:name=".ForgotPasswordActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -25,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

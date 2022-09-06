@@ -12,4 +12,6 @@
     <string name="password">Password</string>
     <string name="contact_us">Contact Us</string>
     <string name="log_out">Log Out</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="sign_up">sign up</string>
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/library"
+        android:id="@+id/library"
+        android:icon="@drawable/ic_outline_library_books_24"/>
+    <item android:title="@string/updates"
+        android:id="@+id/updates"
+        android:icon="@drawable/ic_outline_new_releases_24"/>
+    <item android:title="@string/search"
+        android:id="@+id/search"
+        android:icon="@drawable/ic_sharp_search_24"/>
+    <item android:title="@string/history"
+        android:id="@+id/history"
+        android:icon="@drawable/ic_outline_history_24"/>
+    <item android:title="@string/settings"
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_outline_settings_24"/>
+</menu>

@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         mangaList.add(book1)
     }
 
-    fun replaceFragment(fragment: Fragment){
+    private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment)

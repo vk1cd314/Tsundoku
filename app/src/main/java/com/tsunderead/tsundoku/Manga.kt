@@ -1,6 +1,6 @@
 package com.tsunderead.tsundoku
 
-var mangaList = mutableListOf<Manga>()
+var mangaList = arrayListOf<Manga>()
 
 data class Manga (
     var cover: Int,

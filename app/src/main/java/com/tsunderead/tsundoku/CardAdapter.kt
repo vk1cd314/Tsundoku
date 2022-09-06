@@ -9,7 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.databinding.CardCellBinding
 
-class CardAdapter (private val mangas: List<Manga>)
+class CardAdapter (private val mangas: ArrayList<Manga>)
     : RecyclerView.Adapter<CardViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val from = LayoutInflater.from(parent.context)
@@ -18,7 +18,7 @@ class CardAdapter (private val mangas: List<Manga>)
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        //holder.bindBook(mangas[position])
+        holder.bindBook(mangas[position])
     }
 
     override fun getItemCount(): Int {
@@ -26,7 +26,7 @@ class CardAdapter (private val mangas: List<Manga>)
     }
     class NViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cover : ImageView = itemView.findViewById(R.id.cover)
-        val title: TextView = itemView.findViewById(R.id.title)
+        val title : TextView = itemView.findViewById(R.id.title)
     }
 
 }

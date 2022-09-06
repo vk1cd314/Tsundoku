@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +22,12 @@ class Library : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var adapter: CardAdapter
+    private lateinit var recyclerView : RecyclerView
+
+    private lateinit var mangaList : ArrayList<Manga>
+    private lateinit var covers : Array<Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,5 +64,35 @@ class Library : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        dataInit()
+        val layoutManager = LinearLayoutManager(context)
+        recyclerView = view.findViewById(R.id.library_recyler_view)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.setHasFixedSize(true)
+        adapter = CardAdapter(mangaList)
+        recyclerView.adapter = adapter
+    }
+
+    private fun dataInit() {
+        mangaList = arrayListOf<Manga>()
+        covers = arrayOf(
+            R.drawable.bakemonogatari,
+            R.drawable.ginnosaji,
+            R.drawable.berserk40
+        )
+//        for (i in covers.indices) {
+        val manga1 = Manga(covers[0], "Nisio Isin", "Bakemonogatari")
+        mangaList.add(manga1)
+        val manga2 = Manga(covers[1], "Hiromu Arakawa", "Ginnosaji")
+        mangaList.add(manga2)
+        val manga3 = Manga(covers[2], "Kentaro Miura", "Berserk")
+        mangaList.add(manga3)
+
+
+//        }
     }
 }

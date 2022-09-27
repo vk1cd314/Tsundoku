@@ -1,12 +1,15 @@
 package com.tsunderead.tsundoku
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.tsunderead.tsundoku.databinding.CardCellBinding
 
 class CardAdapter (private val mangas: ArrayList<Manga>)
@@ -19,6 +22,14 @@ class CardAdapter (private val mangas: ArrayList<Manga>)
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         holder.bindBook(mangas[position])
+        holder.itemView.setOnClickListener {
+            val intent = Intent(it.context, MangaDetailActivity::class.java)
+            intent.putExtra("Cover", mangas[position].cover)
+            intent.putExtra("Author", mangas[position].author)
+            intent.putExtra("Title", mangas[position].title)
+            it.context.startActivity(intent)
+            println("Hello?")
+        }
     }
 
     override fun getItemCount(): Int {

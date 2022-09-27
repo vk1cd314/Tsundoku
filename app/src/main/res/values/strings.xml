@@ -14,4 +14,5 @@
     <string name="log_out">Log Out</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="sign_up">sign up</string>
+    <string name="cover">Cover</string>
 </resources>

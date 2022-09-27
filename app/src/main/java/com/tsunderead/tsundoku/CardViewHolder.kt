@@ -7,7 +7,7 @@ class CardViewHolder(
     private val cardCellBinding: CardCellBinding
 ) : RecyclerView.ViewHolder(cardCellBinding.root){
     fun bindBook(book: Manga){
-        cardCellBinding.cover.setImageResource(book.cover)
+        cardCellBinding.mangacover.setImageResource(book.cover)
         cardCellBinding.title.text = book.title
     }
 }

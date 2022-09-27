@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.tsunderead.tsundoku.databinding.CardCellBinding
 
 class CardAdapter (private val mangas: ArrayList<Manga>)
@@ -22,7 +20,8 @@ class CardAdapter (private val mangas: ArrayList<Manga>)
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         holder.bindBook(mangas[position])
-        holder.itemView.setOnClickListener {
+        val thing = holder.itemView.findViewById<CardView>(R.id.cardview).findViewById<ImageView>(R.id.mangacover).setOnClickListener {
+//        holder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
             val intent = Intent(it.context, MangaDetailActivity::class.java)
             intent.putExtra("Cover", mangas[position].cover)
             intent.putExtra("Author", mangas[position].author)
@@ -36,7 +35,7 @@ class CardAdapter (private val mangas: ArrayList<Manga>)
         return mangas.size
     }
     class NViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cover : ImageView = itemView.findViewById(R.id.cover)
+        val cover : ImageView = itemView.findViewById(R.id.mangacover)
         val title : TextView = itemView.findViewById(R.id.title)
     }
 

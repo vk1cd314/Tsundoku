@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.tsunderead.tsundoku.explore.ExploreActivity
+import com.tsunderead.tsundoku.api.ApiCall
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val fetchButton: Button = findViewById(R.id.mangadexfetch)
         fetchButton.setOnClickListener {
-            startActivity(Intent(this, ExploreActivity::class.java))
+            ApiCall().execute("manga")
         }
     }
 }

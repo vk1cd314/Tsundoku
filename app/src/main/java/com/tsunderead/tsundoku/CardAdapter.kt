@@ -1,5 +1,6 @@
 package com.tsunderead.tsundoku
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,8 @@ class CardAdapter (private val mangas: ArrayList<Manga>)
             intent.putExtra("Author", mangas[position].author)
             intent.putExtra("Title", mangas[position].title)
             it.context.startActivity(intent)
+//            (it.context as Activity).finish()
+//            ^ how to finish if I want to
             println("Hello?")
         }
     }

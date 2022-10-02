@@ -1,10 +1,16 @@
 package com.tsunderead.tsundoku
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import com.tsunderead.tsundoku.api.ApiCall
+import com.tsunderead.tsundoku.api.MangaWithCover
+import com.tsunderead.tsundoku.api.NetworkCaller
+import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,7 +22,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [Search.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Search : Fragment() {
+class Search : Fragment(), NetworkCaller<JSONObject> {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -34,7 +40,26 @@ class Search : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+
         return inflater.inflate(R.layout.fragment_search, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val apicallbutton = view.findViewById<Button>(R.id.apicallbutton)
+        apicallbutton.setOnClickListener {
+            val srch = MangaWithCover(this)
+            srch.execute(6)
+        }
+    }
+
+    override fun onCallSuccess(result: JSONObject?) {
+        Log.i("ok", result.toString())
+    }
+
+    override fun onCallFail() {
+        Log.i("ok", "indeed")
     }
 
     companion object {
@@ -56,4 +81,5 @@ class Search : Fragment() {
                 }
             }
     }
+
 }

@@ -56,7 +56,8 @@ class CardViewHolder(
         }
     }
     fun doAfter(manga : Manga, cardViewHolder: CardViewHolder) {
-        val thing = cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).findViewById<ImageView>(R.id.mangacover).setOnClickListener {
+//        cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).findViewById<ImageView>(R.id.mangacover).setClickable
+        val thing = cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
 //        holder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
             val intent = Intent(it.context, MangaDetailActivity::class.java)
             intent.putExtra("Cover", manga.cover)

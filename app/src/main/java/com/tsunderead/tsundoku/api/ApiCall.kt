@@ -25,7 +25,13 @@ class ApiCall(val parent: NetworkCaller<JSONObject>, private val flag: Int = 0):
         val conn = url.openConnection() as HttpURLConnection
         conn.requestMethod = "GET"
 //        Log.i(tag, conn.url.toString())
-        conn.connect()
+
+        try {
+            conn.connect()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            cancel(false)
+        }
 
         val inputStream = InputStreamReader(conn.inputStream)
         val reader = BufferedReader(inputStream)

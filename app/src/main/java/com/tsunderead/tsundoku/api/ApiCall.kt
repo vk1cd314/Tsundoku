@@ -11,8 +11,8 @@ import java.net.URL
 
 class ApiCall(val parent: NetworkCaller<JSONObject>): AsyncTask<String, Void, JSONObject>() {
 
-    val tag = "API - call"
-    val api_url = "https://api.mangadex.org"
+    private val tag = "API - call"
+    private val apiUrl = "https://api.mangadex.org"
 
     override fun onPreExecute() {
         super.onPreExecute()
@@ -20,7 +20,7 @@ class ApiCall(val parent: NetworkCaller<JSONObject>): AsyncTask<String, Void, JS
 
     override fun doInBackground(vararg param: String?): JSONObject {
 
-        val url = URL("$api_url/${param[0]}")
+        val url = URL("$apiUrl/${param[0]}")
         val conn = url.openConnection() as HttpURLConnection
         conn.requestMethod = "GET"
 //        Log.i(tag, conn.url.toString())

@@ -8,13 +8,9 @@ class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCall
 
     private val limit = 10
     val tag = "MangaWithCover"
-    lateinit var mangaList: JSONArray
+    private lateinit var mangaList: JSONArray
 
     fun execute(offset: Int) {
-        getManga(offset)
-    }
-
-    private fun getManga(offset: Int) {
         val endpoint = "manga?limit=$limit&offset=$offset"
         ApiCall(this).execute(endpoint)
     }
@@ -35,9 +31,13 @@ class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCall
         for (i in 0 until mangaList.length()) {
             val mangaObj = mangaList.getJSONObject(i)
             val jsonObj = JSONObject()
-            jsonObj.put("id", mangaObj.getString("id"))
-            jsonObj.put("name", mangaObj.getJSONObject("attributes").getJSONObject("title").getString("en"));
-            jsonObj.put("cover_art", mangaCoverMap[mangaObj.getString("id")])
+            try {
+                jsonObj.put("id", mangaObj.getString("id"))
+                jsonObj.put("name", mangaObj.getJSONObject("attributes").getJSONObject("title").getString("en"));
+                jsonObj.put("cover_art", mangaCoverMap[mangaObj.getString("id")])
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             ret.put("$i", jsonObj)
         }
         parent.onCallSuccess(ret)

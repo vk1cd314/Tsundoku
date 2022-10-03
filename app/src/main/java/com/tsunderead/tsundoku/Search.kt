@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.tsunderead.tsundoku.api.ApiCall
+import com.tsunderead.tsundoku.api.MangaChapter
 import com.tsunderead.tsundoku.api.MangaWithCover
 import com.tsunderead.tsundoku.api.NetworkCaller
 import org.json.JSONObject
@@ -49,8 +50,9 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         super.onViewCreated(view, savedInstanceState)
         val apicallbutton = view.findViewById<Button>(R.id.apicallbutton)
         apicallbutton.setOnClickListener {
-            val srch = MangaWithCover(this)
-            srch.execute(6)
+//            val srch = MangaWithCover(this)
+//            srch.execute(6)
+            MangaChapter(this, "6752ce19-9cb0-4ac5-adcf-71fbeda58585").execute()
         }
     }
 

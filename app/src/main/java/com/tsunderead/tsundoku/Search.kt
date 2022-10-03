@@ -70,7 +70,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 //        val manga1 = Manga(covers[0], "Nisio Isin", "Bakemonogatari")
 //        mangaList.add(manga1)
         for (i in 0..9) {
-            val manga1 = Manga(result!!.getJSONObject(i.toString()).getString("cover_art"), "Nibba", result.getJSONObject(i.toString()).getString("name"))
+            val manga1 = Manga(result!!.getJSONObject(i.toString()).getString("cover_art"), result.getJSONObject(i.toString()).getString("author"), result.getJSONObject(i.toString()).getString("name"))
             mangaList.add(manga1)
         }
         val layoutManager = LinearLayoutManager(context)

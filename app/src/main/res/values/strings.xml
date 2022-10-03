@@ -15,4 +15,6 @@
     <string name="forgot_password">Forgot Password</string>
     <string name="sign_up">sign up</string>
     <string name="cover">Cover</string>
+    <string name="textview">TextView</string>
+    <string name="chaptername">TextView</string>
 </resources>

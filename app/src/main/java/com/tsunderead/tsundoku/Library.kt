@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tsunderead.tsundoku.api.ApiCall
+import com.tsunderead.tsundoku.api.NetworkCaller
+import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,6 +70,7 @@ class Library : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
         dataInit()
         val layoutManager = LinearLayoutManager(context)
@@ -85,11 +89,11 @@ class Library : Fragment() {
             R.drawable.berserk40
         )
 //        for (i in covers.indices) {
-        val manga1 = Manga(covers[0], "Nisio Isin", "Bakemonogatari")
+        val manga1 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Nisio Isin", "Bakemonogatari")
         mangaList.add(manga1)
-        val manga2 = Manga(covers[1], "Hiromu Arakawa", "Ginnosaji")
+        val manga2 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Hiromu Arakawa", "Ginnosaji")
         mangaList.add(manga2)
-        val manga3 = Manga(covers[2], "Kentaro Miura", "Berserk")
+        val manga3 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Kentaro Miura", "Berserk")
         mangaList.add(manga3)
 
 

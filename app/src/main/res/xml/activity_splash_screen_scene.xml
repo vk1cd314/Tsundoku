@@ -6,7 +6,7 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1000"
+        motion:duration="1500"
         motion:autoTransition="animateToEnd">
        <KeyFrameSet>
        </KeyFrameSet>
@@ -25,7 +25,8 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             android:scaleX="10"
-            android:scaleY="10" />
+            android:scaleY="10"
+            motion:transitionEasing="cubic(1,0,0,1)" />
         <Constraint
             android:id="@+id/purpleIcon"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -34,9 +35,7 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:alpha="0" />
+            android:visibility="invisible" />
         <Constraint
             android:id="@+id/whiteIcon"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -45,8 +44,8 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            android:scaleX="1"
-            android:scaleY="1" />
+            motion:transitionEasing="cubic(0.52,0.27,0,1)"
+            android:visibility="visible" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
@@ -68,10 +67,8 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            android:scaleX="1"
-            android:scaleY="1"
             motion:transitionEasing="cubic(1,0,1,0)"
-            android:alpha="1" />
+            android:visibility="visible" />
         <Constraint
             android:id="@+id/whiteIcon"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -80,8 +77,7 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            android:scaleX="0"
-            android:scaleY="0"
-            motion:transitionEasing="cubic(0.2,0.19,0.8,0.8)" />
+            motion:transitionEasing="cubic(0.2,0.19,0.8,0.8)"
+            android:visibility="invisible" />
     </ConstraintSet>
 </MotionScene>

@@ -31,7 +31,7 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         val recyclerView = findViewById<RecyclerView>(R.id.mangaReaderRecyclerView)
         val layoutManager = LinearLayoutManager(this@MangaReaderActivity)
         recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
+//        recyclerView.setHasFixedSize(true)
         recyclerView.adapter = ChapterPageAdapter(chapterPages)
     }
 }

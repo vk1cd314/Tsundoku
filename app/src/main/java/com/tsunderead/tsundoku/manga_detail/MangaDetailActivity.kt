@@ -73,7 +73,7 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
         val layoutManager = LinearLayoutManager(this@MangaDetailActivity)
         recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
+//        recyclerView.setHasFixedSize(true)
         val chapters = ArrayList<Chapter>()
         for (key in result!!.keys()) {
             val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"), result.getJSONObject(key).getString("chapterId"))

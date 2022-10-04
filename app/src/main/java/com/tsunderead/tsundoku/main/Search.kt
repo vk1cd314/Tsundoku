@@ -56,7 +56,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         if (recyclerView != null) {
             recyclerView.layoutManager = layoutManager
         }
-        recyclerView?.setHasFixedSize(true)
+//        recyclerView?.setHasFixedSize(true)
         val adapter = CardCellAdapter(mangaList)
         if (recyclerView != null) {
             recyclerView.adapter = adapter

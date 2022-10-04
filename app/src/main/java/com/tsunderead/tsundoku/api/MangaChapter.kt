@@ -1,11 +1,8 @@
 package com.tsunderead.tsundoku.api
 
-import android.util.Log
-import org.json.JSONArray
 import org.json.JSONObject
-import kotlin.properties.Delegates
 
-class MangaChapter(val parent: NetworkCaller<JSONObject>, val chapterId: String): NetworkCaller<JSONObject> {
+class MangaChapter(val parent: NetworkCaller<JSONObject>, private val chapterId: String): NetworkCaller<JSONObject> {
 
     fun execute() {
         val endpoint = "at-home/server/$chapterId"

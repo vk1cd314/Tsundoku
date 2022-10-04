@@ -8,8 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.databinding.CardCellBinding
 
-class CardAdapter (private val mangas: ArrayList<Manga>)
-    : RecyclerView.Adapter<CardViewHolder>(){
+class CardAdapter (private val mangas: ArrayList<Manga>): RecyclerView.Adapter<CardViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = CardCellBinding.inflate(from, parent, false)

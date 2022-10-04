@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.api.ApiCall
@@ -37,23 +38,13 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
-
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val apicallbutton = view.findViewById<Button>(R.id.apicallbutton)
-//        apicallbutton.setOnClickListener {
-//            val srch = MangaWithCover(this)
-//            srch.execute(6)
-//        }
         val callApi = MangaWithCover(this)
         callApi.execute(0)
 
@@ -61,19 +52,15 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 
     override fun onCallSuccess(result: JSONObject?) {
         Log.i("ok", result.toString())
+
         val mangaList = ArrayList<Manga>()
-//        val covers = arrayOf(
-//            R.drawable.bakemonogatari,
-//            R.drawable.ginnosaji,
-//            R.drawable.berserk40
-//        )
-//        val manga1 = Manga(covers[0], "Nisio Isin", "Bakemonogatari")
-//        mangaList.add(manga1)
+
         for (i in 0..9) {
             val manga1 = Manga(result!!.getJSONObject(i.toString()).getString("cover_art"), result.getJSONObject(i.toString()).getString("author"), result.getJSONObject(i.toString()).getString("name"))
             mangaList.add(manga1)
         }
-        val layoutManager = LinearLayoutManager(context)
+//        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = GridLayoutManager(context, 3)
         val recyclerView = view?.findViewById<RecyclerView>(R.id.exploreRecylcerView)
         if (recyclerView != null) {
             recyclerView.layoutManager = layoutManager

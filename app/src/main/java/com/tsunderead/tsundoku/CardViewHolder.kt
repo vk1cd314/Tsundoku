@@ -4,16 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.util.Log
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.databinding.CardCellBinding
 
-class CardViewHolder(
-    private val cardCellBinding: CardCellBinding
-) : RecyclerView.ViewHolder(cardCellBinding.root){
+class CardViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerView.ViewHolder(cardCellBinding.root){
 
     lateinit var cardViewHolder1 : CardViewHolder
     lateinit var manga: Manga
@@ -24,12 +21,14 @@ class CardViewHolder(
 //        cardCellBinding.mangacover.setImageResource(book.cover)
         cardViewHolder1 = cardViewHolder
         manga = book
+
+        @Suppress("DEPRECATION")
         ImageFromInternet(cardCellBinding.mangacover).execute(book.cover)
         cardCellBinding.title.text = book.title
     }
     @SuppressLint("StaticFieldLeak")
     @Suppress("DEPRECATION")
-    private inner class ImageFromInternet(var imageView: ImageView) : AsyncTask<String, Void, Bitmap?>() {
+    private inner class ImageFromInternet(var imageView: ImageView) : android.os.AsyncTask<String, Void, Bitmap?>() {
         init {
 //            Toast.makeText(this, "Please wait, it may take a few minute...", Toast.LENGTH_SHORT).show()
             Log.e("Hello", "Working")
@@ -57,7 +56,7 @@ class CardViewHolder(
     }
     fun doAfter(manga : Manga, cardViewHolder: CardViewHolder) {
 //        cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).findViewById<ImageView>(R.id.mangacover).setClickable
-        val thing = cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
+        cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
 //        holder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
             val intent = Intent(it.context, MangaDetailActivity::class.java)
             intent.putExtra("Cover", manga.cover)

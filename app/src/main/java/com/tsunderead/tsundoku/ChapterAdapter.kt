@@ -20,6 +20,7 @@ class ChapterAdapter (private val chapters: ArrayList<Chapter>)
         holder.bindChapter(chapters[position])
         val thing = holder.itemView.findViewById<CardView>(R.id.chapterCardView).findViewById<TextView>(R.id.chapterTextView).setOnClickListener() {
             val intent = Intent(it.context, MangaReaderActivity::class.java)
+            intent.putExtra("ChapterId", chapters[position].chapterHash)
             it.context.startActivity(intent)
         }
     }

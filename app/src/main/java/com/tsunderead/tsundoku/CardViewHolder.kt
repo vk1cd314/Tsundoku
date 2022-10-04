@@ -62,6 +62,7 @@ class CardViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerVie
             intent.putExtra("Cover", manga.cover)
             intent.putExtra("Author", manga.author)
             intent.putExtra("Title", manga.title)
+            intent.putExtra("MangaID", manga.mangaId)
             it.context.startActivity(intent)
 //            (it.context as Activity).finish()
 //            ^ how to finish if I want to

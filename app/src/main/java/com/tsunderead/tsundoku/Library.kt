@@ -89,11 +89,11 @@ class Library : Fragment() {
             R.drawable.berserk40
         )
 //        for (i in covers.indices) {
-        val manga1 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Nisio Isin", "Bakemonogatari")
+        val manga1 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Nisio Isin", "Bakemonogatari", "1")
         mangaList.add(manga1)
-        val manga2 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Hiromu Arakawa", "Ginnosaji")
+        val manga2 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Hiromu Arakawa", "Ginnosaji", "2")
         mangaList.add(manga2)
-        val manga3 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Kentaro Miura", "Berserk")
+        val manga3 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Kentaro Miura", "Berserk", "3")
         mangaList.add(manga3)
 
 

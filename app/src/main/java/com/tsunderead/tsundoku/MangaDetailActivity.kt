@@ -11,8 +11,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tsunderead.tsundoku.api.MangaChapterList
+import com.tsunderead.tsundoku.api.NetworkCaller
+import org.json.JSONObject
 
-class MangaDetailActivity : AppCompatActivity() {
+class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +32,9 @@ class MangaDetailActivity : AppCompatActivity() {
         authorId.text = author
         titleId.text = title
 //        coverId.setImageResource(cover)
+        val mangaId = intent.getStringExtra("MangaID")
         ImageFromInternet(coverId).execute(cover)
-
+        mangaId?.let { MangaChapterList(this, it) }?.execute(0)
     }
     @SuppressLint("StaticFieldLeak")
     @Suppress("DEPRECATION")
@@ -57,16 +61,21 @@ class MangaDetailActivity : AppCompatActivity() {
         @Deprecated("Deprecated in Java", ReplaceWith("imageView.setImageBitmap(result)"))
         override fun onPostExecute(result: Bitmap?) {
             imageView.setImageBitmap(result)
-            val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
-            val layoutManager = LinearLayoutManager(this@MangaDetailActivity)
-            recyclerView.layoutManager = layoutManager
-            recyclerView.setHasFixedSize(true)
-            val chapter = Chapter(1, "Hello", "World")
-            val chapters = ArrayList<Chapter>()
-            chapters.add(chapter)
-            chapter.chapterNumber = 2
-            chapters.add(chapter)
-            recyclerView.adapter = ChapterAdapter(chapters)
         }
+    }
+
+    override fun onCallSuccess(result: JSONObject?) {
+//        TODO("Not yet implemented")
+        Log.i("ok", result.toString())
+        val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
+        val layoutManager = LinearLayoutManager(this@MangaDetailActivity)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.setHasFixedSize(true)
+        val chapters = ArrayList<Chapter>()
+        for (key in result!!.keys()) {
+            val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"), result.getJSONObject(key).getString("chapterId"))
+            chapters.add(chapter)
+        }
+        recyclerView.adapter = ChapterAdapter(chapters)
     }
 }

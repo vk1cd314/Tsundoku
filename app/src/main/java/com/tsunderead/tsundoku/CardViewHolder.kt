@@ -16,9 +16,6 @@ class CardViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerVie
     lateinit var manga: Manga
 
     fun bindBook(book: Manga, cardViewHolder: CardViewHolder){
-//        image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//        imageView.setImageBitmap(image);
-//        cardCellBinding.mangacover.setImageResource(book.cover)
         cardViewHolder1 = cardViewHolder
         manga = book
 
@@ -30,7 +27,6 @@ class CardViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerVie
     @Suppress("DEPRECATION")
     private inner class ImageFromInternet(var imageView: ImageView) : android.os.AsyncTask<String, Void, Bitmap?>() {
         init {
-//            Toast.makeText(this, "Please wait, it may take a few minute...", Toast.LENGTH_SHORT).show()
             Log.e("Hello", "Working")
         }
 

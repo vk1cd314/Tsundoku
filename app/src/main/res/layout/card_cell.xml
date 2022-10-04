@@ -9,15 +9,14 @@
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
         android:clickable="true"
+        android:layout_margin="10dp"
         app:cardCornerRadius="15dp"
         app:cardElevation="7dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clickable="true"
             android:orientation="vertical">
 
             <ImageView
@@ -25,7 +24,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="470dp"
                 android:adjustViewBounds="true"
-                android:clickable="true"
                 android:contentDescription="@string/cover"
                 android:src="@drawable/samplecover1" />
 
@@ -34,10 +32,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:clickable="true"
                 android:gravity="center"
                 android:lines="1"
-                android:text="Lorem Ipsum"
+                android:text="@string/lorem_ipsum"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>

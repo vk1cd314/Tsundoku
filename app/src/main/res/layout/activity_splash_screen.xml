@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/activity_splash_screen_scene"
-    tools:context=".splash_screen">
+    tools:context=".main.splash_screen">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/splashBackground"

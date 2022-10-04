@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.manga_detail
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
@@ -11,8 +11,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapterList
 import com.tsunderead.tsundoku.api.NetworkCaller
+import com.tsunderead.tsundoku.chapter.Chapter
+import com.tsunderead.tsundoku.chapter.ChapterAdapter
 import org.json.JSONObject
 
 class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{

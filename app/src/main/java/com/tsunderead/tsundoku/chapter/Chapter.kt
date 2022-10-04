@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.chapter
 
 data class Chapter(
     var chapterNumber: Int,

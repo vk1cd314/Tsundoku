@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tsunderead.tsundoku.api.ApiCall
-import com.tsunderead.tsundoku.api.NetworkCaller
-import org.json.JSONObject
+import com.tsunderead.tsundoku.R
+import com.tsunderead.tsundoku.manga_card_cell.CardAdapter
+import com.tsunderead.tsundoku.manga_card_cell.Manga
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

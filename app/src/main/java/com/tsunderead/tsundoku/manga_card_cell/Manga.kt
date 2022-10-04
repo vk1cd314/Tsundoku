@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.manga_card_cell
 
 var mangaList = arrayListOf<Manga>()
 

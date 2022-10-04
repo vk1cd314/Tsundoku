@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.manga_card_cell
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,6 +8,8 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.tsunderead.tsundoku.manga_detail.MangaDetailActivity
+import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.CardCellBinding
 
 class CardViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerView.ViewHolder(cardCellBinding.root){

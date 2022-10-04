@@ -1,9 +1,11 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.account
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.tsunderead.tsundoku.R
+import com.tsunderead.tsundoku.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.main
 
 import android.os.Bundle
 import android.util.Log
@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tsunderead.tsundoku.api.ApiCall
+import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaWithCover
 import com.tsunderead.tsundoku.api.NetworkCaller
+import com.tsunderead.tsundoku.manga_card_cell.CardAdapter
+import com.tsunderead.tsundoku.manga_card_cell.Manga
 import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match

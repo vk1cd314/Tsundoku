@@ -1,7 +1,8 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.chapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
+import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.databinding.ChapterCellBinding
 
 class ChapterViewHolder(

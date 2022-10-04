@@ -1,17 +1,15 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.manga_reader
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapter
 import com.tsunderead.tsundoku.api.NetworkCaller
+import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPage
+import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPageAdapter
 import org.json.JSONObject
 
 class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {

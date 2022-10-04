@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku
+package com.tsunderead.tsundoku.chapter.chapter_page
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
@@ -7,7 +7,6 @@ import android.os.AsyncTask
 import android.util.Log
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.tsunderead.tsundoku.databinding.ChapterCellBinding
 import com.tsunderead.tsundoku.databinding.ChapterImageViewBinding
 
 class ChapterPageViewHolder(private val chapterPageBinding: ChapterImageViewBinding)

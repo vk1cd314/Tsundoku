@@ -17,7 +17,7 @@
         android:theme="@style/Theme.Tsundoku"
         tools:targetApi="31">
         <activity
-            android:name=".splash_screen"
+            android:name=".main.splash_screen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,20 +29,20 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MangaReaderActivity"
+            android:name=".manga_reader.MangaReaderActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MangaDetailActivity"
+            android:name=".manga_detail.MangaDetailActivity"
             android:exported="false" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".CreateAccountActivity" />
-        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".account.LoginActivity" />
+        <activity android:name=".account.CreateAccountActivity" />
+        <activity android:name=".account.ForgotPasswordActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SENDTO" />

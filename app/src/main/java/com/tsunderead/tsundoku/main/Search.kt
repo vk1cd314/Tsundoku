@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaWithCover
 import com.tsunderead.tsundoku.api.NetworkCaller
-import com.tsunderead.tsundoku.manga_card_cell.CardAdapter
+import com.tsunderead.tsundoku.manga_card_cell.CardCellAdapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 import org.json.JSONObject
 
@@ -57,7 +57,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
             recyclerView.layoutManager = layoutManager
         }
         recyclerView?.setHasFixedSize(true)
-        val adapter = CardAdapter(mangaList)
+        val adapter = CardCellAdapter(mangaList)
         if (recyclerView != null) {
             recyclerView.adapter = adapter
         }

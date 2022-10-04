@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.R
-import com.tsunderead.tsundoku.manga_card_cell.CardAdapter
+import com.tsunderead.tsundoku.manga_card_cell.CardCellAdapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,7 +26,7 @@ class Library : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var adapter: CardAdapter
+    private lateinit var adapter: CardCellAdapter
     private lateinit var recyclerView : RecyclerView
 
     private lateinit var mangaList : ArrayList<Manga>
@@ -77,7 +77,7 @@ class Library : Fragment() {
         recyclerView = view.findViewById(R.id.library_recyler_view)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        adapter = CardAdapter(mangaList)
+        adapter = CardCellAdapter(mangaList)
         recyclerView.adapter = adapter
     }
 

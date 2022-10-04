@@ -12,13 +12,13 @@ import com.tsunderead.tsundoku.manga_detail.MangaDetailActivity
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.CardCellBinding
 
-class CardViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerView.ViewHolder(cardCellBinding.root){
+class CardCellViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerView.ViewHolder(cardCellBinding.root){
 
-    lateinit var cardViewHolder1 : CardViewHolder
+    lateinit var cardCellViewHolder1 : CardCellViewHolder
     lateinit var manga: Manga
 
-    fun bindBook(book: Manga, cardViewHolder: CardViewHolder){
-        cardViewHolder1 = cardViewHolder
+    fun bindBook(book: Manga, cardCellViewHolder: CardCellViewHolder){
+        cardCellViewHolder1 = cardCellViewHolder
         manga = book
 
         @Suppress("DEPRECATION")
@@ -49,12 +49,12 @@ class CardViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerVie
         @Deprecated("Deprecated in Java", ReplaceWith("imageView.setImageBitmap(result)"))
         override fun onPostExecute(result: Bitmap?) {
             imageView.setImageBitmap(result)
-            doAfter(manga, cardViewHolder1)
+            doAfter(manga, cardCellViewHolder1)
         }
     }
-    fun doAfter(manga : Manga, cardViewHolder: CardViewHolder) {
+    fun doAfter(manga : Manga, cardCellViewHolder: CardCellViewHolder) {
 //        cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).findViewById<ImageView>(R.id.mangacover).setClickable
-        cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
+        cardCellViewHolder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
 //        holder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
             val intent = Intent(it.context, MangaDetailActivity::class.java)
             intent.putExtra("Cover", manga.cover)

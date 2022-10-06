@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.R
+import com.tsunderead.tsundoku.databinding.FragmentLibraryBinding
 import com.tsunderead.tsundoku.manga_card_cell.CardCellAdapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 
@@ -23,6 +25,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class Library : Fragment() {
     // TODO: Rename and change types of parameters
+    private var fragmentLibraryBinding: FragmentLibraryBinding? = null
     private var param1: String? = null
     private var param2: String? = null
 
@@ -32,53 +35,71 @@ class Library : Fragment() {
     private lateinit var mangaList : ArrayList<Manga>
     private lateinit var covers : Array<Int>
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+////        arguments?.let {
+////            param1 = it.getString(ARG_PARAM1)
+////            param2 = it.getString(ARG_PARAM2)
+////        }
+//        setContentView(fragmentLibraryBinding?.root)
+//    }
 
     override fun onCreateView(
-
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_library, container, false)
+        val binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        fragmentLibraryBinding = binding
+        return binding.root
+        //return inflater.inflate(R.layout.fragment_library, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Library.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Library().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        fragmentLibraryBinding = null
+        super.onDestroyView()
     }
+//    companion object {
+//        /**
+//         * Use this factory method to create a new instance of
+//         * this fragment using the provided parameters.
+//         *
+//         * @param param1 Parameter 1.
+//         * @param param2 Parameter 2.
+//         * @return A new instance of fragment Library.
+//         */
+//        // TODO: Rename and change types and number of parameters
+//        @JvmStatic
+//        fun newInstance(param1: String, param2: String) =
+//            Library().apply {
+//                arguments = Bundle().apply {
+//                    putString(ARG_PARAM1, param1)
+//                    putString(ARG_PARAM2, param2)
+//                }
+//            }
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
+
         dataInit()
         val layoutManager = LinearLayoutManager(context)
-        recyclerView = view.findViewById(R.id.library_recyler_view)
+        recyclerView = fragmentLibraryBinding?.libraryRecylerView ?: recyclerView
         recyclerView.layoutManager = layoutManager
 //        recyclerView.setHasFixedSize(true)
         adapter = CardCellAdapter(mangaList)
         recyclerView.adapter = adapter
+        fragmentLibraryBinding?.libraryToolbar?.inflateMenu(R.menu.library_toolbar_menu)
+        fragmentLibraryBinding?.libraryToolbar?.title = "Library"
+        fragmentLibraryBinding?.libraryToolbar?.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.library_search -> {
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun dataInit() {

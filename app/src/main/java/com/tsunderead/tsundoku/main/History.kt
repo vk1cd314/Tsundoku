@@ -45,7 +45,7 @@ class History : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var toolbar = fragmentHistoryBinding?.historyToolbar
+        val toolbar = fragmentHistoryBinding?.historyToolbar
         toolbar?.inflateMenu(R.menu.history_toolbar_menu)
         toolbar?.title="History"
         toolbar?.setOnMenuItemClickListener{
@@ -57,6 +57,11 @@ class History : Fragment() {
                 else -> false
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        fragmentHistoryBinding = null
     }
     companion object {
         /**

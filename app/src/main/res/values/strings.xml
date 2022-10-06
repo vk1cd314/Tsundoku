@@ -21,4 +21,5 @@
     <string name="search_library">Search Library</string>
     <string name="library_sort">Library sort</string>
     <string name="refresh_library">Refresh Library</string>
+    <string name="clear">Clear</string>
 </resources>

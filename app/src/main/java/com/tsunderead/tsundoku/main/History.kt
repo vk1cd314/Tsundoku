@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tsunderead.tsundoku.R
+import com.tsunderead.tsundoku.databinding.FragmentHistoryBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,6 +21,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class History : Fragment() {
     // TODO: Rename and change types of parameters
+    private var fragmentHistoryBinding: FragmentHistoryBinding? = null
     private var param1: String? = null
     private var param2: String? = null
 
@@ -35,9 +38,26 @@ class History : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false)
+        val binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        fragmentHistoryBinding = binding
+        return binding.root
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        var toolbar = fragmentHistoryBinding?.historyToolbar
+        toolbar?.inflateMenu(R.menu.history_toolbar_menu)
+        toolbar?.title="History"
+        toolbar?.setOnMenuItemClickListener{
+            //IN CASE WE NEED TO ADD NEW STUFF TO THIS MENU
+            when(it.itemId){
+                R.id.delete_history -> {
+                    true
+                }
+                else -> false
+            }
+        }
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

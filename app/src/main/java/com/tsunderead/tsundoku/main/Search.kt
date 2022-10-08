@@ -1,6 +1,7 @@
 package com.tsunderead.tsundoku.main
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +15,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.roacult.backdrop.BackdropLayout
 import com.tsunderead.tsundoku.ConstData
 import com.tsunderead.tsundoku.R
@@ -127,7 +127,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                     for (a in arr) Log.i(key, a)
                 }
             }
-            toolbar.performClick()  // to collapse toolbar
+            backdrop.close()
             recyclerView.adapter = CardCellAdapter(ArrayList())
             MangaWithCover(this, filterMap).execute(0)
         }

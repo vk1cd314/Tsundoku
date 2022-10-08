@@ -21,7 +21,7 @@
         app:back_layout="@id/includedBack"
         app:disable_when_open="true"
         app:toolbarId="@id/toolbar"
-        app:peekHeight="56dp"
+        app:peekHeight="39dp"
         app:menuDrawable="@drawable/ic_sharp_search_24"
         app:animationDuration="400"
         android:layout_width="match_parent"

@@ -6,8 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.roacult.backdrop.BackdropLayout
+import com.tsunderead.tsundoku.ConstData
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaWithCover
 import com.tsunderead.tsundoku.api.NetworkCaller
@@ -24,6 +30,12 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var backdrop: BackdropLayout
+    private lateinit var chipGroupGenre: ChipGroup
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var searchButton: Button
+    private lateinit var searchView: SearchView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -38,6 +50,43 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        searchButton = view.findViewById(R.id.mangaSearchButton)
+        searchView = view.findViewById(R.id.mangaSearchView)
+        backdrop = view.findViewById(R.id.mangaSearchBackdrop)
+        chipGroupGenre = view.findViewById(R.id.chip_group_genre)
+
+        recyclerView = backdrop.getFrontLayout().findViewById(R.id.exploreRecylcerView)
+        if (recyclerView != null)
+            recyclerView.layoutManager = GridLayoutManager(context, 3)
+        recyclerView?.setHasFixedSize(true)
+
+        val s = ConstData().tagList
+        for(str in s) {
+            val newChip = Chip(context)
+            newChip.text = str
+            newChip.isClickable = true
+            newChip.isCheckable = true
+            chipGroupGenre.addView(newChip)
+        }
+
+        searchButton.setOnClickListener {
+            val filterMap = HashMap<String, Array<String>>()
+            filterMap["title"] = arrayOf(searchButton.text as String)
+            val checkedChipIds = chipGroupGenre.checkedChipIds
+            val checkedChipList = Array(checkedChipIds.size){""}
+            for (i in 0 until checkedChipIds.size)
+                checkedChipList[i] = chipGroupGenre.findViewById<Chip>(checkedChipIds[i]).text as String
+            filterMap["includedTags[]"] = checkedChipList
+            Log.i(tag, filterMap.keys.toString())
+            for (key in filterMap.keys) {
+                val arr = filterMap[key]
+                if (arr != null) {
+                    for (a in arr) Log.i(key, a)
+                }
+            }
+        }
+
         val callApi = MangaWithCover(this)
         callApi.execute(0)
     }
@@ -51,16 +100,9 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                 result.getJSONObject(i.toString()).getString("id"))
             mangaList.add(manga1)
         }
-        val layoutManager = GridLayoutManager(context, 3)
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.exploreRecylcerView)
-        if (recyclerView != null) {
-            recyclerView.layoutManager = layoutManager
-        }
-        recyclerView?.setHasFixedSize(true)
+
         val adapter = CardCellAdapter(mangaList)
-        if (recyclerView != null) {
-            recyclerView.adapter = adapter
-        }
+        recyclerView.adapter = adapter
     }
 
     override fun onCallFail() {

@@ -3,10 +3,10 @@ package com.tsunderead.tsundoku.api
 import org.json.JSONArray
 import org.json.JSONObject
 
-class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCaller<JSONObject> {
+class MangaWithCover(private val parent: NetworkCaller<JSONObject>, private val filter: HashMap<String, Array<String>> = HashMap()): NetworkCaller<JSONObject> {
 
     private val limit = 10
-//    private val tag = "MangaWithCover"
+    private val tag = "MangaWithCover"
     private lateinit var mangaList: JSONArray
     private lateinit var returnObj: JSONObject
     private var populatedWithCover = false

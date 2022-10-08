@@ -84,9 +84,9 @@ class Library : Fragment() {
     private fun dataInit() {
         mangaList = arrayListOf<Manga>()
         covers = arrayOf(
-            R.drawable.bakemonogatari,
             R.drawable.ginnosaji,
-            R.drawable.berserk40
+            R.drawable.ginnosaji,
+            R.drawable.ginnosaji
         )
 //        for (i in covers.indices) {
         val manga1 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Nisio Isin", "Bakemonogatari", "1")

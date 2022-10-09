@@ -1,7 +1,7 @@
 package com.tsunderead.tsundoku.main
 
+import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -100,6 +100,16 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
             newChip.text = str
             newChip.isClickable = true
             newChip.isCheckable = true
+            newChip.chipBackgroundColor = ColorStateList(
+                arrayOf(
+                    intArrayOf(android.R.attr.state_checked),
+                    intArrayOf(-android.R.attr.state_checked)
+                ),
+                intArrayOf(
+                    R.style.Theme_Tsundoku,
+                    Color.parseColor("#EBEBEB")
+                )
+            )
             chipGroupGenre.addView(newChip)
         }
     }

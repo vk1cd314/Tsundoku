@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.search -> replaceFragment(Search())
                 R.id.history -> replaceFragment(History())
                 R.id.settings -> replaceFragment(Settings())
+
                 else ->{
                 }
             }

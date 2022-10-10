@@ -1,13 +1,22 @@
 package com.tsunderead.tsundoku.main
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.textfield.TextInputEditText
+import com.roacult.backdrop.BackdropLayout
+import com.tsunderead.tsundoku.ConstData
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaWithCover
 import com.tsunderead.tsundoku.api.NetworkCaller
@@ -24,6 +33,14 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var backdrop: BackdropLayout
+    private lateinit var chipGroupGenre: ChipGroup
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var searchButton: Button
+    private lateinit var searchText: TextInputEditText
+    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    private lateinit var searchProgressIndicator: LinearProgressIndicator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -38,12 +55,22 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initBackdrop(view)
+        initSearchButton(view)
+        initSearchText(view)
+        initChipGroupGenre(view)
+        initRecyclerView(view)
+        initToolbar(view)
+        initSearchProgressIndicator(view)
+
         val callApi = MangaWithCover(this)
         callApi.execute(0)
     }
 
     override fun onCallSuccess(result: JSONObject?) {
         Log.i("ok", result.toString())
+        searchProgressIndicator.isIndeterminate = false
         val mangaList = ArrayList<Manga>()
         for (i in 0..9) {
             val manga1 = Manga(result!!.getJSONObject(i.toString()).getString("cover_art"),
@@ -51,20 +78,80 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                 result.getJSONObject(i.toString()).getString("id"))
             mangaList.add(manga1)
         }
-        val layoutManager = GridLayoutManager(context, 3)
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.exploreRecylcerView)
-        if (recyclerView != null) {
-            recyclerView.layoutManager = layoutManager
-        }
-//        recyclerView?.setHasFixedSize(true)
+
         val adapter = CardCellAdapter(mangaList)
-        if (recyclerView != null) {
-            recyclerView.adapter = adapter
-        }
+        recyclerView.adapter = adapter
     }
 
     override fun onCallFail() {
         Log.i("ok", "indeed")
+    }
+
+    private fun initBackdrop (view: View) {
+        backdrop = view.findViewById(R.id.mangaSearchBackdrop)
+    }
+
+    private fun initChipGroupGenre (view: View) {
+        chipGroupGenre = view.findViewById(R.id.chip_group_genre)
+
+        val s = ConstData().tagList
+        for(str in s) {
+            val newChip = Chip(context)
+            newChip.text = str
+            newChip.isClickable = true
+            newChip.isCheckable = true
+            newChip.chipBackgroundColor = ColorStateList(
+                arrayOf(
+                    intArrayOf(android.R.attr.state_checked),
+                    intArrayOf(-android.R.attr.state_checked)
+                ),
+                intArrayOf(
+                    R.style.Theme_Tsundoku,
+                    Color.parseColor("#EBEBEB")
+                )
+            )
+            chipGroupGenre.addView(newChip)
+        }
+    }
+    private fun initRecyclerView (view: View) {
+        recyclerView = view.findViewById(R.id.exploreRecylcerView)
+
+        recyclerView.layoutManager = GridLayoutManager(context, 3)
+        recyclerView.setHasFixedSize(true)
+    }
+    private fun initSearchButton (view: View) {
+        searchButton = view.findViewById(R.id.mangaSearchButton)
+
+        searchButton.setOnClickListener {
+            searchProgressIndicator.isIndeterminate = true
+            val filterMap = HashMap<String, Array<String>>()
+            if (!searchText.text.isNullOrEmpty()) filterMap["title"] = arrayOf(searchText.text.toString())
+            val checkedChipIds = chipGroupGenre.checkedChipIds
+            val checkedChipList = Array(checkedChipIds.size){""}
+            for (i in 0 until checkedChipIds.size)
+                checkedChipList[i] = chipGroupGenre.findViewById<Chip>(checkedChipIds[i]).text as String
+            filterMap["includedTags%5B%5D"] = checkedChipList // %5B%5D = []; this is how you pass arrays
+            for (key in filterMap.keys) {
+                val arr = filterMap[key]
+                if (arr != null) {
+                    for (a in arr) Log.i(key, a)
+                }
+            }
+            backdrop.close()
+            recyclerView.adapter = CardCellAdapter(ArrayList())
+            MangaWithCover(this, filterMap).execute(0)
+        }
+    }
+    private fun initSearchText (view: View) {
+        searchText = view.findViewById(R.id.mangaSearchBox)
+    }
+
+    private fun initToolbar(view: View) {
+        toolbar = view.findViewById(R.id.toolbar)
+    }
+
+    private fun initSearchProgressIndicator(view: View) {
+        searchProgressIndicator = view.findViewById(R.id.searchProgressIndicator)
     }
 
     companion object {

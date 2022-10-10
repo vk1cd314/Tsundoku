@@ -18,4 +18,9 @@
     <string name="textview">TextView</string>
     <string name="chaptername">TextView</string>
     <string name="lorem_ipsum">Lorem Ipsum</string>
+    <string name="search_library">Search Library</string>
+    <string name="library_sort">Library sort</string>
+    <string name="refresh_library">Refresh Library</string>
+    <string name="clear">Clear</string>
+    <string name="refresh_feed">Refresh Feed</string>
 </resources>

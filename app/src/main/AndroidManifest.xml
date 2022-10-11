@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tsunderead.tsundoku">
 
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -10,10 +11,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher_icon"
+        android:icon="@mipmap/ic_launcher_icon2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_icon_round"
+        android:roundIcon="@mipmap/ic_launcher_icon2_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/Theme.Tsundoku"
         tools:targetApi="31">
         <activity

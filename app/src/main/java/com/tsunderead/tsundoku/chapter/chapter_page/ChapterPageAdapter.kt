@@ -3,8 +3,6 @@ package com.tsunderead.tsundoku.chapter.chapter_page
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPage
-import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPageViewHolder
 import com.tsunderead.tsundoku.databinding.ChapterImageViewBinding
 
 class ChapterPageAdapter (private val chapterPages: ArrayList<ChapterPage>)

@@ -7,7 +7,8 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
     private val limit = 20
 
     fun execute(offset: Int) {
-        val endpoint = "manga/$mangaID/feed/?offset=$offset&order%5Bchapter%5D=asc"
+        val endpoint = "manga/$mangaID/feed/?offset=$offset&order%5Bchapter%5D=asc&translatedLanguage%5B%5D=en"
+        Log.i("mangachapter", endpoint)
         ApiCall(this).execute(endpoint)
     }
 

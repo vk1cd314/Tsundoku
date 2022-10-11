@@ -23,7 +23,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+//
     private lateinit var binding: FragmentSearchBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

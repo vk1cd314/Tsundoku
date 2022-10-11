@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@ import com.tsunderead.tsundoku.ConstData
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaWithCover
 import com.tsunderead.tsundoku.api.NetworkCaller
+import com.tsunderead.tsundoku.databinding.FragmentSearchBinding
 import com.tsunderead.tsundoku.manga_card_cell.CardCellAdapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 import org.json.JSONObject
@@ -41,6 +43,8 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
     private lateinit var searchProgressIndicator: LinearProgressIndicator
 
+    private lateinit var binding: FragmentSearchBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -50,7 +54,9 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    //        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

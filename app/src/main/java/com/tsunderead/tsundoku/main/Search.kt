@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -24,6 +25,7 @@ import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.databinding.FragmentSearchBinding
 import com.tsunderead.tsundoku.manga_card_cell.CardCellAdapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
+import kotlinx.coroutines.*
 import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,10 +33,28 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class Search : Fragment(), NetworkCaller<JSONObject> {
+//    init {
+//        lifecycleScope.launchWhenStarted {
+//            try {
+//                // Call some suspend functions.
+//                doApiCall()
+//            } finally {
+//                // This line might execute after Lifecycle is DESTROYED.
+////                if (lifecycle.state >= STARTED) {
+////                    // Here, since we've checked, it is safe to run any
+////                    // Fragment transactions.
+////                }
+//                Log.i("Init", "Did Api Call")
+//            }
+//        }
+//    }
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var result: JSONObject
+    private var mangaList : ArrayList<Manga> = ArrayList<Manga>()
     private lateinit var backdrop: BackdropLayout
     private lateinit var chipGroupGenre: ChipGroup
     private lateinit var recyclerView: RecyclerView
@@ -53,14 +73,22 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         }
     }
 
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        cancel()
+//    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     //        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mangaList = ArrayList<Manga>()
 
         initBackdrop(view)
         initSearchButton(view)
@@ -70,22 +98,42 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         initToolbar(view)
         initSearchProgressIndicator(view)
 
-        val callApi = MangaWithCover(this)
-        callApi.execute(0)
+
+//        val adapter = CardCellAdapter(mangaList)
+//        recyclerView.adapter = adapter
+
+//        val job = async {
+//            withContext(Dispatchers.Main) {
+//                doApiCall().await()
+//            }
+//        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            doApiCall().await()
+//        }
+        val context = this
+        CoroutineScope(Dispatchers.Main).launch {
+            MangaWithCover(context).execute(0)
+        }
+        Log.i("onViewCreated", "In this thing")
+//        recyclerView.setHasFixedSize(false)
     }
+
+//    private suspend fun doApiCall(): Deferred<Unit> {
+//        return apiCallJob
+//    }
 
     override fun onCallSuccess(result: JSONObject?) {
         Log.i("ok", result.toString())
         searchProgressIndicator.isIndeterminate = false
-        val mangaList = ArrayList<Manga>()
+        mangaList = ArrayList<Manga>()
         for (i in 0..9) {
             val manga1 = Manga(result!!.getJSONObject(i.toString()).getString("cover_art"),
                 result.getJSONObject(i.toString()).getString("author"), result.getJSONObject(i.toString()).getString("name"),
                 result.getJSONObject(i.toString()).getString("id"))
             mangaList.add(manga1)
         }
-
         val adapter = CardCellAdapter(mangaList)
+        adapter.setHasStableIds(true)
         recyclerView.adapter = adapter
     }
 
@@ -123,6 +171,8 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         recyclerView = view.findViewById(R.id.exploreRecylcerView)
 
         recyclerView.layoutManager = GridLayoutManager(context, 3)
+        val adapter = CardCellAdapter(mangaList)
+        recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
     }
     private fun initSearchButton (view: View) {

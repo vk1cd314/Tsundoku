@@ -8,6 +8,9 @@ import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ActivityMainBinding
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 import com.tsunderead.tsundoku.manga_card_cell.mangaList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -16,21 +19,43 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(Library())
+        CoroutineScope(Dispatchers.Main).launch {
+            replaceFragment(Library())
+        }
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.library -> replaceFragment(Library())
-                R.id.updates -> replaceFragment(Updates())
-                R.id.search -> replaceFragment(Search())
-                R.id.history -> replaceFragment(History())
-                R.id.settings -> replaceFragment(Settings())
+                R.id.library -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        replaceFragment(Library())
+                    }
+                }
+                R.id.updates -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        replaceFragment(Updates())
+                    }
+                }
+                R.id.search -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        replaceFragment(Search())
+                    }
+                }
+                R.id.history -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        replaceFragment(History())
+                    }
+                }
+                R.id.settings -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        replaceFragment(Settings())
+                    }
+                }
 
                 else ->{
                 }
             }
             true
         }
-        populateLibrary()
+//        populateLibrary()
     }
 
     private fun populateLibrary() {

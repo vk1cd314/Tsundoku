@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil.setContentView
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.R
@@ -47,7 +48,7 @@ class Library : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         val binding = FragmentLibraryBinding.inflate(inflater, container, false)
         fragmentLibraryBinding = binding
@@ -84,7 +85,7 @@ class Library : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dataInit()
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = GridLayoutManager(context, 2)
         recyclerView = fragmentLibraryBinding?.libraryRecylerView ?: recyclerView
         recyclerView.layoutManager = layoutManager
 //        recyclerView.setHasFixedSize(true)

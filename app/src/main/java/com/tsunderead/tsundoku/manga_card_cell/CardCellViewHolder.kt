@@ -11,18 +11,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.manga_detail.MangaDetailActivity
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.CardCellBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class CardCellViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerView.ViewHolder(cardCellBinding.root){
 
-    lateinit var cardCellViewHolder1 : CardCellViewHolder
-    lateinit var manga: Manga
+//    lateinit var cardCellViewHolder1 : CardCellViewHolder
+//    lateinit var manga: Manga
 
     fun bindBook(book: Manga, cardCellViewHolder: CardCellViewHolder){
-        cardCellViewHolder1 = cardCellViewHolder
-        manga = book
+//        cardCellViewHolder1 = cardCellViewHolder
+//        manga = book
 
         @Suppress("DEPRECATION")
-        ImageFromInternet(cardCellBinding.mangacover).execute(book.cover)
+        (CoroutineScope (Dispatchers.Main)).launch {
+            ImageFromInternet(cardCellBinding.mangacover).execute(book.cover)
+        }
+        doAfter(book, cardCellViewHolder)
         cardCellBinding.title.text = book.title
     }
     @SuppressLint("StaticFieldLeak")
@@ -49,10 +56,9 @@ class CardCellViewHolder(private val cardCellBinding: CardCellBinding) : Recycle
         @Deprecated("Deprecated in Java", ReplaceWith("imageView.setImageBitmap(result)"))
         override fun onPostExecute(result: Bitmap?) {
             imageView.setImageBitmap(result)
-            doAfter(manga, cardCellViewHolder1)
         }
     }
-    fun doAfter(manga : Manga, cardCellViewHolder: CardCellViewHolder) {
+    private fun doAfter(manga : Manga, cardCellViewHolder: CardCellViewHolder) {
 //        cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).findViewById<ImageView>(R.id.mangacover).setClickable
         cardCellViewHolder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
 //        holder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {

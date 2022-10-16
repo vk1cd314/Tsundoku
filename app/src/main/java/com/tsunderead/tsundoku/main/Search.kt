@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -85,7 +86,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     private fun initRecyclerView () {
         val recyclerView = binding.includedFront.exploreRecylcerView
 
-        recyclerView.layoutManager = GridLayoutManager(context, 3)
+        recyclerView.layoutManager = StaggeredGridLayoutManager( 3, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.setHasFixedSize(true)
     }
     private fun initSearchButton () {

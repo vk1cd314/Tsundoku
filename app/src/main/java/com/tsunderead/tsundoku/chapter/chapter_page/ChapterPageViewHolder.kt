@@ -1,13 +1,8 @@
 package com.tsunderead.tsundoku.chapter.chapter_page
-
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.AsyncTask
-import android.util.Log
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ChapterImageViewBinding
 
 class ChapterPageViewHolder(private val chapterPageBinding: ChapterImageViewBinding)
@@ -15,6 +10,6 @@ class ChapterPageViewHolder(private val chapterPageBinding: ChapterImageViewBind
 
     fun bindChapter(chapterPage: ChapterPage, chapterPageViewHolder: ChapterPageViewHolder) {
         val imgUrl = chapterPage.chapterPageId
-        Glide.with(chapterPageViewHolder.itemView.context).load(imgUrl).into(chapterPageBinding.chapterPageImageView)
+        Glide.with(chapterPageViewHolder.itemView.context).load(imgUrl).placeholder(R.drawable.placeholder).into(chapterPageBinding.chapterPageImageView)
     }
 }

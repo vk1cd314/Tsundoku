@@ -26,7 +26,7 @@ class CardCellViewHolder(private val cardCellBinding: CardCellBinding) : Recycle
 //        cardCellViewHolder1 = cardCellViewHolder
 //        manga = book
         Log.d("cardImageloaderror", book.cover)
-        Glide.with(cardCellViewHolder.itemView.context).load(book.cover).into(cardCellBinding.mangacover)
+        Glide.with(cardCellViewHolder.itemView.context).load(book.cover).placeholder(R.drawable.placeholder).into(cardCellBinding.mangacover)
         doAfter(book, cardCellViewHolder)
         cardCellBinding.title.text = book.title
     }

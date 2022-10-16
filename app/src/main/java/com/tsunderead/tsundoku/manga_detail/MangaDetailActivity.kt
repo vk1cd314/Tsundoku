@@ -37,7 +37,10 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         titleId.text = title
 //        coverId.setImageResource(cover)
         val mangaId = intent.getStringExtra("MangaID")
-        Glide.with(this@MangaDetailActivity).load(cover).into(coverId)
+        if (mangaId != null) {
+            Log.d("mangaID", mangaId)
+        }
+        Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
         //ImageFromInternet(coverId).execute(cover)
         mangaId?.let { MangaChapterList(this, it) }?.execute(0)
     }

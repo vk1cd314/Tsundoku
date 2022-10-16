@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil.setContentView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.FragmentLibraryBinding
 import com.tsunderead.tsundoku.manga_card_cell.CardCellAdapter
@@ -85,7 +86,7 @@ class Library : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dataInit()
-        val layoutManager = GridLayoutManager(context, 2)
+        val layoutManager = StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView = fragmentLibraryBinding?.libraryRecylerView ?: recyclerView
         recyclerView.layoutManager = layoutManager
 //        recyclerView.setHasFixedSize(true)
@@ -111,12 +112,12 @@ class Library : Fragment() {
             R.drawable.ginnosaji,
             R.drawable.ginnosaji
         )
-//        for (i in covers.indices) {
-        val manga1 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Nisio Isin", "Bakemonogatari", "1")
+
+        val manga1 = Manga("https://uploads.mangadex.org/covers/4265c437-7d57-4d31-9b1d-0e574a07b7b7/3ae9eed7-b8a7-47b4-945e-09fd55e267ec.jpg", "Nisio Isin", "Bakemonogatari", "4265c437-7d57-4d31-9b1d-0e574a07b7b7")
         mangaList.add(manga1)
-        val manga2 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Hiromu Arakawa", "Ginnosaji", "2")
+        val manga2 = Manga("https://uploads.mangadex.org/covers/3316f5cb-c828-4ad4-b350-5bb474da9542/159fe55f-260a-4597-9dbf-8ae06e786b29.jpg", "Arakawa Hiromu", "Silver Spoon", "3316f5cb-c828-4ad4-b350-5bb474da9542")
         mangaList.add(manga2)
-        val manga3 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Kentaro Miura", "Berserk", "3")
+        val manga3 = Manga("https://uploads.mangadex.org/covers/801513ba-a712-498c-8f57-cae55b38cc92/2a61abcb-8e6e-460d-8551-1caa93e09e39.jpg", "Kentaro Miura", "Berserk", "801513ba-a712-498c-8f57-cae55b38cc92")
         mangaList.add(manga3)
 
 

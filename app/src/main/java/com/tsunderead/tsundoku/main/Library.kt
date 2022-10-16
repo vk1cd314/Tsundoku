@@ -112,7 +112,7 @@ class Library : Fragment() {
             R.drawable.ginnosaji
         )
 //        for (i in covers.indices) {
-        val manga1 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Nisio Isin", "Bakemonogatari", "1")
+        val manga1 = Manga("https://uploads.mangadex.org/covers/a8101d69-45d2-4f02-b549-6d51b934446b/c6e0b719-a309-499b-8e39-41bbe80ef53f.jpg", "Nisio Isin", "Bakemonogatari", "1")
         mangaList.add(manga1)
         val manga2 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Hiromu Arakawa", "Ginnosaji", "2")
         mangaList.add(manga2)

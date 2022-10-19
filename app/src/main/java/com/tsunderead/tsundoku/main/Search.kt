@@ -58,6 +58,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         initSearchButton()
         initRecyclerView()
 
+        binding.includedFront.searchProgressIndicator.isIndeterminate = false
         val callApi = MangaWithCover(this)
         callApi.execute(0)
     }

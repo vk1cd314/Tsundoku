@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.tsunderead.tsundoku.manga_detail.MangaDetailActivity
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.CardCellBinding
@@ -24,40 +25,12 @@ class CardCellViewHolder(private val cardCellBinding: CardCellBinding) : Recycle
     fun bindBook(book: Manga, cardCellViewHolder: CardCellViewHolder){
 //        cardCellViewHolder1 = cardCellViewHolder
 //        manga = book
-
-        @Suppress("DEPRECATION")
-        (CoroutineScope (Dispatchers.Main)).launch {
-            ImageFromInternet(cardCellBinding.mangacover).execute(book.cover)
-        }
+        Log.d("cardImageloaderror", book.cover)
+        Glide.with(cardCellViewHolder.itemView.context).load(book.cover).placeholder(R.drawable.placeholder).into(cardCellBinding.mangacover)
         doAfter(book, cardCellViewHolder)
         cardCellBinding.title.text = book.title
     }
-    @SuppressLint("StaticFieldLeak")
-    @Suppress("DEPRECATION")
-    private inner class ImageFromInternet(var imageView: ImageView) : android.os.AsyncTask<String, Void, Bitmap?>() {
-        init {
-            Log.e("Hello", "Working")
-        }
 
-        @Deprecated("Deprecated in Java")
-        override fun doInBackground(vararg urls: String): Bitmap? {
-            val imageURL = urls[0]
-            var image: Bitmap? = null
-            try {
-                val `in` = java.net.URL(imageURL).openStream()
-                image = BitmapFactory.decodeStream(`in`)
-            }
-            catch (e: Exception) {
-                Log.e("Error Message", e.message.toString())
-                e.printStackTrace()
-            }
-            return image
-        }
-        @Deprecated("Deprecated in Java", ReplaceWith("imageView.setImageBitmap(result)"))
-        override fun onPostExecute(result: Bitmap?) {
-            imageView.setImageBitmap(result)
-        }
-    }
     private fun doAfter(manga : Manga, cardCellViewHolder: CardCellViewHolder) {
 //        cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).findViewById<ImageView>(R.id.mangacover).setClickable
         cardCellViewHolder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {

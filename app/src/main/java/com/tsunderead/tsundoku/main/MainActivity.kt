@@ -1,9 +1,22 @@
 package com.tsunderead.tsundoku.main
 
 import android.os.Bundle
+import android.util.Log
+import android.view.ViewGroup
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ActivityMainBinding
 import com.tsunderead.tsundoku.manga_card_cell.Manga
@@ -19,54 +32,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        CoroutineScope(Dispatchers.Main).launch {
-            replaceFragment(Library())
+        val bottomNavigationView = binding.bottomNavigationView
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            showBottomNav(bottomNavigationView, true)
         }
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId) {
-                R.id.library -> {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        replaceFragment(Library())
-                    }
-                }
-                R.id.updates -> {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        replaceFragment(Updates())
-                    }
-                }
-                R.id.search -> {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        replaceFragment(Search())
-                    }
-                }
-                R.id.history -> {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        replaceFragment(History())
-                    }
-                }
-                R.id.settings -> {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        replaceFragment(Settings())
-                    }
-                }
+        bottomNavigationView.setupWithNavController(navController)
+    }
 
-                else ->{
+    private fun showBottomNav(bottomNavigationView: BottomNavigationView, isVisible: Boolean) {
+        val layoutParams: ViewGroup.LayoutParams = bottomNavigationView.layoutParams
+        if (layoutParams is CoordinatorLayout.LayoutParams) {
+            val behavior = layoutParams.behavior
+            if (behavior is HideBottomViewOnScrollBehavior) {
+                if (isVisible) {
+                    behavior.slideUp(bottomNavigationView)
+                } else {
+                    behavior.slideDown(bottomNavigationView)
                 }
             }
-            true
         }
-//        populateLibrary()
-    }
-
-    private fun populateLibrary() {
-        val book1 = Manga("https:\\/\\/uploads.mangadex.org\\/covers\\/f9b82990-7198-4131-84bb-c952830f5ea7\\/6754b3ba-a9cd-4f07-89a5-ff4145f24605.jpg", "Nisioisin", "Bakemonogatari", "1")
-        mangaList.add(book1)
-    }
-
-    private fun replaceFragment(fragment: Fragment){
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
-        fragmentTransaction.commit()
     }
 }

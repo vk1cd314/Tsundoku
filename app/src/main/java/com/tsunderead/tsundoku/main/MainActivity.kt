@@ -2,9 +2,11 @@ package com.tsunderead.tsundoku.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
@@ -13,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ActivityMainBinding
@@ -32,30 +35,23 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = binding.bottomNavigationView
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            showBottomNav(bottomNavigationView, true)
+        }
         bottomNavigationView.setupWithNavController(navController)
     }
 
-//    private lateinit var currentNavController: LiveData<NavController>
-//
-//    private fun setupBottomNavigationBar() {
-//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-//        val navGraphIds = listOf(R.navigation.tab0, R.navigation.tab1, R.navigation.tab2, R.navigation.tab3)
-//        val controller = bottomNavigationView.setupWithNavController(
-//            navGraphIds = navGraphIds,
-//            fragmentManager = supportFragmentManager,
-//            containerId = R.id.fragmentContainerView,
-//            intent = intent
-//        )
-//        controller.observe(this) { navController ->
-//            val toolbar = findViewById<Toolbar>(R.id.toolbar)
-//            val appBarConfiguration = AppBarConfiguration(navGraphIds.toSet())
-//            NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
-//            setSupportActionBar(toolbar)
-//        }
-//        currentNavController = controller
-//    }
-//
-//    override fun onSupportNavigateUp(): Boolean {
-//        return currentNavController.value?.navigateUp() ?: false
-//    }
+    private fun showBottomNav(bottomNavigationView: BottomNavigationView, isVisible: Boolean) {
+        val layoutParams: ViewGroup.LayoutParams = bottomNavigationView.layoutParams
+        if (layoutParams is CoordinatorLayout.LayoutParams) {
+            val behavior = layoutParams.behavior
+            if (behavior is HideBottomViewOnScrollBehavior) {
+                if (isVisible) {
+                    behavior.slideUp(bottomNavigationView)
+                } else {
+                    behavior.slideDown(bottomNavigationView)
+                }
+            }
+        }
+    }
 }

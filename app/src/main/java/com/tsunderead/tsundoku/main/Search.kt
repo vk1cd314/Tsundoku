@@ -71,7 +71,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     }
 
     override fun onCallSuccess(result: JSONObject?) {
-        Log.i("ok", result.toString())
+//        Log.i("ok", result.toString())
         binding.includedFront.searchProgressIndicator.isIndeterminate = false
         val mangaList = ArrayList<Manga>()
         for (i in result!!.keys()) {

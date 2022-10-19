@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenCreated
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -25,6 +27,8 @@ import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.databinding.FragmentSearchBinding
 import com.tsunderead.tsundoku.manga_card_cell.CardCellAdapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,11 +36,15 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class Search : Fragment(), NetworkCaller<JSONObject> {
+    init {
+
+    }
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private lateinit var binding: FragmentSearchBinding
+    private lateinit var view1: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +54,9 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-
+        view1 = binding.root
         return binding.root
     }
 
@@ -77,6 +85,9 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 
         val adapter = CardCellAdapter(mangaList)
         binding.includedFront.exploreRecylcerView.adapter = adapter
+        viewLifecycleOwner.lifecycleScope.launch {
+            initChipGroupGenre()
+        }
     }
 
     override fun onCallFail() {
@@ -112,6 +123,31 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
             binding.mangaSearchBackdrop.close()
             binding.includedFront.exploreRecylcerView.adapter = CardCellAdapter(ArrayList())
             MangaWithCover(this, filterMap).execute(0)
+        }
+    }
+
+    private lateinit var chipGroupGenre: ChipGroup
+
+    private fun initChipGroupGenre () {
+        chipGroupGenre = binding.mangaSearchBackdrop.findViewById(R.id.chip_group_genre)
+
+        val s = ConstData().tagList
+        for(str in s) {
+            val newChip = Chip(context)
+            newChip.text = str
+            newChip.isClickable = true
+            newChip.isCheckable = true
+            newChip.chipBackgroundColor = ColorStateList(
+                arrayOf(
+                    intArrayOf(android.R.attr.state_checked),
+                    intArrayOf(-android.R.attr.state_checked)
+                ),
+                intArrayOf(
+                    R.style.Theme_Tsundoku,
+                    Color.parseColor("#EBEBEB")
+                )
+            )
+            chipGroupGenre.addView(newChip)
         }
     }
 

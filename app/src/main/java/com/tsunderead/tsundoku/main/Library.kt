@@ -47,7 +47,16 @@ class Library : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        fragmentLibraryBinding?.libraryToolbar?.inflateMenu(R.menu.library_toolbar_menu)
+        fragmentLibraryBinding?.libraryToolbar?.title = "Library"
+        fragmentLibraryBinding?.libraryToolbar?.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.library_search -> {
+                    true
+                }
+                else -> false
+            }
+        }
         dataInit()
     }
 
@@ -81,15 +90,6 @@ class Library : Fragment() {
         adapter = CardCellAdapter(mangaList)
         recyclerView.adapter = adapter
 
-        fragmentLibraryBinding?.libraryToolbar?.inflateMenu(R.menu.library_toolbar_menu)
-        fragmentLibraryBinding?.libraryToolbar?.title = "Library"
-        fragmentLibraryBinding?.libraryToolbar?.setOnMenuItemClickListener {
-            when(it.itemId){
-                R.id.library_search -> {
-                    true
-                }
-                else -> false
-            }
-        }
+
     }
 }

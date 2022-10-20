@@ -18,16 +18,18 @@ import com.tsunderead.tsundoku.api.MangaChapterList
 import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.chapter.ChapterAdapter
+import com.tsunderead.tsundoku.databinding.ActivityMangaDetailBinding
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 import org.json.JSONObject
 
 class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
     private lateinit var libraryDBHandler : LibraryDBHelper
-
+    private lateinit var binding: ActivityMangaDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_manga_detail)
+        binding = ActivityMangaDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val cover = intent.getStringExtra("Cover")
         val author = intent.getStringExtra("Author")
         val title = intent.getStringExtra("Title")
@@ -36,7 +38,8 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         println("Author is $author")
         val authorId = findViewById<TextView>(R.id.author)
         val titleId = findViewById<TextView>(R.id.title)
-        val coverId = findViewById<ImageView>(R.id.mangacover)
+        val coverId = binding.mangacover
+        val cov = binding.mangaDetailAppbar.background
         authorId.text = author
         titleId.text = title
         val mangaId = intent.getStringExtra("MangaID")

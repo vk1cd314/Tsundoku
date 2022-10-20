@@ -62,7 +62,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         db.close()
     }
 
-    fun getAllManga(): Cursor {
+    fun getAllManga(): Cursor? {
         val db = this.readableDatabase
         return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
     }

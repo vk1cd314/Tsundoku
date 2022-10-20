@@ -74,7 +74,7 @@ class Library : Fragment() {
 
         libraryDBHandler = this@Library.context?.let { LibraryDBHelper(it, null) }!!
         val cursor = libraryDBHandler.getAllManga()
-        cursor.moveToFirst()
+        cursor!!.moveToFirst()
 
         while (!cursor.isAfterLast) {
             val manga = Manga("1", "2", "3", "4")

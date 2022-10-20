@@ -15,7 +15,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         Log.i("DB", "CREATED")
         db?.execSQL(
             "CREATE TABLE $TABLE_NAME " +
-                    "($COLUMN_MANGAID TEXT PRIMARY KEY, $COLUMN_AUTHOR TEXT, " +
+                    "($COLUMN_MANGAID TEXT, $COLUMN_AUTHOR TEXT, " +
                     "$COLUMN_COVER TEXT, $COLUMN_TITLE TEXT)"
         )
     }
@@ -68,7 +68,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     companion object Constants {
-        const val DATABASE_VERSION = 14
+        const val DATABASE_VERSION = 15
         const val DATABASE_NAME = "LibraryDBfile.db"
         const val TABLE_NAME = "LibraryManga"
 

@@ -31,27 +31,12 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-// TODO: Rename parameter arguments, choose names that match
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class Search : Fragment(), NetworkCaller<JSONObject> {
-    init {
-
-    }
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
     private lateinit var binding: FragmentSearchBinding
     private lateinit var view1: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -71,7 +56,6 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     }
 
     override fun onCallSuccess(result: JSONObject?) {
-//        Log.i("ok", result.toString())
         binding.includedFront.searchProgressIndicator.isIndeterminate = false
         val mangaList = ArrayList<Manga>()
         for (i in result!!.keys()) {
@@ -91,7 +75,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     }
 
     override fun onCallFail() {
-        Log.i("ok", "indeed")
+        Log.i("Search", "Indeed failed")
     }
 
     private fun initRecyclerView () {
@@ -101,7 +85,6 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         recyclerView.setHasFixedSize(true)
     }
     private fun initSearchButton () {
-
         val mangaSearchBox = binding.includedBack.mangaSearchBox
 
         binding.includedBack.mangaSearchButton.setOnClickListener {
@@ -150,17 +133,4 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
             chipGroupGenre.addView(newChip)
         }
     }
-
-    companion object {
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Search().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
-
 }

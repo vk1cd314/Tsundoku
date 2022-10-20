@@ -39,9 +39,9 @@ class MainActivity : AppCompatActivity() {
             "Arakawa Hiromu", "Silver Spoon", "3316f5cb-c828-4ad4-b350-5bb474da9542")
         val manga3 = Manga("https://uploads.mangadex.org/covers/801513ba-a712-498c-8f57-cae55b38cc92/2a61abcb-8e6e-460d-8551-1caa93e09e39.jpg",
             "Kentaro Miura", "Berserk", "801513ba-a712-498c-8f57-cae55b38cc92")
-        libraryDBHandler.insertManga(manga1)
-        libraryDBHandler.insertManga(manga2)
-        libraryDBHandler.insertManga(manga3)
+//        libraryDBHandler.insertManga(manga1)
+//        libraryDBHandler.insertManga(manga2)
+//        libraryDBHandler.insertManga(manga3)
 //        libraryDBHandler.close()
     }
 

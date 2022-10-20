@@ -26,13 +26,15 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     @SuppressLint("Recycle", "Range")
-    fun insertManga(manga: Manga) {
+    fun insertManga(manga: Manga)  {
         val values = ContentValues()
         values.put(COLUMN_MANGAID, manga.mangaId)
         values.put(COLUMN_AUTHOR, manga.author)
         values.put(COLUMN_COVER, manga.cover)
         values.put(COLUMN_TITLE, manga.title)
         Log.i("Inserting Manga", manga.toString())
+
+        if (isPresent(manga)) return
 
         val db = this.writableDatabase
         try {
@@ -46,6 +48,20 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
             Log.i("No", "Worketh")
         }
         db.close()
+    }
+
+    @SuppressLint("Recycle")
+    fun isPresent(manga: Manga) : Boolean {
+        val values = ContentValues()
+        values.put(COLUMN_MANGAID, manga.mangaId)
+        values.put(COLUMN_AUTHOR, manga.author)
+        values.put(COLUMN_COVER, manga.cover)
+        values.put(COLUMN_TITLE, manga.title)
+
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * from $TABLE_NAME WHERE ($COLUMN_MANGAID = '${manga.mangaId}')", null) ?: return false
+        if (cursor.count < 1) return false
+        return true
     }
 
     fun updateManga(mangaId: String, manga: Manga) {
@@ -72,7 +88,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     companion object Constants {
-        const val DATABASE_VERSION = 16
+        const val DATABASE_VERSION = 17
         const val DATABASE_NAME = "LibraryDBfile.db"
         const val TABLE_NAME = "LibraryManga"
 

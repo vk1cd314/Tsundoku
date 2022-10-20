@@ -44,12 +44,21 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             Log.d("mangaID", mangaId)
         }
         libraryDBHandler = LibraryDBHelper(this, null)
+        val manga = Manga(cover!!, author!!, title!!, mangaId!!)
+        if (libraryDBHandler.isPresent(manga)) {
+            findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
+        }
         findViewById<ImageButton>(R.id.addToLibrary).setOnClickListener {
-            val manga = Manga(cover!!, author!!, title!!, mangaId!!)
-            libraryDBHandler.insertManga(manga)
+            if (libraryDBHandler.isPresent(manga)) {
+                libraryDBHandler.deleteManga(manga.mangaId)
+                findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_border_24)
+            } else {
+                libraryDBHandler.insertManga(manga)
+                findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
+            }
         }
         Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
-        mangaId?.let { MangaChapterList(this, it) }?.execute(0)
+        MangaChapterList(this, mangaId).execute(0)
     }
 
     override fun onCallSuccess(result: JSONObject?) {

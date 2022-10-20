@@ -15,7 +15,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         Log.i("DB", "CREATED")
         db?.execSQL(
             "CREATE TABLE $TABLE_NAME " +
-                    "($COLUMN_MANGAID TEXT, $COLUMN_AUTHOR TEXT, " +
+                    "($COLUMN_MANGAID TEXT UNIQUE, $COLUMN_AUTHOR TEXT, " +
                     "$COLUMN_COVER TEXT, $COLUMN_TITLE TEXT)"
         )
     }
@@ -35,11 +35,15 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         Log.i("Inserting Manga", manga.toString())
 
         val db = this.writableDatabase
-        val success = db.insert(TABLE_NAME, null, values)
-        if (Integer.parseInt("$success") != -1) run {
-            Log.i("Adding", "Succeded")
-        } else {
-            Log.i("HUH", "WHY")
+        try {
+            val success = db.insert(TABLE_NAME, null, values)
+            if (Integer.parseInt("$success") != -1) run {
+                Log.i("Adding", "Succeded")
+            } else {
+                Log.i("HUH", "WHY")
+            }
+        } catch (e: Exception) {
+            Log.i("No", "Worketh")
         }
         db.close()
     }
@@ -68,7 +72,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     companion object Constants {
-        const val DATABASE_VERSION = 15
+        const val DATABASE_VERSION = 16
         const val DATABASE_NAME = "LibraryDBfile.db"
         const val TABLE_NAME = "LibraryManga"
 

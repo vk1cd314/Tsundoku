@@ -22,8 +22,7 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
     }
 
     override fun onCallSuccess(result: JSONObject?) {
-//        TODO("Not yet implemented")
-        Log.i("ok1", result.toString())
+        Log.i("MangaReaderActivity", result.toString())
         val chapterPages = ArrayList<ChapterPage>()
         for (key in result!!.keys()) {
             val chapterPage = ChapterPage(key.toInt(), result.getString(key))

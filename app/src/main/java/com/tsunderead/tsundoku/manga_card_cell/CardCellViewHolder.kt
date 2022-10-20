@@ -18,32 +18,21 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class CardCellViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerView.ViewHolder(cardCellBinding.root){
-
-//    lateinit var cardCellViewHolder1 : CardCellViewHolder
-//    lateinit var manga: Manga
-
     fun bindBook(book: Manga, cardCellViewHolder: CardCellViewHolder){
-//        cardCellViewHolder1 = cardCellViewHolder
-//        manga = book
-        Log.d("cardImageloaderror", book.cover)
+        Log.d("CardCellViewHolder", book.cover)
         Glide.with(cardCellViewHolder.itemView.context).load(book.cover).placeholder(R.drawable.placeholder).into(cardCellBinding.mangacover)
         doAfter(book, cardCellViewHolder)
         cardCellBinding.title.text = book.title
     }
 
     private fun doAfter(manga : Manga, cardCellViewHolder: CardCellViewHolder) {
-//        cardViewHolder.itemView.findViewById<CardView>(R.id.cardview).findViewById<ImageView>(R.id.mangacover).setClickable
         cardCellViewHolder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
-//        holder.itemView.findViewById<CardView>(R.id.cardview).setOnClickListener {
             val intent = Intent(it.context, MangaDetailActivity::class.java)
             intent.putExtra("Cover", manga.cover)
             intent.putExtra("Author", manga.author)
             intent.putExtra("Title", manga.title)
             intent.putExtra("MangaID", manga.mangaId)
             it.context.startActivity(intent)
-//            (it.context as Activity).finish()
-//            ^ how to finish if I want to
-            println("Hello?")
         }
     }
 }

@@ -20,7 +20,6 @@ import com.tsunderead.tsundoku.chapter.ChapterAdapter
 import org.json.JSONObject
 
 class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manga_detail)
@@ -35,23 +34,20 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         val coverId = findViewById<ImageView>(R.id.mangacover)
         authorId.text = author
         titleId.text = title
-//        coverId.setImageResource(cover)
         val mangaId = intent.getStringExtra("MangaID")
         if (mangaId != null) {
             Log.d("mangaID", mangaId)
         }
         Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
-        //ImageFromInternet(coverId).execute(cover)
         mangaId?.let { MangaChapterList(this, it) }?.execute(0)
     }
 
     override fun onCallSuccess(result: JSONObject?) {
-//        TODO("Not yet implemented")
-        Log.i("ok", result.toString())
+        Log.i("MangaDetailActivity", result.toString())
         val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
         val layoutManager = LinearLayoutManager(this@MangaDetailActivity)
         recyclerView.layoutManager = layoutManager
-//        recyclerView.setHasFixedSize(true)
+        recyclerView.setHasFixedSize(true)
         val chapters = ArrayList<Chapter>()
         for (key in result!!.keys()) {
             val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"), result.getJSONObject(key).getString("chapterId"))

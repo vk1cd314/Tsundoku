@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/library3">
+    <fragment
+        android:id="@+id/library3"
+        android:name="com.tsunderead.tsundoku.main.Library"
+        android:label="Library"
+        tools:layout="@layout/fragment_library"/>
+    <fragment
+        android:id="@+id/history3"
+        android:name="com.tsunderead.tsundoku.main.History"
+        android:label="History"
+        tools:layout="@layout/fragment_history"/>
+    <fragment
+        android:id="@+id/search3"
+        android:name="com.tsunderead.tsundoku.main.Search"
+        android:label="Search"
+        tools:layout="@layout/fragment_search"/>
+    <fragment
+        android:id="@+id/settings3"
+        android:name="com.tsunderead.tsundoku.main.Settings"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings"/>
+    <fragment
+        android:id="@+id/updates3"
+        android:name="com.tsunderead.tsundoku.main.Updates"
+        android:label="Updates"
+        tools:layout="@layout/fragment_updates"/>
+</navigation>

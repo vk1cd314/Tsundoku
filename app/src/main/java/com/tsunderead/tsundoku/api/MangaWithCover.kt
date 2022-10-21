@@ -1,22 +1,44 @@
 package com.tsunderead.tsundoku.api
 
+import android.util.Log
+import com.tsunderead.tsundoku.ConstData
 import org.json.JSONArray
 import org.json.JSONObject
 
-class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCaller<JSONObject> {
+class MangaWithCover(
+    private val parent: NetworkCaller<JSONObject>,
+    private val filter: HashMap<String, Array<String>> = HashMap(),
+) : NetworkCaller<JSONObject> {
 
     private val limit = 10
-//    private val tag = "MangaWithCover"
+    private val tag = "MangaWithCover"
     private lateinit var mangaList: JSONArray
     private lateinit var returnObj: JSONObject
     private var populatedWithCover = false
     private var populatedWithAuthor = false
 
     fun execute(offset: Int) {
-        val endpoint = "manga?limit=$limit&offset=$offset"
-
+        val endpoint = "manga?limit=$limit&offset=$offset${generateFilter()}"
+        Log.i(tag, endpoint)
         @Suppress("DEPRECATION")
         ApiCall(this).execute(endpoint)
+    }
+
+    private fun generateFilter(): String {
+        ConstData().tagMap
+        if (filter.isEmpty()) return ""
+        var str = ""
+        for (key in filter.keys) {
+            val filterKey = filter[key]
+            if (key == "includedTags%5B%5D") {
+                val tagMap = ConstData().tagMap
+                for (filterVal in filterKey!!)
+                    str = "$str&$key=${tagMap[filterVal]}"
+            } else
+                for (filterVal in filterKey!!)
+                    str = "$str&$key=$filterVal"
+        }
+        return str
     }
 
     override fun onCallSuccess(result: JSONObject?) {
@@ -33,7 +55,8 @@ class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCall
                 jsonObject.put("id", manga.getString("id"))
 
                 for (name in manga.getJSONObject("attributes").getJSONObject("title").keys()) {
-                    jsonObject.put("name", manga.getJSONObject("attributes").getJSONObject("title").getString(name))
+                    jsonObject.put("name",
+                        manga.getJSONObject("attributes").getJSONObject("title").getString(name))
                     break
                 }
 
@@ -82,7 +105,7 @@ class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCall
 
     }
 
-    class MangaCover(private val mangaWithoutCover: MangaWithCover): NetworkCaller<JSONObject> {
+    class MangaCover(private val mangaWithoutCover: MangaWithCover) : NetworkCaller<JSONObject> {
 
         private val totalManga = mangaWithoutCover.mangaList.length()
         private val mangaCoverMap = LinkedHashMap<String, String>()
@@ -96,10 +119,14 @@ class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCall
                     val relationships = manga.getJSONArray("relationships")
 
                     for (rel in 0 until relationships.length())
-                        if (relationships.getJSONObject(rel).getString("type").equals("cover_art")){
+                        if (relationships.getJSONObject(rel).getString("type")
+                                .equals("cover_art")
+                        ) {
 
                             @Suppress("DEPRECATION")
-                            ApiCall(this, i).execute("cover/${relationships.getJSONObject(rel).getString("id")}")
+                            ApiCall(this, i).execute("cover/${
+                                relationships.getJSONObject(rel).getString("id")
+                            }")
                             break
                         }
 
@@ -114,7 +141,13 @@ class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCall
                 if (!result!!.getString("result").equals(("ok"))) throw Exception("Not OK")
 
                 val pos = result.getInt("apiCallFlag")
-                mangaCoverMap[mangaWithoutCover.mangaList.getJSONObject(pos).getString("id")] = "https://uploads.mangadex.org/covers/${mangaWithoutCover.mangaList.getJSONObject(pos).getString("id")}/${result.getJSONObject("data").getJSONObject("attributes").getString("fileName")}"
+                mangaCoverMap[mangaWithoutCover.mangaList.getJSONObject(pos).getString("id")] =
+                    "https://uploads.mangadex.org/covers/${
+                        mangaWithoutCover.mangaList.getJSONObject(pos).getString("id")
+                    }/${
+                        result.getJSONObject("data").getJSONObject("attributes")
+                            .getString("fileName")
+                    }"
 
                 if (++mangaCounter == totalManga) mangaWithoutCover.populateWithCover(mangaCoverMap)
 
@@ -125,7 +158,7 @@ class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCall
 
     }
 
-    class MangaAuthor(private val mangaWithoutAuthor: MangaWithCover): NetworkCaller<JSONObject> {
+    class MangaAuthor(private val mangaWithoutAuthor: MangaWithCover) : NetworkCaller<JSONObject> {
 
         private val totalManga = mangaWithoutAuthor.mangaList.length()
         private val mangaAuthorMap = LinkedHashMap<String, String>()
@@ -138,10 +171,12 @@ class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCall
                     val relationships = manga.getJSONArray("relationships")
 
                     for (rel in 0 until relationships.length())
-                        if (relationships.getJSONObject(rel).getString("type").equals("author")){
+                        if (relationships.getJSONObject(rel).getString("type").equals("author")) {
 
                             @Suppress("DEPRECATION")
-                            ApiCall(this, i).execute("author/${relationships.getJSONObject(rel).getString("id")}")
+                            ApiCall(this, i).execute("author/${
+                                relationships.getJSONObject(rel).getString("id")
+                            }")
                             break
                         }
                 } catch (e: Exception) {
@@ -154,9 +189,11 @@ class MangaWithCover(private val parent: NetworkCaller<JSONObject>): NetworkCall
             try {
                 if (!result!!.getString("result").equals(("ok"))) throw Exception("Not OK")
                 val pos = result.getInt("apiCallFlag")
-                mangaAuthorMap[mangaWithoutAuthor.mangaList.getJSONObject(pos).getString("id")] = result.getJSONObject("data").getJSONObject("attributes").getString("name")
+                mangaAuthorMap[mangaWithoutAuthor.mangaList.getJSONObject(pos).getString("id")] =
+                    result.getJSONObject("data").getJSONObject("attributes").getString("name")
 
-                if (++mangaCounter == totalManga) mangaWithoutAuthor.populateWithAuthor(mangaAuthorMap)
+                if (++mangaCounter == totalManga) mangaWithoutAuthor.populateWithAuthor(
+                    mangaAuthorMap)
 
             } catch (e: Exception) {
                 e.printStackTrace()

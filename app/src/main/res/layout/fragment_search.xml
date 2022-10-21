@@ -19,7 +19,6 @@
         android:id="@+id/mangaSearchBackdrop"
         app:front_layout="@id/includedFront"
         app:back_layout="@id/includedBack"
-        app:disable_when_open="true"
         app:toolbarId="@id/toolbar"
         app:peekHeight="39dp"
         app:menuDrawable="@drawable/ic_sharp_search_24"

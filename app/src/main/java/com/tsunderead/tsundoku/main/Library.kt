@@ -47,15 +47,6 @@ class Library : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        dataInit()
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        recyclerView = fragmentLibraryBinding?.libraryRecylerView ?: recyclerView
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
-        adapter = CardCellAdapter(mangaList)
-        recyclerView.adapter = adapter
-
         fragmentLibraryBinding?.libraryToolbar?.inflateMenu(R.menu.library_toolbar_menu)
         fragmentLibraryBinding?.libraryToolbar?.title = "Library"
         fragmentLibraryBinding?.libraryToolbar?.setOnMenuItemClickListener {
@@ -66,6 +57,12 @@ class Library : Fragment() {
                 else -> false
             }
         }
+        dataInit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dataInit()
     }
 
     @SuppressLint("Range", "UseRequireInsteadOfGet")
@@ -86,5 +83,13 @@ class Library : Fragment() {
 
             cursor.moveToNext()
         }
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView = fragmentLibraryBinding?.libraryRecylerView ?: recyclerView
+        recyclerView.layoutManager = layoutManager
+        recyclerView.setHasFixedSize(true)
+        adapter = CardCellAdapter(mangaList)
+        recyclerView.adapter = adapter
+
+
     }
 }

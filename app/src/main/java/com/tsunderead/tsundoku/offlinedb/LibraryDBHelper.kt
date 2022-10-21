@@ -15,7 +15,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         Log.i("DB", "CREATED")
         db?.execSQL(
             "CREATE TABLE $TABLE_NAME " +
-                    "($COLUMN_MANGAID TEXT, $COLUMN_AUTHOR TEXT, " +
+                    "($COLUMN_MANGAID TEXT UNIQUE, $COLUMN_AUTHOR TEXT, " +
                     "$COLUMN_COVER TEXT, $COLUMN_TITLE TEXT)"
         )
     }
@@ -26,7 +26,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     @SuppressLint("Recycle", "Range")
-    fun insertManga(manga: Manga) {
+    fun insertManga(manga: Manga)  {
         val values = ContentValues()
         values.put(COLUMN_MANGAID, manga.mangaId)
         values.put(COLUMN_AUTHOR, manga.author)
@@ -34,14 +34,34 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         values.put(COLUMN_TITLE, manga.title)
         Log.i("Inserting Manga", manga.toString())
 
+        if (isPresent(manga)) return
+
         val db = this.writableDatabase
-        val success = db.insert(TABLE_NAME, null, values)
-        if (Integer.parseInt("$success") != -1) run {
-            Log.i("Adding", "Succeded")
-        } else {
-            Log.i("HUH", "WHY")
+        try {
+            val success = db.insert(TABLE_NAME, null, values)
+            if (Integer.parseInt("$success") != -1) run {
+                Log.i("Adding", "Succeded")
+            } else {
+                Log.i("HUH", "WHY")
+            }
+        } catch (e: Exception) {
+            Log.i("No", "Worketh")
         }
         db.close()
+    }
+
+    @SuppressLint("Recycle")
+    fun isPresent(manga: Manga) : Boolean {
+        val values = ContentValues()
+        values.put(COLUMN_MANGAID, manga.mangaId)
+        values.put(COLUMN_AUTHOR, manga.author)
+        values.put(COLUMN_COVER, manga.cover)
+        values.put(COLUMN_TITLE, manga.title)
+
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * from $TABLE_NAME WHERE ($COLUMN_MANGAID = '${manga.mangaId}')", null) ?: return false
+        if (cursor.count < 1) return false
+        return true
     }
 
     fun updateManga(mangaId: String, manga: Manga) {
@@ -68,7 +88,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     companion object Constants {
-        const val DATABASE_VERSION = 15
+        const val DATABASE_VERSION = 17
         const val DATABASE_NAME = "LibraryDBfile.db"
         const val TABLE_NAME = "LibraryManga"
 

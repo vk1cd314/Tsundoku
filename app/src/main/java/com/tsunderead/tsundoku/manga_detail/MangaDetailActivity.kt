@@ -7,6 +7,7 @@ import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,12 +18,18 @@ import com.tsunderead.tsundoku.api.MangaChapterList
 import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.chapter.ChapterAdapter
+import com.tsunderead.tsundoku.databinding.ActivityMangaDetailBinding
+import com.tsunderead.tsundoku.manga_card_cell.Manga
+import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 import org.json.JSONObject
 
 class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
+    private lateinit var libraryDBHandler : LibraryDBHelper
+    private lateinit var binding: ActivityMangaDetailBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_manga_detail)
+        binding = ActivityMangaDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val cover = intent.getStringExtra("Cover")
         val author = intent.getStringExtra("Author")
         val title = intent.getStringExtra("Title")
@@ -31,15 +38,30 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         println("Author is $author")
         val authorId = findViewById<TextView>(R.id.author)
         val titleId = findViewById<TextView>(R.id.title)
-        val coverId = findViewById<ImageView>(R.id.mangacover)
+        val coverId = binding.mangacover
+        val cov = binding.mangaDetailAppbar.background
         authorId.text = author
         titleId.text = title
         val mangaId = intent.getStringExtra("MangaID")
         if (mangaId != null) {
             Log.d("mangaID", mangaId)
         }
+        libraryDBHandler = LibraryDBHelper(this, null)
+        val manga = Manga(cover!!, author!!, title!!, mangaId!!)
+        if (libraryDBHandler.isPresent(manga)) {
+            findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
+        }
+        findViewById<ImageButton>(R.id.addToLibrary).setOnClickListener {
+            if (libraryDBHandler.isPresent(manga)) {
+                libraryDBHandler.deleteManga(manga.mangaId)
+                findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_border_24)
+            } else {
+                libraryDBHandler.insertManga(manga)
+                findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
+            }
+        }
         Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
-        mangaId?.let { MangaChapterList(this, it) }?.execute(0)
+        MangaChapterList(this, mangaId).execute(0)
     }
 
     override fun onCallSuccess(result: JSONObject?) {

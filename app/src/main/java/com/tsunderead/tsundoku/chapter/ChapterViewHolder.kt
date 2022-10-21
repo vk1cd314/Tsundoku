@@ -10,8 +10,6 @@ class ChapterViewHolder(
 ) : RecyclerView.ViewHolder(chapterCellBinding.root) {
     @SuppressLint("SetTextI18n")
     fun bindChapter(chapter: Chapter) {
-//        cardCellBinding.
-//        cardCellBinding.chapterNumber =
         chapterCellBinding.chapterTextView.text = "Chapter ${chapter.chapterNumber}"
     }
 }

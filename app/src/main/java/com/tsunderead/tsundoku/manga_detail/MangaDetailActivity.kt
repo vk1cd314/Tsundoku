@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapterList
 import com.tsunderead.tsundoku.api.NetworkCaller
@@ -19,7 +20,6 @@ import com.tsunderead.tsundoku.chapter.ChapterAdapter
 import org.json.JSONObject
 
 class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manga_detail)
@@ -34,46 +34,20 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         val coverId = findViewById<ImageView>(R.id.mangacover)
         authorId.text = author
         titleId.text = title
-//        coverId.setImageResource(cover)
         val mangaId = intent.getStringExtra("MangaID")
-        ImageFromInternet(coverId).execute(cover)
+        if (mangaId != null) {
+            Log.d("mangaID", mangaId)
+        }
+        Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
         mangaId?.let { MangaChapterList(this, it) }?.execute(0)
-    }
-    @SuppressLint("StaticFieldLeak")
-    @Suppress("DEPRECATION")
-    private inner class ImageFromInternet(var imageView: ImageView) : AsyncTask<String, Void, Bitmap?>() {
-        init {
-//            Toast.makeText(this, "Please wait, it may take a few minute...", Toast.LENGTH_SHORT).show()
-            Log.e("Hello", "Working")
-        }
-
-        @Deprecated("Deprecated in Java")
-        override fun doInBackground(vararg urls: String): Bitmap? {
-            val imageURL = urls[0]
-            var image: Bitmap? = null
-            try {
-                val `in` = java.net.URL(imageURL).openStream()
-                image = BitmapFactory.decodeStream(`in`)
-            }
-            catch (e: Exception) {
-                Log.e("Error Message", e.message.toString())
-                e.printStackTrace()
-            }
-            return image
-        }
-        @Deprecated("Deprecated in Java", ReplaceWith("imageView.setImageBitmap(result)"))
-        override fun onPostExecute(result: Bitmap?) {
-            imageView.setImageBitmap(result)
-        }
     }
 
     override fun onCallSuccess(result: JSONObject?) {
-//        TODO("Not yet implemented")
-        Log.i("ok", result.toString())
+        Log.i("MangaDetailActivity", result.toString())
         val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
         val layoutManager = LinearLayoutManager(this@MangaDetailActivity)
         recyclerView.layoutManager = layoutManager
-//        recyclerView.setHasFixedSize(true)
+        recyclerView.setHasFixedSize(true)
         val chapters = ArrayList<Chapter>()
         for (key in result!!.keys()) {
             val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"), result.getJSONObject(key).getString("chapterId"))

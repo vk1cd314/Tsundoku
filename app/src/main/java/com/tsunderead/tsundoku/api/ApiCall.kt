@@ -14,13 +14,14 @@ class ApiCall(val parent: NetworkCaller<JSONObject>, private val flag: Int = 0):
     private val tag = "API - call"
     private val apiUrl = "https://api.mangadex.org"
 
+    @Deprecated("Deprecated in Java", ReplaceWith("super.onPreExecute()", "android.os.AsyncTask"))
     @Suppress("DEPRECATION")
     override fun onPreExecute() {
         super.onPreExecute()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun doInBackground(vararg param: String?): JSONObject {
-
         val url = URL("$apiUrl/${param[0]}")
         val conn = url.openConnection() as HttpURLConnection
         conn.requestMethod = "GET"
@@ -46,15 +47,18 @@ class ApiCall(val parent: NetworkCaller<JSONObject>, private val flag: Int = 0):
         return JSONObject(output.toString())
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onProgressUpdate(vararg values: Void?) {
         Log.i(tag, "New Line Received")
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onPostExecute(result: JSONObject?) {
         result!!.put("apiCallFlag", flag)
         parent.onCallSuccess(result)
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("parent.onCallFail()"))
     override fun onCancelled() {
         parent.onCallFail()
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab0"
+    app:startDestination="@id/library">
+
+    <fragment
+        android:id="@+id/library"
+        android:name="com.tsunderead.tsundoku.main.Library"
+        android:label="Library"
+        tools:layout="@layout/fragment_library"/>
+</navigation>

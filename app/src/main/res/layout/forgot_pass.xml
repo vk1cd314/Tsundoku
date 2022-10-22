@@ -18,17 +18,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.226" />
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/forgot_password_username"
+        android:id="@+id/forgotPasswordEmailParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username"
+        android:hint="Email"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="16dp"
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/forgot_password_username_edit_text"
+            android:id="@+id/forgotPasswordEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#616161" />
@@ -36,7 +36,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/forgot_password_email"
+        android:id="@+id/forgotPasswordPasswordParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -47,11 +47,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_password_username"
+        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordEmailParent"
         app:layout_constraintVertical_bias="0.03">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/forgot_password_emai_edit_text"
+            android:id="@+id/forgotPasswordPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#616161" />
@@ -64,10 +64,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:layout_marginBottom="156dp"
-        android:text="Recover Account"
+        android:text="Change Password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_password_email"
+        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordPasswordParent"
         app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

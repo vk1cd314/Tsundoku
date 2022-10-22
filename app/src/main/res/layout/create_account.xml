@@ -3,7 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="13dp"
+    android:paddingRight="13dp">
 
     <TextView
         android:id="@+id/textView9"
@@ -11,92 +15,79 @@
         android:layout_height="wrap_content"
         android:text="Create Account"
         android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.226" />
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signup_username"
+        android:id="@+id/signupUsernameParent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        android:hint="Username"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="16dp"
-        >
+        app:layout_constraintTop_toBottomOf="@id/textView9">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signup_username_edit_text"
+            android:id="@+id/signupUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="#616161" />
+            android:textColorHint="#8D6E63" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signup_email"
+        android:id="@+id/signupEmailParent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="356dp"
         android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_username"
-        app:layout_constraintVertical_bias="0.03">
+        app:layout_constraintTop_toBottomOf="@id/signupUsernameParent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signup_emai_edit_text"
+            android:id="@+id/signupEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="#616161" />
+            android:textColorHint="#8D6E63" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signup_password"
+        android:id="@+id/signupPasswordParent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:hint="Password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.095"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_email"
-        app:layout_constraintVertical_bias="0.03">
+        app:layout_constraintTop_toBottomOf="@id/signupEmailParent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signup_password_edit_text"
+            android:id="@+id/signupPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="#616161" />
+            android:textColorHint="#8D6E63" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/signup_password_confirm"
+        android:id="@+id/signupConfirmPasswordParent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:hint="Confirm Password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.095"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_password"
-        app:layout_constraintVertical_bias="0.03">
+        app:layout_constraintTop_toBottomOf="@id/signupPasswordParent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signup_password_confirm_edit_text"
+            android:id="@+id/signupConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="#616161" />
+            android:textColorHint="#8D6E63" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,12 +95,8 @@
         android:id="@+id/signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:layout_marginBottom="156dp"
         android:text="Create Account"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_password_confirm"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/signupConfirmPasswordParent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

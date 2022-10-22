@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/create_account.xml" value="0.33" />
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/forgot_pass.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/login.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/search_backdrop_back_layout.xml" value="0.23802083333333332" />
         <entry key="..\:/Users/master_da/Desktop/Academics/Tsundoku/app/src/main/res/drawable/layout_rounded_corner.xml" value="0.136" />
         <entry key="..\:/Users/master_da/Desktop/Academics/Tsundoku/app/src/main/res/layout/fragment_search.xml" value="0.25" />
         <entry key="..\:/Users/master_da/Desktop/Academics/Tsundoku/app/src/main/res/layout/search_backdrop_back_layout.xml" value="0.25" />

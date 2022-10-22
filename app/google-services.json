@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "332805469405",
+    "project_id": "tsundoku-13611",
+    "storage_bucket": "tsundoku-13611.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332805469405:android:f4e0e7d4704e32a217d734",
+        "android_client_info": {
+          "package_name": "com.tsunderead.tsundoku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332805469405-ga0di1gdi33ug8hds9j13jqrgu5385h5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tsunderead.tsundoku",
+            "certificate_hash": "e9ba7be0a5e316c0c02ac90bb078c46c4ef50f82"
+          }
+        },
+        {
+          "client_id": "332805469405-m4e0cgt61cmsdnm7ot2ubq0i2ue5aucs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtXcFH4mjWXhJTjaWmODNP5Nh8kbCVX0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332805469405-m4e0cgt61cmsdnm7ot2ubq0i2ue5aucs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,14 +5,15 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('C:\\Users\\User\\.android\\debug.keystore')
-            storePassword 'android'
-            keyAlias 'android'
-            keyPassword 'android'
-        }
-    }
+    // added hte signin files. doesn't work. google signin now cannot
+//    signingConfigs {
+//        debug {
+//            storeFile file('C:\\Users\\User\\.android\\debug.keystore')
+//            storePassword 'android'
+//            keyAlias 'android'
+//            keyPassword 'android'
+//        }
+//    }
     compileSdk 33
 
     defaultConfig {
@@ -66,4 +67,5 @@ dependencies {
     implementation 'com.github.MikeOrtiz:TouchImageView:3.2.1'
     implementation platform('com.google.firebase:firebase-bom:31.0.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
 }

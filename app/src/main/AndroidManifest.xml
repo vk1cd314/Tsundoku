@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_icon2_round"
         android:supportsRtl="true"
         android:largeHeap="true"
-        android:theme="@style/Theme.Tsundoku"
+        android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
             android:name=".main.splash_screen"

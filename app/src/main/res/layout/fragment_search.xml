@@ -8,12 +8,11 @@
     tools:context=".main.MainActivity"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Search"
-        android:background="#2233CD" />
+        app:title="Search" />
 
     <com.roacult.backdrop.BackdropLayout
         android:id="@+id/mangaSearchBackdrop"

@@ -1,11 +1,14 @@
 package com.tsunderead.tsundoku.chapter.chapter_page
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.recyclerview.widget.RecyclerView
+import com.ortiz.touchview.TouchImageView
+import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ChapterImageViewBinding
 
 class ChapterPageAdapter (private val chapterPages: ArrayList<ChapterPage>)
@@ -43,6 +46,4 @@ class ChapterPageAdapter (private val chapterPages: ArrayList<ChapterPage>)
         }
         return ChapterPageViewHolder(binding)
     }
-
-
 }

@@ -73,9 +73,6 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 
         val adapter = CardCellAdapter(mangaList)
         binding.includedFront.exploreRecylcerView.adapter = adapter
-        viewLifecycleOwner.lifecycleScope.launch {
-//            initChipGroupGenre()
-        }
     }
 
     override fun onCallFail() {

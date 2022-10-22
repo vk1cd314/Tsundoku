@@ -115,17 +115,11 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     }
 
     private fun initToggleButtons () {
-
         val includedBack = binding.includedBack
 
-        includedBack.tagToggleButtons.addOnButtonCheckedListener{ toggleButton, checkedId, isChecked ->
-            var s: Array<String> = arrayOf()
-            when (checkedId) {
-                includedBack.tagToggleFormat.id -> s = ConstData().tagListGrouped["format"]!!
-                includedBack.tagToggleGenre.id -> s = ConstData().tagListGrouped["genre"]!!
-                includedBack.tagToggleTheme.id -> s = ConstData().tagListGrouped["theme"]!!
-            }
+        includedBack.tagToggleFormat.setOnClickListener {
             chipGroupGenre.removeAllViews()
+            val s = ConstData().tagListGrouped["format"]!!
             for(str in s) {
                 val newChip = Chip(context)
                 newChip.text = str
@@ -143,8 +137,85 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                 )
                 chipGroupGenre.addView(newChip)
             }
-
         }
+        includedBack.tagToggleGenre.setOnClickListener {
+            chipGroupGenre.removeAllViews()
+            val s = ConstData().tagListGrouped["genre"]!!
+            for(str in s) {
+                val newChip = Chip(context)
+                newChip.text = str
+                newChip.isClickable = true
+                newChip.isCheckable = true
+                newChip.chipBackgroundColor = ColorStateList(
+                    arrayOf(
+                        intArrayOf(android.R.attr.state_checked),
+                        intArrayOf(-android.R.attr.state_checked)
+                    ),
+                    intArrayOf(
+                        R.style.AppTheme,
+                        Color.parseColor("#EBEBEB")
+                    )
+                )
+                chipGroupGenre.addView(newChip)
+            }
+        }
+        includedBack.tagToggleTheme.setOnClickListener {
+            chipGroupGenre.removeAllViews()
+            val s = ConstData().tagListGrouped["theme"]!!
+            for(str in s) {
+                val newChip = Chip(context)
+                newChip.text = str
+                newChip.isClickable = true
+                newChip.isCheckable = true
+                newChip.chipBackgroundColor = ColorStateList(
+                    arrayOf(
+                        intArrayOf(android.R.attr.state_checked),
+                        intArrayOf(-android.R.attr.state_checked)
+                    ),
+                    intArrayOf(
+                        R.style.AppTheme,
+                        Color.parseColor("#EBEBEB")
+                    )
+                )
+                chipGroupGenre.addView(newChip)
+            }
+        }
+//        includedBack.tagToggleButtons.addOnButtonCheckedListener{ toggleButton, checkedId, isChecked ->
+//            viewLifecycleOwner.lifecycleScope.launch {
+//                var s: Array<String> = arrayOf()
+//                Log.i("Removing", "Removing")
+//                //            if (!isChecked) {
+//                //                chipGroupGenre.removeAllViews()
+//                //                Log.i("Removed", "Removed")
+//                //                return@addOnButtonCheckedListener
+//                //            }
+//                chipGroupGenre.removeAllViews()
+//                Log.i("Removed", "Removed")
+//                when (checkedId) {
+//                    includedBack.tagToggleFormat.id -> s = ConstData().tagListGrouped["format"]!!
+//                    includedBack.tagToggleGenre.id -> s = ConstData().tagListGrouped["genre"]!!
+//                    includedBack.tagToggleTheme.id -> s = ConstData().tagListGrouped["theme"]!!
+//                }
+//                Log.i("HMMMMM", s.toString())
+//                for (str in s) {
+//                    val newChip = Chip(context)
+//                    newChip.text = str
+//                    newChip.isClickable = true
+//                    newChip.isCheckable = true
+//                    newChip.chipBackgroundColor = ColorStateList(
+//                        arrayOf(
+//                            intArrayOf(android.R.attr.state_checked),
+//                            intArrayOf(-android.R.attr.state_checked)
+//                        ),
+//                        intArrayOf(
+//                            R.style.AppTheme,
+//                            Color.parseColor("#EBEBEB")
+//                        )
+//                    )
+//                    chipGroupGenre.addView(newChip)
+//                }
+//            }
+//        }
     }
 
     private fun initChipGroupGenre () {

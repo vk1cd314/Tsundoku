@@ -6,12 +6,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/chapterCardView"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:clickable="true"
-        app:cardCornerRadius="15dp"
         app:cardElevation="7dp"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="73dp">
@@ -23,5 +22,5 @@
             android:gravity="center"
             android:text="@string/chaptername"
             android:textSize="20sp" />
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

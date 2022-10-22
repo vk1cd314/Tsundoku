@@ -126,7 +126,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                     intArrayOf(-android.R.attr.state_checked)
                 ),
                 intArrayOf(
-                    R.style.Theme_Tsundoku,
+                    R.style.AppTheme,
                     Color.parseColor("#EBEBEB")
                 )
             )

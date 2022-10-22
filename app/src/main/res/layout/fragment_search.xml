@@ -12,8 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Search"
-        android:background="@color/purple_500" />
+        app:title="Search" />
 
     <com.roacult.backdrop.BackdropLayout
         android:id="@+id/mangaSearchBackdrop"

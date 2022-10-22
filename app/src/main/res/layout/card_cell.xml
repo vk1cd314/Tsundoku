@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:clickable="true"
-        style="@style/Widget.App.CardView"
         app:cardCornerRadius="15dp"
         app:cardElevation="7dp">
 

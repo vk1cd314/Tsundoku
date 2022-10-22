@@ -220,7 +220,6 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 
     private fun initChipGroupGenre () {
         chipGroupGenre = binding.includedBack.chipGroupGenre
-//
 //        val s = ConstData().tagList
 //        for(str in s) {
 //            val newChip = Chip(context)

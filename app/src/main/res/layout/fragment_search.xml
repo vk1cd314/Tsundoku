@@ -46,7 +46,7 @@
         app:back_layout="@id/includedBack"
         app:toolbarId="@id/toolbar"
         app:peekHeight="39dp"
-        app:menuDrawable="@drawable/ic_sharp_search_24"
+        app:menuDrawable="@drawable/ic_baseline_expand_more_24"
         app:animationDuration="400"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

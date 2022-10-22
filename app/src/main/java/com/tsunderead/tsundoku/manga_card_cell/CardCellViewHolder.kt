@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class CardCellViewHolder(private val cardCellBinding: CardCellBinding) : RecyclerView.ViewHolder(cardCellBinding.root){
     fun bindBook(book: Manga, cardCellViewHolder: CardCellViewHolder){
-        Log.d("CardCellViewHolder", book.cover)
+//        Log.d("CardCellViewHolder", book.cover)
         Glide.with(cardCellViewHolder.itemView.context).load(book.cover).placeholder(R.drawable.placeholder).into(cardCellBinding.mangacover)
         doAfter(book, cardCellViewHolder)
         cardCellBinding.title.text = book.title

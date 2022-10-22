@@ -1,9 +1,19 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
+    // added hte signin files. doesn't work. google signin now cannot
+//    signingConfigs {
+//        debug {
+//            storeFile file('C:\\Users\\User\\.android\\debug.keystore')
+//            storePassword 'android'
+//            keyAlias 'android'
+//            keyPassword 'android'
+//        }
+//    }
     compileSdk 33
 
     defaultConfig {
@@ -21,8 +31,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.debug
+        }
     }
-    buildFeatures{
+    buildFeatures {
         dataBinding = true
         viewBinding = true
     }
@@ -42,7 +55,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'com.github.roiacult:BackdropLayout:2.3'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
@@ -51,4 +64,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+    implementation 'com.github.MikeOrtiz:TouchImageView:3.2.1'
+    implementation platform('com.google.firebase:firebase-bom:31.0.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 }

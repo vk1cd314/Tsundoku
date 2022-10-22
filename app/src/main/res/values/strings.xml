@@ -23,4 +23,9 @@
     <string name="refresh_library">Refresh Library</string>
     <string name="clear">Clear</string>
     <string name="refresh_feed">Refresh Feed</string>
+    <string name="imageview">ImageView</string>
+    <string name="textview1">TextView</string>
+    <string name="MaterialButton">Button</string>
+    <string name="resume">Resume</string>
+    <string name="search4">Search</string>
 </resources>

@@ -1,17 +1,11 @@
 package com.tsunderead.tsundoku.main
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.databinding.DataBindingUtil.setContentView
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.tsunderead.tsundoku.R
@@ -47,15 +41,6 @@ class Library : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        dataInit()
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        recyclerView = fragmentLibraryBinding?.libraryRecylerView ?: recyclerView
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
-        adapter = CardCellAdapter(mangaList)
-        recyclerView.adapter = adapter
-
         fragmentLibraryBinding?.libraryToolbar?.inflateMenu(R.menu.library_toolbar_menu)
         fragmentLibraryBinding?.libraryToolbar?.title = "Library"
         fragmentLibraryBinding?.libraryToolbar?.setOnMenuItemClickListener {
@@ -66,6 +51,12 @@ class Library : Fragment() {
                 else -> false
             }
         }
+        dataInit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dataInit()
     }
 
     @SuppressLint("Range", "UseRequireInsteadOfGet")
@@ -86,5 +77,14 @@ class Library : Fragment() {
 
             cursor.moveToNext()
         }
+        libraryDBHandler.close()
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView = fragmentLibraryBinding?.libraryRecylerView ?: recyclerView
+        recyclerView.layoutManager = layoutManager
+        recyclerView.setHasFixedSize(true)
+        adapter = CardCellAdapter(mangaList)
+        recyclerView.adapter = adapter
+
+
     }
 }

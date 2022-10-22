@@ -5,15 +5,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/chapterPageCardView"
+    <com.ortiz.touchview.TouchImageView
+        android:id="@+id/chapterPageImageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/chapterPageImageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ginnosaji"/>
-    </androidx.cardview.widget.CardView>
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ginnosaji"/>
 </LinearLayout>

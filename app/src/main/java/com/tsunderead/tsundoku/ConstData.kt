@@ -77,6 +77,14 @@ class ConstData {
         "Full Color",
         "Tragedy",
         "Gyaru")
+    val tagListGrouped = mapOf(
+        "format" to arrayOf("4-Koma", "Adaptation", "Anthology", "Award Winning", "Doujinshi", "Fan Colored", "Full Color", "Long Strip", "Official Colored", "Oneshot", "User Created", "Web Comic"),
+        "genre" to arrayOf("Action", "Adventure", "Boys' Love", "Comedy", "Crime", "Drama", "Fantasy", "Girls' Love", "Historical", "Horror", "Isekai", "Magical Girls", "Mecha", "Medical", "Mystery",
+            "Philosophical", "Psychological", "Romance", "Sci-Fi", "Slice of Life", "Sports", "Superhero", "Thriller", "Tragedy", "Wuxia"),
+        "theme" to arrayOf("Aliens", "Animals", "Cooking", "Crossdressing", "Delinquents", "Demons", "Genderswap", "Ghosts", "Gyaru", "Harem", "Incest", "Loli", "Mafia", "Magic", "Martial Arts",
+            "Military", "Monster Girls", "Monsters", "Music", "Ninja", "Office Workers", "Police", "Post-Apocalyptic", "Reincarnation", "Reverse Harem", "Samurai", "School Life", "Shota",
+            "Supernatural", "Survival", "Time Travel", "Traditional Games", "Vampires", "Video Games", "Villainess", "Virtual Reality", "Zombies")
+    )
     val tagMap = mapOf("Oneshot" to "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
         "Thriller" to "07251805-a27e-4d59-b488-f0bfbec15168",
         "Award Winning" to "0a39b5a1-b235-4886-a747-1d05d216532d",

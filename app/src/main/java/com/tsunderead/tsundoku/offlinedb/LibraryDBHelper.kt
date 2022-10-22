@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.tsunderead.tsundoku.history.MangaWithChapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 
 class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
@@ -16,7 +17,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         db?.execSQL(
             "CREATE TABLE $TABLE_NAME " +
                     "($COLUMN_MANGAID TEXT UNIQUE, $COLUMN_AUTHOR TEXT, " +
-                    "$COLUMN_COVER TEXT, $COLUMN_TITLE TEXT)"
+                    "$COLUMN_COVER TEXT, $COLUMN_TITLE TEXT, $COLUMN_LASTREAD TEXT, $COLUMN_LASTREADHASH TEXT)"
         )
     }
 
@@ -32,6 +33,9 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         values.put(COLUMN_AUTHOR, manga.author)
         values.put(COLUMN_COVER, manga.cover)
         values.put(COLUMN_TITLE, manga.title)
+        values.put(COLUMN_LASTREAD, "-1")
+        values.put(COLUMN_LASTREADHASH, "-1")
+
         Log.i("Inserting Manga", manga.toString())
 
         if (isPresent(manga)) return
@@ -57,6 +61,8 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         values.put(COLUMN_AUTHOR, manga.author)
         values.put(COLUMN_COVER, manga.cover)
         values.put(COLUMN_TITLE, manga.title)
+        values.put(COLUMN_LASTREAD, "-1")
+        values.put(COLUMN_LASTREADHASH, "-1")
 
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * from $TABLE_NAME WHERE ($COLUMN_MANGAID = '${manga.mangaId}')", null) ?: return false
@@ -76,6 +82,20 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         db.close()
     }
 
+    fun updateManga(mangaId: String, manga: MangaWithChapter) {
+        val values = ContentValues()
+        values.put(COLUMN_MANGAID, mangaId)
+        values.put(COLUMN_AUTHOR, manga.manga.author)
+        values.put(COLUMN_COVER, manga.manga.cover)
+        values.put(COLUMN_TITLE, manga.manga.title)
+        values.put(COLUMN_LASTREAD, manga.chapter.chapterNumber.toString())
+        values.put(COLUMN_LASTREADHASH, manga.chapter.chapterHash)
+
+        val db = this.writableDatabase
+        db.update(TABLE_NAME, values, "$COLUMN_MANGAID = ?", arrayOf(mangaId))
+        db.close()
+    }
+
     fun deleteManga(mangaId: String) {
         val db = this.writableDatabase
         db.delete(TABLE_NAME, "$COLUMN_MANGAID = ?", arrayOf(mangaId))
@@ -88,7 +108,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     companion object Constants {
-        const val DATABASE_VERSION = 17
+        const val DATABASE_VERSION = 18
         const val DATABASE_NAME = "LibraryDBfile.db"
         const val TABLE_NAME = "LibraryManga"
 
@@ -96,5 +116,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         const val COLUMN_AUTHOR = "author"
         const val COLUMN_TITLE = "title"
         const val COLUMN_COVER = "cover"
+        const val COLUMN_LASTREAD = "lastread"
+        const val COLUMN_LASTREADHASH = "lastreadhash"
     }
 }

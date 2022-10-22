@@ -1,14 +1,9 @@
 package com.tsunderead.tsundoku.manga_detail
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +21,7 @@ import org.json.JSONObject
 class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
     private lateinit var libraryDBHandler : LibraryDBHelper
     private lateinit var binding: ActivityMangaDetailBinding
+    private lateinit var manga: Manga
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMangaDetailBinding.inflate(layoutInflater)
@@ -47,7 +43,7 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             Log.d("mangaID", mangaId)
         }
         libraryDBHandler = LibraryDBHelper(this, null)
-        val manga = Manga(cover!!, author!!, title!!, mangaId!!)
+        manga = Manga(cover!!, author!!, title!!, mangaId!!)
         if (libraryDBHandler.isPresent(manga)) {
             findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
         }
@@ -75,6 +71,6 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"), result.getJSONObject(key).getString("chapterId"))
             chapters.add(chapter)
         }
-        recyclerView.adapter = ChapterAdapter(chapters)
+        recyclerView.adapter = ChapterAdapter(manga, chapters)
     }
 }

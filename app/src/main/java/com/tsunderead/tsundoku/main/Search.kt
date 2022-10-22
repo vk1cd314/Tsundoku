@@ -15,6 +15,7 @@ import androidx.lifecycle.whenCreated
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -34,6 +35,7 @@ import org.json.JSONObject
 class Search : Fragment(), NetworkCaller<JSONObject> {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var view1: View
+    private lateinit var chipGroupGenre: ChipGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,8 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 
         initSearchButton()
         initRecyclerView()
+        initChipGroupGenre()
+        initToggleButtons()
 
         val callApi = MangaWithCover(this)
         callApi.execute(0)
@@ -70,7 +74,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         val adapter = CardCellAdapter(mangaList)
         binding.includedFront.exploreRecylcerView.adapter = adapter
         viewLifecycleOwner.lifecycleScope.launch {
-            initChipGroupGenre()
+//            initChipGroupGenre()
         }
     }
 
@@ -84,6 +88,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         recyclerView.layoutManager = StaggeredGridLayoutManager( 3, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.setHasFixedSize(true)
     }
+
     private fun initSearchButton () {
         val mangaSearchBox = binding.includedBack.mangaSearchBox
 
@@ -91,10 +96,10 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
             binding.includedFront.searchProgressIndicator.isIndeterminate = true
             val filterMap = HashMap<String, Array<String>>()
             if (!mangaSearchBox.text.isNullOrEmpty()) filterMap["title"] = arrayOf(mangaSearchBox.text.toString())
-            val checkedChipIds = binding.includedBack.chipGroupGenre.checkedChipIds
+            val checkedChipIds = chipGroupGenre.checkedChipIds
             val checkedChipList = Array(checkedChipIds.size){""}
             for (i in 0 until checkedChipIds.size)
-                checkedChipList[i] = binding.includedBack.chipGroupGenre.findViewById<Chip>(checkedChipIds[i]).text as String
+                checkedChipList[i] = chipGroupGenre.findViewById<Chip>(checkedChipIds[i]).text as String
             filterMap["includedTags%5B%5D"] = checkedChipList // %5B%5D = []; this is how you pass arrays
             for (key in filterMap.keys) {
                 val arr = filterMap[key]
@@ -109,28 +114,59 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         }
     }
 
-    private lateinit var chipGroupGenre: ChipGroup
+    private fun initToggleButtons () {
+
+        val includedBack = binding.includedBack
+
+        includedBack.tagToggleButtons.addOnButtonCheckedListener{ toggleButton, checkedId, isChecked ->
+            var s: Array<String> = arrayOf()
+            when (checkedId) {
+                includedBack.tagToggleFormat.id -> s = ConstData().tagListGrouped["format"]!!
+                includedBack.tagToggleGenre.id -> s = ConstData().tagListGrouped["genre"]!!
+                includedBack.tagToggleTheme.id -> s = ConstData().tagListGrouped["theme"]!!
+            }
+            chipGroupGenre.removeAllViews()
+            for(str in s) {
+                val newChip = Chip(context)
+                newChip.text = str
+                newChip.isClickable = true
+                newChip.isCheckable = true
+                newChip.chipBackgroundColor = ColorStateList(
+                    arrayOf(
+                        intArrayOf(android.R.attr.state_checked),
+                        intArrayOf(-android.R.attr.state_checked)
+                    ),
+                    intArrayOf(
+                        R.style.AppTheme,
+                        Color.parseColor("#EBEBEB")
+                    )
+                )
+                chipGroupGenre.addView(newChip)
+            }
+
+        }
+    }
 
     private fun initChipGroupGenre () {
-        chipGroupGenre = binding.mangaSearchBackdrop.findViewById(R.id.chip_group_genre)
-
-        val s = ConstData().tagList
-        for(str in s) {
-            val newChip = Chip(context)
-            newChip.text = str
-            newChip.isClickable = true
-            newChip.isCheckable = true
-            newChip.chipBackgroundColor = ColorStateList(
-                arrayOf(
-                    intArrayOf(android.R.attr.state_checked),
-                    intArrayOf(-android.R.attr.state_checked)
-                ),
-                intArrayOf(
-                    R.style.AppTheme,
-                    Color.parseColor("#EBEBEB")
-                )
-            )
-            chipGroupGenre.addView(newChip)
-        }
+        chipGroupGenre = binding.includedBack.chipGroupGenre
+//
+//        val s = ConstData().tagList
+//        for(str in s) {
+//            val newChip = Chip(context)
+//            newChip.text = str
+//            newChip.isClickable = true
+//            newChip.isCheckable = true
+//            newChip.chipBackgroundColor = ColorStateList(
+//                arrayOf(
+//                    intArrayOf(android.R.attr.state_checked),
+//                    intArrayOf(-android.R.attr.state_checked)
+//                ),
+//                intArrayOf(
+//                    R.style.AppTheme,
+//                    Color.parseColor("#EBEBEB")
+//                )
+//            )
+//            chipGroupGenre.addView(newChip)
+//        }
     }
 }

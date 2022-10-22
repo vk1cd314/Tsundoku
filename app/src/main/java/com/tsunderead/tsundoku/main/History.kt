@@ -55,7 +55,7 @@ class History : Fragment() {
     fun getHistoryData() {
         historyChapterList = ArrayList<MangaWithChapter>()
         libraryDBHandler = this@History.context?.let { LibraryDBHelper(it, null) }!!
-        val cursor = libraryDBHandler.getAllManga()
+        val cursor = libraryDBHandler.getAllMangaWithHistory()
         cursor!!.moveToFirst()
 
         while (!cursor.isAfterLast) {
@@ -70,6 +70,7 @@ class History : Fragment() {
             if (chapter.chapterHash != "-1" && chapter.chapterNumber != -1) historyChapterList.add(MangaWithChapter(manga, chapter))
             cursor.moveToNext()
         }
+        libraryDBHandler.close()
     }
 
     override fun onDestroyView() {

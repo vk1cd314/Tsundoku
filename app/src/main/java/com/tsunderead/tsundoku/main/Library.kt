@@ -77,6 +77,7 @@ class Library : Fragment() {
 
             cursor.moveToNext()
         }
+        libraryDBHandler.close()
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView = fragmentLibraryBinding?.libraryRecylerView ?: recyclerView
         recyclerView.layoutManager = layoutManager

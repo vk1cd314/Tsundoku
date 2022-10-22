@@ -30,6 +30,7 @@ class ChapterAdapter (private val manga: Manga, private val chapters: ArrayList<
             libraryDBHandler = LibraryDBHelper(it.context, null)
             val mangaWithChapter = MangaWithChapter(manga, chapters[position])
             libraryDBHandler.updateManga(manga.mangaId, mangaWithChapter)
+            libraryDBHandler.close()
             val intent = Intent(it.context, MangaReaderActivity::class.java)
             intent.putExtra("ChapterId", chapters[position].chapterHash)
             it.context.startActivity(intent)

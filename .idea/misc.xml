@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/drawable/chapter_drawer.xml" value="0.2485" />
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/drawable/profile_circle.xml" value="0.169" />
         <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/activity_new_post.xml" value="0.25" />
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/card_cell.xml" value="0.24479166666666666" />
+        <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/community_card_cell.xml" value="0.33" />
         <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/create_account.xml" value="0.33" />
         <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/forgot_pass.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/User/Desktop/Academics/appdevlab/Tsundoku/app/src/main/res/layout/fragment_community.xml" value="0.21770833333333334" />

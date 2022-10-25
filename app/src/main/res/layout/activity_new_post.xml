@@ -7,17 +7,29 @@
     android:paddingLeft="13dp"
     android:paddingTop="13dp"
     android:paddingRight="13dp"
-    tools:context=".NewPost">
+    tools:context=".community_helper.NewPost">
+
+    <TextView
+        android:id="@+id/textViewCommunityError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please Log into your account first!"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textAllCaps="true" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/txtParentPostTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Title"
-        app:endIconCheckable="false"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCommunityError"
         app:startIconDrawable="@drawable/ic_baseline_title_24">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -32,11 +44,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
-        app:endIconCheckable="false"
+        app:errorEnabled="true"
+        app:startIconDrawable="@drawable/ic_baseline_description_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtParentPostTitle"
-        app:startIconDrawable="@drawable/ic_baseline_description_24">
+        app:layout_constraintTop_toBottomOf="@id/txtParentPostTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtPostDescription"
@@ -52,7 +64,8 @@
         app:endIconCheckable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtParentPostDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/txtParentPostDescription"
+        android:contentDescription="Reference Manga" />
 
     <Button
         android:id="@+id/btnSubmitPost"

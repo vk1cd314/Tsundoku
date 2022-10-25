@@ -36,9 +36,9 @@ class MainActivity : AppCompatActivity() {
         }
         bottomNavigationView.setupWithNavController(navController)
         lifecycleScope.launch {
-            val parser = MangaSource.MANGADEX.newParser(MangaLoaderContextImpl(OkHttpClient(), AndroidCookieJar(), this@MainActivity))
+            val parser = MangaSource.MANGAREAD.newParser(MangaLoaderContextImpl(OkHttpClient(), AndroidCookieJar(), this@MainActivity))
             parser.getList(0, "One Piece").forEach {
-                Log.i("MANGAAAAA", it.title + " " + it.author)
+                Log.i("MANGAAAA", it.author + " " + it.title)
             }
         }
     }

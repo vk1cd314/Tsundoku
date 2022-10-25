@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/updates"
-        android:name="com.tsunderead.tsundoku.main.Updates"
+        android:name="com.tsunderead.tsundoku.main.Community"
         android:label="Updates"
-        tools:layout="@layout/fragment_updates"/>
+        tools:layout="@layout/fragment_community"/>
 </navigation>

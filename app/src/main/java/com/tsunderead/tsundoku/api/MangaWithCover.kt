@@ -54,11 +54,54 @@ class MangaWithCover(
                 val jsonObject = JSONObject()
                 jsonObject.put("id", manga.getString("id"))
 
-                for (name in manga.getJSONObject("attributes").getJSONObject("title").keys()) {
-                    jsonObject.put("name",
-                        manga.getJSONObject("attributes").getJSONObject("title").getString(name))
-                    break
+
+                try {
+                    jsonObject.put(
+                        "name",
+                        manga.getJSONObject("attributes").getJSONObject("title").getString("en")
+                    )
+                } catch (e: Exception) {
+                    for (nameLang in manga.getJSONObject("attributes").getJSONObject("title").keys()) {
+                        jsonObject.put(
+                            "name",
+                            manga.getJSONObject("attributes").getJSONObject("title").getString(nameLang)
+                        )
+                        break
+                    }
                 }
+
+                try {
+                    jsonObject.put(
+                        "description",
+                        manga.getJSONObject("attributes").getJSONObject("description").getString("en")
+                    )
+                } catch (e: Exception) {
+                    for (descriptionLang in manga.getJSONObject("attributes").getJSONObject("description")
+                        .keys()) {
+                        jsonObject.put(
+                            "description",
+                            manga.getJSONObject("attributes").getJSONObject("description")
+                                .getString(descriptionLang)
+                        )
+                        break
+                    }
+                }
+
+                val tags = JSONArray()
+                val tagList = manga.getJSONObject("attributes").getJSONArray("tags")
+                for (j in 0 until tagList.length()) {
+                    Log.e(tag, "$j")
+                    try {
+                        tags.put(j, tagList.getJSONObject(j).getJSONObject("attributes").getJSONObject("name").getString("en"))
+                    } catch (e: Exception) {
+                        for (tag in tagList.getJSONObject(i).getJSONObject("attributes").getJSONObject("name").keys()) {
+                            tags.put(j, tagList.getJSONObject(j).getJSONObject("attributes").getJSONObject("name").getString(tag))
+                            break;
+                        }
+                    }
+                }
+                jsonObject.put("tags", tags)
+                Log.i(tag, jsonObject.toString())
 
                 returnObj.put(i.toString(), jsonObject)
             }
@@ -124,9 +167,11 @@ class MangaWithCover(
                         ) {
 
                             @Suppress("DEPRECATION")
-                            ApiCall(this, i).execute("cover/${
-                                relationships.getJSONObject(rel).getString("id")
-                            }")
+                            ApiCall(this, i).execute(
+                                "cover/${
+                                    relationships.getJSONObject(rel).getString("id")
+                                }"
+                            )
                             break
                         }
 
@@ -174,9 +219,11 @@ class MangaWithCover(
                         if (relationships.getJSONObject(rel).getString("type").equals("author")) {
 
                             @Suppress("DEPRECATION")
-                            ApiCall(this, i).execute("author/${
-                                relationships.getJSONObject(rel).getString("id")
-                            }")
+                            ApiCall(this, i).execute(
+                                "author/${
+                                    relationships.getJSONObject(rel).getString("id")
+                                }"
+                            )
                             break
                         }
                 } catch (e: Exception) {
@@ -193,7 +240,8 @@ class MangaWithCover(
                     result.getJSONObject("data").getJSONObject("attributes").getString("name")
 
                 if (++mangaCounter == totalManga) mangaWithoutAuthor.populateWithAuthor(
-                    mangaAuthorMap)
+                    mangaAuthorMap
+                )
 
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -26,7 +26,7 @@
         tools:layout="@layout/fragment_settings"/>
     <fragment
         android:id="@+id/updates3"
-        android:name="com.tsunderead.tsundoku.main.Updates"
+        android:name="com.tsunderead.tsundoku.main.Community"
         android:label="Updates"
-        tools:layout="@layout/fragment_updates"/>
+        tools:layout="@layout/fragment_community"/>
 </navigation>

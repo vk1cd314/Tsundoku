@@ -26,13 +26,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="0" />
-        
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnCommunityAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="96dp"
             android:contentDescription="Add Post"
             app:srcCompat="@drawable/ic_baseline_add_24"/>
 

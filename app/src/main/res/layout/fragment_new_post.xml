@@ -45,4 +45,23 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ImageView
+        android:id="@+id/imgViewManga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:endIconCheckable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtParentPostDescription" />
+
+    <Button
+        android:id="@+id/btnSubmitPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Post"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgViewManga" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapterList
+import com.tsunderead.tsundoku.api.MangaWithCover
 import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.chapter.ChapterAdapter

@@ -8,7 +8,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import java.io.File
 
-class SubsamplingScaleImageViewTarget(view: SubsamplingScaleImageView)
+class ChapterImageView(view: SubsamplingScaleImageView)
     : CustomViewTarget<SubsamplingScaleImageView, File>(view) {
     override fun onResourceReady(resource: File, transition: Transition<in File>?) {
         view.setImage(ImageSource.uri(Uri.fromFile(resource)))

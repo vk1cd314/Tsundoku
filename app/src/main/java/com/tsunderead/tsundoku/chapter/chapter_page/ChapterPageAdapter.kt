@@ -25,25 +25,25 @@ class ChapterPageAdapter (private val chapterPages: ArrayList<ChapterPage>)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterPageViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = ChapterImageViewBinding.inflate(from, parent, false)
-        binding.chapterPageImageView.apply {
-            setOnTouchListener { view, event ->
-                var result = true
-                if (event.pointerCount >= 2 || view.canScrollHorizontally(1) && canScrollHorizontally(-1)) {
-                    result = when (event.action) {
-                        MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-                            parent.requestDisallowInterceptTouchEvent(true)
-                            false
-                        }
-                        MotionEvent.ACTION_UP -> {
-                            parent.requestDisallowInterceptTouchEvent(false)
-                            true
-                        }
-                        else -> true
-                    }
-                }
-                result
-            }
-        }
+//        binding.chapterPageImageView.apply {
+//            setOnTouchListener { view, event ->
+//                var result = true
+//                if (event.pointerCount >= 2 || view.canScrollHorizontally(1) && canScrollHorizontally(-1)) {
+//                    result = when (event.action) {
+//                        MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+//                            parent.requestDisallowInterceptTouchEvent(true)
+//                            false
+//                        }
+//                        MotionEvent.ACTION_UP -> {
+//                            parent.requestDisallowInterceptTouchEvent(false)
+//                            true
+//                        }
+//                        else -> true
+//                    }
+//                }
+//                result
+//            }
+//        }
         return ChapterPageViewHolder(binding)
     }
 }

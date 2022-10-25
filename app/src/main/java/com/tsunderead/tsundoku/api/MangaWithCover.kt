@@ -19,7 +19,7 @@ class MangaWithCover(
 
     fun execute(offset: Int) {
         val endpoint = "manga?limit=$limit&offset=$offset${generateFilter()}"
-        Log.i(tag, endpoint)
+//        Log.i(tag, endpoint)
         @Suppress("DEPRECATION")
         ApiCall(this).execute(endpoint)
     }
@@ -69,39 +69,6 @@ class MangaWithCover(
                         break
                     }
                 }
-
-                try {
-                    jsonObject.put(
-                        "description",
-                        manga.getJSONObject("attributes").getJSONObject("description").getString("en")
-                    )
-                } catch (e: Exception) {
-                    for (descriptionLang in manga.getJSONObject("attributes").getJSONObject("description")
-                        .keys()) {
-                        jsonObject.put(
-                            "description",
-                            manga.getJSONObject("attributes").getJSONObject("description")
-                                .getString(descriptionLang)
-                        )
-                        break
-                    }
-                }
-
-                val tags = JSONArray()
-                val tagList = manga.getJSONObject("attributes").getJSONArray("tags")
-                for (j in 0 until tagList.length()) {
-                    Log.e(tag, "$j")
-                    try {
-                        tags.put(j, tagList.getJSONObject(j).getJSONObject("attributes").getJSONObject("name").getString("en"))
-                    } catch (e: Exception) {
-                        for (tag in tagList.getJSONObject(i).getJSONObject("attributes").getJSONObject("name").keys()) {
-                            tags.put(j, tagList.getJSONObject(j).getJSONObject("attributes").getJSONObject("name").getString(tag))
-                            break;
-                        }
-                    }
-                }
-                jsonObject.put("tags", tags)
-                Log.i(tag, jsonObject.toString())
 
                 returnObj.put(i.toString(), jsonObject)
             }

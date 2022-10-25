@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku.main
+package com.tsunderead.tsundoku.parser
 
 import android.webkit.CookieManager
 import javax.inject.Inject

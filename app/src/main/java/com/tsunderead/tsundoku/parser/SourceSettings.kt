@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku.main
+package com.tsunderead.tsundoku.parser
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,7 +9,6 @@ import org.koitharu.kotatsu.parsers.model.MangaSource
 import org.koitharu.kotatsu.parsers.model.SortOrder
 
 private const val KEY_SORT_ORDER = "sort_order"
-
 
 class SourceSettings(context: Context, source: MangaSource) : MangaSourceConfig {
 

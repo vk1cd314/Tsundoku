@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -13,9 +12,8 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ActivityMainBinding
-import com.tsunderead.tsundoku.manga_card_cell.Manga
-import com.tsunderead.tsundoku.manga_card_cell.mangaList
-import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
+import com.tsunderead.tsundoku.parser.AndroidCookieJar
+import com.tsunderead.tsundoku.parser.MangaLoaderContextImpl
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import org.koitharu.kotatsu.parsers.model.MangaSource

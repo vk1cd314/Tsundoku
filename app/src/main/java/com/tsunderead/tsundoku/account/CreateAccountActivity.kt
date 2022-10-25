@@ -61,7 +61,6 @@ class CreateAccountActivity : AppCompatActivity() {
                 if (it.size() > 0) Toast.makeText(baseContext, "Email Already Registered", Toast.LENGTH_LONG).show()
                 else {
                     uniqueEmail = true
-                    // TODO change next line to if (uniqueEmail = true && uniqueUsername) to make it look cooler. don't wanna risk it now
                     if (uniqueEmail && uniqueUsername)
                         firebaseAuth()
                 }

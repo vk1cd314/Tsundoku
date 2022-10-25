@@ -3,7 +3,6 @@ package com.tsunderead.tsundoku.main
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -11,9 +10,6 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ActivityMainBinding
-import com.tsunderead.tsundoku.manga_card_cell.Manga
-import com.tsunderead.tsundoku.manga_card_cell.mangaList
-import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

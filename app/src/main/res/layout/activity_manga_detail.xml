@@ -76,12 +76,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
+                    android:ellipsize="end"
+                    android:maxLines="6"
                     android:text="AND I'M NEVER GONNA DANCE AGAIN, GUILTY FEET HAVE GOT NO RYTHM. THO IT'S EASY TO PRETEND, I KNOW YOU'RE NOT A FOOL. SHOULDVE KNOWN BETTER THAN TO CHEAT A FRIEND. WASTED CHANCE THAT IV'E BEEN GIVEN SO I'M NEVER GONNA DANCE AGAIN THE WAY I DANCED WITH SIUUUUUUUUUUUUU. *SAXOPHONE SOLO*"
                     app:layout_constraintBottom_toTopOf="@+id/author"
                     app:layout_constraintStart_toStartOf="@id/author" />
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"

@@ -78,6 +78,13 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         db.close()
     }
 
+    @SuppressLint("Recycle")
+    fun deleteHistory() {
+        val db = this.writableDatabase
+        Log.i("Trying", "To Delete")
+        db.rawQuery("UPDATE $TABLE_NAME SET $COLUMN_LASTREADHASH = -1", null)
+    }
+
     fun deleteManga(mangaId: String) {
         val db = this.writableDatabase
         db.delete(TABLE_NAME, "$COLUMN_MANGAID = ?", arrayOf(mangaId))
@@ -89,6 +96,11 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
     }
 
+    fun getOneManga(mangaId: String): Cursor? {
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COLUMN_MANGAID = ?", arrayOf(mangaId))
+    }
+
     fun getAllMangaWithHistory(): Cursor? {
         val db = this.readableDatabase
         return db.rawQuery(
@@ -98,7 +110,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     companion object Constants {
-        const val DATABASE_VERSION = 22
+        const val DATABASE_VERSION = 28
         const val DATABASE_NAME = "LibraryDBfile.db"
         const val TABLE_NAME = "LibraryManga"
 

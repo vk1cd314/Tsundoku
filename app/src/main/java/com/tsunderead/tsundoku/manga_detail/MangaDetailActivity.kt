@@ -1,5 +1,7 @@
 package com.tsunderead.tsundoku.manga_detail
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapterList
 import com.tsunderead.tsundoku.api.NetworkCaller
@@ -15,6 +18,7 @@ import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.chapter.ChapterAdapter
 import com.tsunderead.tsundoku.databinding.ActivityMangaDetailBinding
 import com.tsunderead.tsundoku.manga_card_cell.Manga
+import com.tsunderead.tsundoku.manga_reader.MangaReaderActivity
 import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 import org.json.JSONObject
 
@@ -33,11 +37,9 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         println("Title is $title")
         println("Author is $author")
         val authorId = findViewById<TextView>(R.id.author)
-        val titleId = findViewById<TextView>(R.id.title)
         val coverId = binding.mangacover
-        val cov = binding.mangaDetailAppbar.background
         authorId.text = author
-        titleId.text = title
+        binding.mangaDetailCollapsebar.title = title
         val mangaId = intent.getStringExtra("MangaID")
         if (mangaId != null) {
             Log.d("mangaID", mangaId)
@@ -45,21 +47,28 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         libraryDBHandler = LibraryDBHelper(this, null)
         manga = Manga(cover!!, author!!, title!!, mangaId!!)
         if (libraryDBHandler.isPresent(manga)) {
-            findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
+            binding.addToLibrary.setImageResource(R.drawable.ic_baseline_favorite_24)
         }
-        findViewById<ImageButton>(R.id.addToLibrary).setOnClickListener {
+        binding.addToLibrary.setOnClickListener {
             if (libraryDBHandler.isPresent(manga)) {
                 libraryDBHandler.deleteManga(manga.mangaId)
-                findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                binding.addToLibrary.setImageResource(R.drawable.ic_baseline_favorite_border_24)
             } else {
                 libraryDBHandler.insertManga(manga)
-                findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
+                binding.addToLibrary.setImageResource(R.drawable.ic_baseline_favorite_24)
             }
         }
         Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
         MangaChapterList(this, mangaId).execute(0)
+        val chip = Chip(this)
+        chip.text = "hello"
+        binding.mangaIdChipgroup.addView(chip)
+        val chip1 = Chip(this)
+        chip1.text = "noki"
+        binding.mangaIdChipgroup.addView(chip1)
     }
 
+    @SuppressLint("Range")
     override fun onCallSuccess(result: JSONObject?) {
         Log.i("MangaDetailActivity", result.toString())
         val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
@@ -72,5 +81,18 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             chapters.add(chapter)
         }
         recyclerView.adapter = ChapterAdapter(manga, chapters)
+        binding.continueReading.setOnClickListener {
+            libraryDBHandler = LibraryDBHelper(this@MangaDetailActivity, null)
+            if (libraryDBHandler.isPresent(manga)) {
+                val cursor = libraryDBHandler.getOneManga(manga.mangaId)
+                cursor!!.moveToFirst()
+                val chapterHash = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
+                if (chapterHash != "-1") {
+                    val intent = Intent(this@MangaDetailActivity, MangaReaderActivity::class.java)
+                    intent.putExtra("ChapterId", chapterHash)
+                    startActivity(intent)
+                }
+            }
+        }
     }
 }

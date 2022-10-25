@@ -2,6 +2,7 @@ package com.tsunderead.tsundoku.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ class History : Fragment() {
         fragmentHistoryBinding = binding
         return binding.root
     }
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,11 +41,23 @@ class History : Fragment() {
             //IN CASE WE NEED TO ADD NEW STUFF TO THIS MENU
             when(it.itemId){
                 R.id.delete_history -> {
+                    libraryDBHandler = this@History.context?.let { it1 -> LibraryDBHelper(it1, null) }!!
+                    libraryDBHandler.deleteHistory()
+                    libraryDBHandler.close()
                     true
                 }
                 else -> false
             }
         }
+        getHistoryData()
+        val recyclerView = fragmentHistoryBinding?.historyRecyclerview!!
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.adapter = HistoryChapterAdapter(historyChapterList)
+    }
+
+    override fun onResume() {
+        super.onResume()
         getHistoryData()
         val recyclerView = fragmentHistoryBinding?.historyRecyclerview!!
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -67,6 +81,8 @@ class History : Fragment() {
             manga.title = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE))
             chapter.chapterNumber = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt()
             chapter.chapterHash = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
+            Log.i("Manga", manga.toString())
+            Log.i("Chapter", chapter.toString())
             if (chapter.chapterHash != "-1" && chapter.chapterNumber != -1) historyChapterList.add(MangaWithChapter(manga, chapter))
             cursor.moveToNext()
         }

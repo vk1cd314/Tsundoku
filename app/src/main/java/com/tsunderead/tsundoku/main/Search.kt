@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -36,10 +37,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var view1: View
     private lateinit var chipGroupGenre: ChipGroup
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var chipFilters: MutableSet<String> = mutableSetOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -73,9 +71,6 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 
         val adapter = CardCellAdapter(mangaList)
         binding.includedFront.exploreRecylcerView.adapter = adapter
-        viewLifecycleOwner.lifecycleScope.launch {
-//            initChipGroupGenre()
-        }
     }
 
     override fun onCallFail() {
@@ -90,28 +85,70 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     }
 
     private fun initSearchButton () {
-        val mangaSearchBox = binding.includedBack.mangaSearchBox
-
-        binding.includedBack.mangaSearchButton.setOnClickListener {
-            binding.includedFront.searchProgressIndicator.isIndeterminate = true
-            val filterMap = HashMap<String, Array<String>>()
-            if (!mangaSearchBox.text.isNullOrEmpty()) filterMap["title"] = arrayOf(mangaSearchBox.text.toString())
-            val checkedChipIds = chipGroupGenre.checkedChipIds
-            val checkedChipList = Array(checkedChipIds.size){""}
-            for (i in 0 until checkedChipIds.size)
-                checkedChipList[i] = chipGroupGenre.findViewById<Chip>(checkedChipIds[i]).text as String
-            filterMap["includedTags%5B%5D"] = checkedChipList // %5B%5D = []; this is how you pass arrays
-            for (key in filterMap.keys) {
-                val arr = filterMap[key]
-                if (arr != null) {
-                    for (a in arr) Log.i(key, a)
+        binding.searchSearchView.queryHint = "Search for Manga"
+        binding.searchSearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                val filterMap = HashMap<String, Array<String>>()
+                val searchBox = binding.searchSearchView
+                if (query != null) {
+                    Log.i("Searching", query)
                 }
+                filterMap["title"] = query?.let { arrayOf(it) }!!
+                val checkedChipList = Array(chipFilters.size){""}
+                var i = 0
+                chipFilters.forEach {
+                    checkedChipList[i++] = it
+                }
+                filterMap["includedTags%5B%5D"] = checkedChipList
+                for (key in filterMap.keys) {
+                    val arr = filterMap[key]
+                    if (arr != null) {
+                        for (a in arr) Log.i(key, a)
+                    }
+                }
+                binding.mangaSearchBackdrop.close()
+                binding.includedFront.searchProgressIndicator.isIndeterminate = true
+                binding.includedFront.exploreRecylcerView.adapter = CardCellAdapter(ArrayList())
+                Log.i("Chips", "Logging Chips")
+                chipFilters.forEach {
+                    Log.i("Chips", it)
+                }
+                MangaWithCover(this@Search, filterMap).execute(0)
+                return false
             }
 
-            binding.mangaSearchBackdrop.close()
-            binding.includedFront.exploreRecylcerView.adapter = CardCellAdapter(ArrayList())
-            MangaWithCover(this, filterMap).execute(0)
-        }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    if (newText.isEmpty()) {
+                        val filterMap = HashMap<String, Array<String>>()
+                        val searchBox = binding.searchSearchView
+                        Log.i("Searching", newText)
+                        filterMap["title"] = arrayOf(newText)
+                        val checkedChipList = Array(chipFilters.size) { "" }
+                        var i = 0
+                        chipFilters.forEach {
+                            checkedChipList[i++] = it
+                        }
+                        filterMap["includedTags%5B%5D"] = checkedChipList
+                        for (key in filterMap.keys) {
+                            val arr = filterMap[key]
+                            if (arr != null) {
+                                for (a in arr) Log.i(key, a)
+                            }
+                        }
+                        binding.mangaSearchBackdrop.close()
+                        binding.includedFront.searchProgressIndicator.isIndeterminate = true
+                        binding.includedFront.exploreRecylcerView.adapter = CardCellAdapter(ArrayList())
+                        Log.i("Chips", "Logging Chips")
+                        chipFilters.forEach {
+                            Log.i("Chips", it)
+                        }
+                        MangaWithCover(this@Search, filterMap).execute(0)
+                    }
+                }
+                return false
+            }
+        })
     }
 
     private fun initToggleButtons () {
@@ -125,6 +162,9 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                 newChip.text = str
                 newChip.isClickable = true
                 newChip.isCheckable = true
+                if (chipFilters.contains(str)) {
+                    newChip.isChecked = true
+                }
                 newChip.chipBackgroundColor = ColorStateList(
                     arrayOf(
                         intArrayOf(android.R.attr.state_checked),
@@ -135,6 +175,14 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                         Color.parseColor("#EBEBEB")
                     )
                 )
+
+                newChip.setOnClickListener {
+                    if (chipFilters.contains(str)) {
+                        chipFilters.remove(str)
+                    } else {
+                        chipFilters.add(str)
+                    }
+                }
                 chipGroupGenre.addView(newChip)
             }
         }
@@ -146,6 +194,9 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                 newChip.text = str
                 newChip.isClickable = true
                 newChip.isCheckable = true
+                if (chipFilters.contains(str)) {
+                    newChip.isChecked = true
+                }
                 newChip.chipBackgroundColor = ColorStateList(
                     arrayOf(
                         intArrayOf(android.R.attr.state_checked),
@@ -156,6 +207,14 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                         Color.parseColor("#EBEBEB")
                     )
                 )
+
+                newChip.setOnClickListener {
+                    if (chipFilters.contains(str)) {
+                        chipFilters.remove(str)
+                    } else {
+                        chipFilters.add(str)
+                    }
+                }
                 chipGroupGenre.addView(newChip)
             }
         }
@@ -167,6 +226,9 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                 newChip.text = str
                 newChip.isClickable = true
                 newChip.isCheckable = true
+                if (chipFilters.contains(str)) {
+                    newChip.isChecked = true
+                }
                 newChip.chipBackgroundColor = ColorStateList(
                     arrayOf(
                         intArrayOf(android.R.attr.state_checked),
@@ -177,6 +239,14 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                         Color.parseColor("#EBEBEB")
                     )
                 )
+
+                newChip.setOnClickListener {
+                    if (chipFilters.contains(str)) {
+                        chipFilters.remove(str)
+                    } else {
+                        chipFilters.add(str)
+                    }
+                }
                 chipGroupGenre.addView(newChip)
             }
         }

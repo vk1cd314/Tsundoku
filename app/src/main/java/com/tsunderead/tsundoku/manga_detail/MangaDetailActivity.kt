@@ -30,9 +30,9 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         val cover = intent.getStringExtra("Cover")
         val author = intent.getStringExtra("Author")
         val title = intent.getStringExtra("Title")
-        println("Cover is $cover")
-        println("Title is $title")
-        println("Author is $author")
+//        println("Cover is $cover")
+//        println("Title is $title")
+//        println("Author is $author")
         val authorId = findViewById<TextView>(R.id.author)
         val coverId = binding.mangacover
         authorId.text = author
@@ -66,15 +66,17 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
     }
 
     override fun onCallSuccess(result: JSONObject?) {
-        Log.i("MangaDetailActivity", result.toString())
+//        Log.i("MangaDetailActivity", result.toString())
         val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
         val layoutManager = LinearLayoutManager(this@MangaDetailActivity)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         val chapters = ArrayList<Chapter>()
         for (key in result!!.keys()) {
-            val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"), result.getJSONObject(key).getString("chapterId"))
-            chapters.add(chapter)
+            if (key.toIntOrNull() != null){
+                val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"), result.getJSONObject(key).getString("chapterId"))
+                chapters.add(chapter)
+            }
         }
         recyclerView.adapter = ChapterAdapter(manga, chapters)
     }

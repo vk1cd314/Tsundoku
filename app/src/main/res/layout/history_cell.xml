@@ -26,12 +26,12 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.067"
-                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintStart_toEndOf="@+id/mangaHistoryImageView"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.202" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/mangaHistoryImageView"
                 android:layout_width="88dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/imageview"
@@ -55,7 +55,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintStart_toEndOf="@+id/mangaHistoryImageView"
                 app:layout_constraintTop_toBottomOf="@+id/mangaNameTextView"
                 app:layout_constraintVertical_bias="0.428" />
 
@@ -63,8 +63,7 @@
                 android:id="@+id/resumeChapterButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/ic_baseline_favorite_24"
-                style="?attr/materialButtonStyle"
+                android:text="@string/resume"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.68"

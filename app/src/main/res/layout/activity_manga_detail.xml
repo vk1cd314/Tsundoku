@@ -5,67 +5,103 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="22"
+    android:background="@color/md_theme_light_inversePrimary"
     tools:context=".manga_detail.MangaDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/mangaDetailAppbar"
+        android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:fitsSystemWindows="true"
-        >
+        android:fitsSystemWindows="true">
+
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/mangaDetailCollapsebar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:title="Title Goes here">
+
             <ImageView
                 android:id="@+id/mangacover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                />
+                app:layout_collapseMode="parallax" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/detailgradient">
+                android:src="@drawable/detailgradient"
+                app:layout_collapseMode="parallax">
 
             </ImageView>
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:lines="2"
-                    android:text="TITLE"
-                    android:textSize="36dp"
-                    app:layout_constraintEnd_toStartOf="@+id/addToLibrary"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
                     android:id="@+id/author"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="50dp"
                     android:lines="1"
                     android:text="Author"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title" />
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageButton
                     android:id="@+id/addToLibrary"
                     android:layout_width="86dp"
                     android:layout_height="82dp"
+                    android:contentDescription="TODO"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_favorite_border_24"
-                    android:contentDescription="TODO" />
+                    app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+
+                <TextView
+                    android:id="@+id/MangaDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:text="AND I'M NEVER GONNA DANCE AGAIN, GUILTY FEET HAVE GOT NO RYTHM. THO IT'S EASY TO PRETEND, I KNOW YOU'RE NOT A FOOL. SHOULDVE KNOWN BETTER THAN TO CHEAT A FRIEND. WASTED CHANCE THAT IV'E BEEN GIVEN SO I'M NEVER GONNA DANCE AGAIN THE WAY I DANCED WITH YOUUUUUUUUUUUUU. *SAXOPHONE SOLO*"
+                    app:layout_constraintBottom_toTopOf="@+id/author"
+                    app:layout_constraintStart_toStartOf="@id/author" />
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/textView5">
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/mangaIdChipgroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        > </com.google.android.material.chip.ChipGroup>
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Description"
+                    app:layout_constraintBottom_toTopOf="@+id/MangaDescription"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -73,19 +109,27 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/chapter_drawer"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/pullThing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_round_remove_24"/>
             <TextView
                 android:id="@+id/text_view3"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:text="Chapters"
-                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/pullThing"
                 app:layout_constraintBottom_toTopOf="@+id/chapterRecyclerView"
-                android:textSize="30sp"/>
+                android:textSize="25sp"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/chapterRecyclerView"
                 android:layout_height="match_parent"

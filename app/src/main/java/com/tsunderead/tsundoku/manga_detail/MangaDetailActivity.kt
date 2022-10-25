@@ -1,18 +1,14 @@
 package com.tsunderead.tsundoku.manga_detail
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapterList
 import com.tsunderead.tsundoku.api.NetworkCaller
@@ -26,6 +22,7 @@ import org.json.JSONObject
 class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
     private lateinit var libraryDBHandler : LibraryDBHelper
     private lateinit var binding: ActivityMangaDetailBinding
+    private lateinit var manga: Manga
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMangaDetailBinding.inflate(layoutInflater)
@@ -37,17 +34,15 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         println("Title is $title")
         println("Author is $author")
         val authorId = findViewById<TextView>(R.id.author)
-        val titleId = findViewById<TextView>(R.id.title)
         val coverId = binding.mangacover
-        val cov = binding.mangaDetailAppbar.background
         authorId.text = author
-        titleId.text = title
+        binding.mangaDetailCollapsebar.title = title
         val mangaId = intent.getStringExtra("MangaID")
         if (mangaId != null) {
             Log.d("mangaID", mangaId)
         }
         libraryDBHandler = LibraryDBHelper(this, null)
-        val manga = Manga(cover!!, author!!, title!!, mangaId!!)
+        manga = Manga(cover!!, author!!, title!!, mangaId!!)
         if (libraryDBHandler.isPresent(manga)) {
             findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
         }
@@ -62,6 +57,12 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         }
         Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
         MangaChapterList(this, mangaId).execute(0)
+        val chip = Chip(this)
+        chip.text = "hello"
+        binding.mangaIdChipgroup.addView(chip)
+        val chip1 = Chip(this)
+        chip1.text = "noki"
+        binding.mangaIdChipgroup.addView(chip1)
     }
 
     override fun onCallSuccess(result: JSONObject?) {
@@ -75,6 +76,6 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"), result.getJSONObject(key).getString("chapterId"))
             chapters.add(chapter)
         }
-        recyclerView.adapter = ChapterAdapter(chapters)
+        recyclerView.adapter = ChapterAdapter(manga, chapters)
     }
 }

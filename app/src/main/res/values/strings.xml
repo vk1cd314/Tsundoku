@@ -26,4 +26,6 @@
     <string name="imageview">ImageView</string>
     <string name="textview1">TextView</string>
     <string name="MaterialButton">Button</string>
+    <string name="resume">Resume</string>
+    <string name="search4">Search</string>
 </resources>

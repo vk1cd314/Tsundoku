@@ -61,17 +61,11 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         }
         Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
         MangaChapterList(this, mangaId).execute(0)
-        val chip = Chip(this)
-        chip.text = "hello"
-        binding.mangaIdChipgroup.addView(chip)
-        val chip1 = Chip(this)
-        chip1.text = "noki"
-        binding.mangaIdChipgroup.addView(chip1)
     }
 
     @SuppressLint("Range")
     override fun onCallSuccess(result: JSONObject?) {
-//        Log.i("MangaDetailActivity", result.toString())
+        Log.i("MangaDetailActivity", result.toString())
         val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
         val layoutManager = LinearLayoutManager(this@MangaDetailActivity)
         recyclerView.layoutManager = layoutManager
@@ -83,6 +77,16 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
                 chapters.add(chapter)
             }
         }
+        val res = result.getJSONArray("tags")
+        for (i in 0 until res.length()) {
+            Log.i("J son", res.getString(i).toString())
+            val chip = Chip(this@MangaDetailActivity)
+            chip.text = res.getString(i)
+            binding.mangaIdChipgroup.addView(chip)
+        }
+        val details = result.getString("description")
+        Log.i("DEEETS", details)
+        binding.MangaDescription.text = details
         recyclerView.adapter = ChapterAdapter(manga, chapters)
         binding.continueReading.setOnClickListener {
             libraryDBHandler = LibraryDBHelper(this@MangaDetailActivity, null)

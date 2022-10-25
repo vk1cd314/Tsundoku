@@ -1,5 +1,7 @@
 package com.tsunderead.tsundoku.manga_detail
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +18,7 @@ import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.chapter.ChapterAdapter
 import com.tsunderead.tsundoku.databinding.ActivityMangaDetailBinding
 import com.tsunderead.tsundoku.manga_card_cell.Manga
+import com.tsunderead.tsundoku.manga_reader.MangaReaderActivity
 import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 import org.json.JSONObject
 
@@ -44,15 +47,15 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         libraryDBHandler = LibraryDBHelper(this, null)
         manga = Manga(cover!!, author!!, title!!, mangaId!!)
         if (libraryDBHandler.isPresent(manga)) {
-            findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
+            binding.addToLibrary.setImageResource(R.drawable.ic_baseline_favorite_24)
         }
-        findViewById<ImageButton>(R.id.addToLibrary).setOnClickListener {
+        binding.addToLibrary.setOnClickListener {
             if (libraryDBHandler.isPresent(manga)) {
                 libraryDBHandler.deleteManga(manga.mangaId)
-                findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                binding.addToLibrary.setImageResource(R.drawable.ic_baseline_favorite_border_24)
             } else {
                 libraryDBHandler.insertManga(manga)
-                findViewById<ImageButton>(R.id.addToLibrary).setImageResource(R.drawable.ic_baseline_favorite_24)
+                binding.addToLibrary.setImageResource(R.drawable.ic_baseline_favorite_24)
             }
         }
         Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
@@ -65,6 +68,7 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         binding.mangaIdChipgroup.addView(chip1)
     }
 
+    @SuppressLint("Range")
     override fun onCallSuccess(result: JSONObject?) {
         Log.i("MangaDetailActivity", result.toString())
         val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
@@ -77,5 +81,18 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             chapters.add(chapter)
         }
         recyclerView.adapter = ChapterAdapter(manga, chapters)
+        binding.continueReading.setOnClickListener {
+            libraryDBHandler = LibraryDBHelper(this@MangaDetailActivity, null)
+            if (libraryDBHandler.isPresent(manga)) {
+                val cursor = libraryDBHandler.getOneManga(manga.mangaId)
+                cursor!!.moveToFirst()
+                val chapterHash = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
+                if (chapterHash != "-1") {
+                    val intent = Intent(this@MangaDetailActivity, MangaReaderActivity::class.java)
+                    intent.putExtra("ChapterId", chapterHash)
+                    startActivity(intent)
+                }
+            }
+        }
     }
 }

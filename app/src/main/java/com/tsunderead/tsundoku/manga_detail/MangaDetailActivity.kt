@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapterList
 import com.tsunderead.tsundoku.api.NetworkCaller
@@ -33,11 +34,9 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         println("Title is $title")
         println("Author is $author")
         val authorId = findViewById<TextView>(R.id.author)
-        val titleId = findViewById<TextView>(R.id.title)
         val coverId = binding.mangacover
-        val cov = binding.mangaDetailAppbar.background
         authorId.text = author
-        titleId.text = title
+        binding.mangaDetailCollapsebar.title = title
         val mangaId = intent.getStringExtra("MangaID")
         if (mangaId != null) {
             Log.d("mangaID", mangaId)
@@ -58,6 +57,12 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         }
         Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
         MangaChapterList(this, mangaId).execute(0)
+        val chip = Chip(this)
+        chip.text = "hello"
+        binding.mangaIdChipgroup.addView(chip)
+        val chip1 = Chip(this)
+        chip1.text = "noki"
+        binding.mangaIdChipgroup.addView(chip1)
     }
 
     override fun onCallSuccess(result: JSONObject?) {

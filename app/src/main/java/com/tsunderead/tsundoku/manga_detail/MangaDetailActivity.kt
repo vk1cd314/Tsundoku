@@ -58,7 +58,7 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             //updating icon
             inLibrary.setIcon(R.drawable.ic_sharp_check_24)
         }
-
+        var liked: Boolean = false
         binding.DescToolBar.setOnMenuItemClickListener{
             when(it.itemId){
                 R.id.add2Library -> {
@@ -73,11 +73,19 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
                     true
                 }
                 R.id.shareManga ->{
+
                     true
                 }
                 R.id.likeManga -> {
                     val likeButton = binding.DescToolBar.menu.findItem(R.id.likeManga)
-                    likeButton.setIcon(R.drawable.ic_baseline_favorite_24)
+                    if(!liked) {
+                        likeButton.setIcon(R.drawable.ic_baseline_favorite_24)
+                        liked = true
+                    }
+                    else{
+                        likeButton.setIcon(R.drawable.ic_baseline_favorite_border_24)
+                        liked = false
+                    }
                     true
                 }
                 else -> false

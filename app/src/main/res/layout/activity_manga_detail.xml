@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="22"
-    android:background="@color/md_theme_light_inversePrimary"
+    android:background="@color/seed"
     tools:context=".manga_detail.MangaDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:fitsSystemWindows="true"
+
         >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -20,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="Title Goes here">
 
@@ -58,7 +60,9 @@
                     android:layout_marginBottom="50dp"
                     android:lines="1"
                     android:text="Author"
-                    android:textSize="15sp"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -74,7 +78,8 @@
                     android:maxLines="6"
                     android:text="AND I'M NEVER GONNA DANCE AGAIN, GUILTY FEET HAVE GOT NO RYTHM. THO IT'S EASY TO PRETEND, I KNOW YOU'RE NOT A FOOL. SHOULDVE KNOWN BETTER THAN TO CHEAT A FRIEND. WASTED CHANCE THAT IV'E BEEN GIVEN SO I'M NEVER GONNA DANCE AGAIN THE WAY I DANCED WITH SIUUUUUUUUUUUUU. *SAXOPHONE SOLO*"
                     app:layout_constraintBottom_toTopOf="@+id/author"
-                    app:layout_constraintStart_toStartOf="@id/author" />
+                    app:layout_constraintStart_toStartOf="@id/author"
+                    android:textColor="#ffffff"/>
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -96,6 +101,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="Description"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/MangaDescription"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

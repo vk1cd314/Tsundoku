@@ -43,13 +43,14 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         val coverId = binding.mangacover
         authorId.text = author
         binding.mangaDetailCollapsebar.title = title
+        binding.DescToolBar.inflateMenu(R.menu.detail_top_bar)
         //finding icon
         val inLibrary = binding.DescToolBar.menu.findItem(R.id.add2Library)
         val mangaId = intent.getStringExtra("MangaID")
         if (mangaId != null) {
             Log.d("mangaID", mangaId)
         }
-        binding.DescToolBar.inflateMenu(R.menu.detail_top_bar)
+
         libraryDBHandler = LibraryDBHelper(this, null)
         manga = Manga(cover!!, author!!, title!!, mangaId!!)
 
@@ -62,19 +63,21 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             when(it.itemId){
                 R.id.add2Library -> {
                     //bugs for some reason
-//                    if (libraryDBHandler.isPresent(manga)) {
-//                        libraryDBHandler.deleteManga(manga.mangaId)
-//                        inLibrary.setIcon(R.drawable.ic_sharp_add_24)
-//                    } else {
-//                        libraryDBHandler.insertManga(manga)
-//                        inLibrary.setIcon(R.drawable.ic_sharp_check_24)
-//                    }
+                    if (libraryDBHandler.isPresent(manga)) {
+                        libraryDBHandler.deleteManga(manga.mangaId)
+                        inLibrary.setIcon(R.drawable.ic_sharp_add_24)
+                    } else {
+                        libraryDBHandler.insertManga(manga)
+                        inLibrary.setIcon(R.drawable.ic_sharp_check_24)
+                    }
                     true
                 }
                 R.id.shareManga ->{
                     true
                 }
                 R.id.likeManga -> {
+                    val likeButton = binding.DescToolBar.menu.findItem(R.id.likeManga)
+                    likeButton.setIcon(R.drawable.ic_baseline_favorite_24)
                     true
                 }
                 else -> false

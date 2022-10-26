@@ -82,7 +82,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/author"
                     app:layout_constraintStart_toStartOf="@id/author" />
 
-                <LinearLayout
+                <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -90,9 +90,10 @@
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/mangaIdChipgroup"
+                        app:singleLine="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-                </LinearLayout>
+                </HorizontalScrollView>
 
 
                 <TextView

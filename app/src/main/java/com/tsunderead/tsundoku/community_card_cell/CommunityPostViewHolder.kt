@@ -16,9 +16,13 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
         communityPostBinding.textViewVoteCounter.text = post.voteCount.toString()
 
         communityPostBinding.btnCommunityUpdoot.setOnClickListener {
+            val voteCount = ((communityPostBinding.textViewVoteCounter.text as String).toInt() + 1).toString()
+            communityPostBinding.textViewVoteCounter.text = voteCount
             post.docRef.update("vote", FieldValue.increment(1))
         }
         communityPostBinding.btnCommunityDownvote.setOnClickListener {
+            val voteCount = ((communityPostBinding.textViewVoteCounter.text as String).toInt() - 1).toString()
+            communityPostBinding.textViewVoteCounter.text = voteCount
             post.docRef.update("vote", FieldValue.increment(-1))
         }
     }

@@ -10,5 +10,5 @@ data class CommunityPost(
     val title: String,
     val description: String,
     val timestamp: String,
-    val voteCount: Int
+    var voteCount: Int
 )

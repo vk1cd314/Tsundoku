@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.view.forEach
+import androidx.core.view.iterator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -41,24 +43,44 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         val coverId = binding.mangacover
         authorId.text = author
         binding.mangaDetailCollapsebar.title = title
+        //finding icon
+        val inLibrary = binding.DescToolBar.menu.findItem(R.id.add2Library)
         val mangaId = intent.getStringExtra("MangaID")
         if (mangaId != null) {
             Log.d("mangaID", mangaId)
         }
+        binding.DescToolBar.inflateMenu(R.menu.detail_top_bar)
         libraryDBHandler = LibraryDBHelper(this, null)
         manga = Manga(cover!!, author!!, title!!, mangaId!!)
+
         if (libraryDBHandler.isPresent(manga)) {
-            binding.addToLibrary.setImageResource(R.drawable.ic_baseline_favorite_24)
+            //updating icon
+            inLibrary.setIcon(R.drawable.ic_sharp_check_24)
         }
-        binding.addToLibrary.setOnClickListener {
-            if (libraryDBHandler.isPresent(manga)) {
-                libraryDBHandler.deleteManga(manga.mangaId)
-                binding.addToLibrary.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-            } else {
-                libraryDBHandler.insertManga(manga)
-                binding.addToLibrary.setImageResource(R.drawable.ic_baseline_favorite_24)
+
+        binding.DescToolBar.setOnMenuItemClickListener{
+            when(it.itemId){
+                R.id.add2Library -> {
+                    //bugs for some reason
+//                    if (libraryDBHandler.isPresent(manga)) {
+//                        libraryDBHandler.deleteManga(manga.mangaId)
+//                        inLibrary.setIcon(R.drawable.ic_sharp_add_24)
+//                    } else {
+//                        libraryDBHandler.insertManga(manga)
+//                        inLibrary.setIcon(R.drawable.ic_sharp_check_24)
+//                    }
+                    true
+                }
+                R.id.shareManga ->{
+                    true
+                }
+                R.id.likeManga -> {
+                    true
+                }
+                else -> false
             }
         }
+
         Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
         MangaChapterList(this, mangaId).execute(0)
     }

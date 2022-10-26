@@ -40,6 +40,7 @@
             </ImageView>
 
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/DescToolBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"/>
@@ -62,14 +63,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <ImageButton
-                    android:id="@+id/addToLibrary"
-                    android:layout_width="86dp"
-                    android:layout_height="82dp"
-                    android:contentDescription="TODO"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+
 
                 <TextView
                     android:id="@+id/MangaDescription"

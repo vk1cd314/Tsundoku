@@ -4,7 +4,7 @@
     <gradient
         android:angle="90"
         android:endColor="#00ffffff"
-        android:startColor="@color/md_theme_light_inversePrimary" />
+        android:startColor="@color/seed" />
 
     <corners android:radius="0dp" />
 </shape>

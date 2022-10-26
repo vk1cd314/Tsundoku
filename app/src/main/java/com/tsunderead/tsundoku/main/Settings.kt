@@ -15,10 +15,6 @@ import com.tsunderead.tsundoku.R
 class Settings : Fragment(R.layout.fragment_settings) {
     private lateinit var viewOfLayout: View
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +35,7 @@ class Settings : Fragment(R.layout.fragment_settings) {
             val intent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
                 val stringarr = arrayOf("mdnokib2000@gmail.com")
-                putExtra(Intent. EXTRA_EMAIL, stringarr)
+                putExtra(Intent.EXTRA_EMAIL, stringarr)
                 putExtra(Intent.EXTRA_SUBJECT, "Tsundoku Bug")
             }
             try{

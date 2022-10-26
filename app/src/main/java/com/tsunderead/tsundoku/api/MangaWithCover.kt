@@ -19,7 +19,7 @@ class MangaWithCover(
 
     fun execute(offset: Int) {
         val endpoint = "manga?limit=$limit&offset=$offset${generateFilter()}"
-        Log.i(tag, endpoint)
+//        Log.i(tag, endpoint)
         @Suppress("DEPRECATION")
         ApiCall(this).execute(endpoint)
     }
@@ -54,10 +54,20 @@ class MangaWithCover(
                 val jsonObject = JSONObject()
                 jsonObject.put("id", manga.getString("id"))
 
-                for (name in manga.getJSONObject("attributes").getJSONObject("title").keys()) {
-                    jsonObject.put("name",
-                        manga.getJSONObject("attributes").getJSONObject("title").getString(name))
-                    break
+
+                try {
+                    jsonObject.put(
+                        "name",
+                        manga.getJSONObject("attributes").getJSONObject("title").getString("en")
+                    )
+                } catch (e: Exception) {
+                    for (nameLang in manga.getJSONObject("attributes").getJSONObject("title").keys()) {
+                        jsonObject.put(
+                            "name",
+                            manga.getJSONObject("attributes").getJSONObject("title").getString(nameLang)
+                        )
+                        break
+                    }
                 }
 
                 returnObj.put(i.toString(), jsonObject)
@@ -124,9 +134,11 @@ class MangaWithCover(
                         ) {
 
                             @Suppress("DEPRECATION")
-                            ApiCall(this, i).execute("cover/${
-                                relationships.getJSONObject(rel).getString("id")
-                            }")
+                            ApiCall(this, i).execute(
+                                "cover/${
+                                    relationships.getJSONObject(rel).getString("id")
+                                }"
+                            )
                             break
                         }
 
@@ -174,9 +186,11 @@ class MangaWithCover(
                         if (relationships.getJSONObject(rel).getString("type").equals("author")) {
 
                             @Suppress("DEPRECATION")
-                            ApiCall(this, i).execute("author/${
-                                relationships.getJSONObject(rel).getString("id")
-                            }")
+                            ApiCall(this, i).execute(
+                                "author/${
+                                    relationships.getJSONObject(rel).getString("id")
+                                }"
+                            )
                             break
                         }
                 } catch (e: Exception) {
@@ -193,7 +207,8 @@ class MangaWithCover(
                     result.getJSONObject("data").getJSONObject("attributes").getString("name")
 
                 if (++mangaCounter == totalManga) mangaWithoutAuthor.populateWithAuthor(
-                    mangaAuthorMap)
+                    mangaAuthorMap
+                )
 
             } catch (e: Exception) {
                 e.printStackTrace()

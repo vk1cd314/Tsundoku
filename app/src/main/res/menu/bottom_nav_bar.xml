@@ -4,8 +4,8 @@
     <item android:title="@string/library"
         android:id="@+id/library3"
         android:icon="@drawable/ic_outline_library_books_24"/>
-    <item android:title="@string/updates"
-        android:id="@+id/updates3"
+    <item android:title="Community"
+        android:id="@+id/Community3"
         android:icon="@drawable/ic_outline_new_releases_24"/>
     <item android:title="@string/search"
         android:id="@+id/search3"

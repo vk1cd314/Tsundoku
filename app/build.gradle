@@ -81,6 +81,8 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view-androidx:3.10.0'
+    implementation 'com.faltenreich:skeletonlayout:4.0.0'
 }
 
 kapt {

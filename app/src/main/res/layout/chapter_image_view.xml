@@ -5,10 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.ortiz.touchview.TouchImageView
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
         android:id="@+id/chapterPageImageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:src="@drawable/ginnosaji"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>

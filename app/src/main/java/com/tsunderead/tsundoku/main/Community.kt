@@ -9,9 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.community_card_cell.CommunityPost
 import com.tsunderead.tsundoku.community_card_cell.CommunityPostAdapter
 import com.tsunderead.tsundoku.community_helper.NewPost
@@ -20,6 +23,7 @@ import com.tsunderead.tsundoku.databinding.FragmentCommunityBinding
 class Community : Fragment() {
 
     private lateinit var binding: FragmentCommunityBinding
+    private lateinit var skeleton: Skeleton
     private val db = Firebase.firestore
 
     @SuppressLint("ClickableViewAccessibility")
@@ -41,6 +45,8 @@ class Community : Fragment() {
         binding.rViewCommunity.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rViewCommunity.setHasFixedSize(false)
 
+        skeleton = binding.rViewCommunity.applySkeleton(R.layout.community_card_cell)
+        skeleton.showSkeleton()
         getPost()
     }
 
@@ -67,8 +73,7 @@ class Community : Fragment() {
                     postList.add(communityPost)
                 }
 
-                for (list in postList)
-                        Log.i("Thing", list.toString())
+                skeleton.showOriginal()
                 binding.rViewCommunity.adapter = CommunityPostAdapter(postList)
             }
             .addOnFailureListener {

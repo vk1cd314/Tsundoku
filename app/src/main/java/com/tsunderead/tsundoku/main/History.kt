@@ -7,7 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.applySkeleton
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.databinding.FragmentHistoryBinding
@@ -15,11 +19,15 @@ import com.tsunderead.tsundoku.history.HistoryChapterAdapter
 import com.tsunderead.tsundoku.history.MangaWithChapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class History : Fragment() {
     private var fragmentHistoryBinding: FragmentHistoryBinding? = null
     private lateinit var libraryDBHandler : LibraryDBHelper
     private lateinit var historyChapterList: ArrayList<MangaWithChapter>
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var skeleton: Skeleton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,24 +58,25 @@ class History : Fragment() {
                 else -> false
             }
         }
-        getHistoryData()
-        val recyclerView = fragmentHistoryBinding?.historyRecyclerview!!
+        recyclerView = fragmentHistoryBinding?.historyRecyclerview!!
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = HistoryChapterAdapter(historyChapterList)
+        skeleton = recyclerView.applySkeleton(R.layout.history_cell)
+        skeleton.showSkeleton()
+        lifecycleScope.launch {
+            getHistoryData()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        getHistoryData()
-        val recyclerView = fragmentHistoryBinding?.historyRecyclerview!!
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = HistoryChapterAdapter(historyChapterList)
+        lifecycleScope.launch {
+            getHistoryData()
+        }
     }
 
     @SuppressLint("UseRequireInsteadOfGet", "Range")
-    fun getHistoryData() {
+    suspend fun getHistoryData() {
         historyChapterList = ArrayList<MangaWithChapter>()
         libraryDBHandler = this@History.context?.let { LibraryDBHelper(it, null) }!!
         val cursor = libraryDBHandler.getAllMangaWithHistory()
@@ -88,6 +97,9 @@ class History : Fragment() {
             cursor.moveToNext()
         }
         libraryDBHandler.close()
+        delay(500)
+        skeleton.showOriginal()
+        recyclerView.adapter = HistoryChapterAdapter(historyChapterList)
     }
 
     override fun onDestroyView() {

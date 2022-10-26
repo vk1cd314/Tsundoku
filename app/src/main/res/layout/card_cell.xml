@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.faltenreich.skeletonlayout.SkeletonLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/skeletonLibraryCard"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardview"
+    android:layout_height="wrap_content">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:clickable="true"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="7dp">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:ignore="UseCompoundDrawables">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="7dp">
 
-            <ImageView
-                android:id="@+id/mangacover"
+            <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/cover"
-                android:src="@drawable/samplecover1" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:lines="2"
-                android:text="@string/lorem_ipsum"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/mangacover"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/cover"
+                    android:src="@drawable/samplecover1" />
 
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:lines="2"
+                    android:text="@string/lorem_ipsum"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-</LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</com.faltenreich.skeletonlayout.SkeletonLayout>

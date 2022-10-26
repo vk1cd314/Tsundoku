@@ -48,36 +48,42 @@ class Library : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        (activity as AppCompatActivity?)!!.setSupportActionBar(fragmentLibraryBinding?.libraryToolbar as Toolbar?)
+//        (activity as AppCompatActivity?)!!.setHas
         fragmentLibraryBinding?.libraryToolbar?.inflateMenu(R.menu.library_toolbar_menu)
         fragmentLibraryBinding?.libraryToolbar?.title = "Library"
+        val searchButton = fragmentLibraryBinding?.libraryToolbar?.menu?.findItem(R.id.library_search)?.actionView as SearchView
+        searchButton.queryHint = "Search"
+        searchButton.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // filter here
+                if (newText != null) {
+                    filter(newText)
+                }
+                return false
+            }
+        })
         fragmentLibraryBinding?.libraryToolbar?.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.library_search -> {
                     Log.i("Inside", "Lib search")
-                    val searchButton = it.actionView as SearchView
-                    searchButton.queryHint = "Search"
-                    searchButton.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                        override fun onQueryTextSubmit(query: String?): Boolean {
-                            return false
-                        }
-                        override fun onQueryTextChange(newText: String?): Boolean {
-                            // filter here
-                            if (newText != null) {
-                                filter(newText)
-                            }
-                            return false
-                        }
-                    })
-                    true
+                    false
                 }
-                else -> false
+                R.id.refresh_library -> {
+                    Log.i("ANOTHER BUTTON", "BUTTON")
+                    false
+                }
+                else -> {
+                    Log.i("SOMETHING ELSE", "BRUH")
+                    false
+                }
             }
         }
         setRecyclerViewAdapter()
         dataInit()
     }
-
 
     override fun onResume() {
         super.onResume()

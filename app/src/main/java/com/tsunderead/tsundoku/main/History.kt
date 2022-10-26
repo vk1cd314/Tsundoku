@@ -41,6 +41,7 @@ class History : Fragment() {
             //IN CASE WE NEED TO ADD NEW STUFF TO THIS MENU
             when(it.itemId){
                 R.id.delete_history -> {
+                    Log.i("Delete", "History")
                     libraryDBHandler = this@History.context?.let { it1 -> LibraryDBHelper(it1, null) }!!
                     libraryDBHandler.deleteHistory()
                     libraryDBHandler.close()

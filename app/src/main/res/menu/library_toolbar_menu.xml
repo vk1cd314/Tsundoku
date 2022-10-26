@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title="@string/search_library"
-        android:id="@+id/library_search"
-        android:icon="@drawable/ic_sharp_search_24"
-        app:showAsAction="always"
-        app:actionViewClass="android.widget.SearchView"
-        />
     <item android:title="@string/library_sort"
         android:id="@+id/library_sort"
         android:icon="@drawable/ic_sharp_sort_24"
@@ -16,5 +10,11 @@
         android:id="@+id/refresh_library"
         android:icon="@drawable/ic_sharp_refresh_24"
         app:showAsAction="ifRoom"
+        />
+    <item android:title="@string/search_library"
+        android:id="@+id/library_search"
+        android:icon="@drawable/ic_sharp_search_24"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         />
 </menu>

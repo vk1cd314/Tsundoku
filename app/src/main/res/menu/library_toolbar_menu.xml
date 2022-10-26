@@ -5,6 +5,7 @@
         android:id="@+id/library_search"
         android:icon="@drawable/ic_sharp_search_24"
         app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView"
         />
     <item android:title="@string/library_sort"
         android:id="@+id/library_sort"

@@ -12,6 +12,8 @@ class ChapterPageViewHolder(private val chapterPageBinding: ChapterImageViewBind
     @SuppressLint("ClickableViewAccessibility")
     fun bindChapter(chapterPage: ChapterPage, chapterPageViewHolder: ChapterPageViewHolder) {
         val imgUrl = chapterPage.chapterPageId
-        Glide.with(chapterPageViewHolder.itemView.context).download(GlideUrl(imgUrl)).placeholder(R.drawable.placeholder).into(ChapterImageView(chapterPageBinding.chapterPageImageView))
+        Glide.with(chapterPageViewHolder.itemView.context)
+            .download(GlideUrl(imgUrl)).placeholder(R.drawable.placeholder)
+            .into(ChapterImageView(chapterPageBinding.chapterPageImageView))
     }
 }

@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku.chapter.chapter_page
+package com.tsunderead.tsundoku.manga_reader.webtoon
 
 import android.content.Context
 import android.graphics.PointF

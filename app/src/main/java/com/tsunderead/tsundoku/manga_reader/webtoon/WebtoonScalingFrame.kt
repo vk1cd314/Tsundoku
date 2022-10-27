@@ -15,7 +15,7 @@ import android.widget.OverScroller
 import androidx.core.view.GestureDetectorCompat
 
 private const val MAX_SCALE = 2.5f
-private const val MIN_SCALE = 1f // under-scaling disabled due to buggy nested scroll
+private const val MIN_SCALE = 1f
 
 class WebtoonScalingFrame @JvmOverloads constructor(
     context: Context,
@@ -66,12 +66,10 @@ class WebtoonScalingFrame @JvmOverloads constructor(
         gestureDetector.onTouchEvent(ev)
         scaleDetector.onTouchEvent(ev)
 
-        // Offset event to inside the child view
         if (scale < 1 && !targetHitRect.contains(ev.x.toInt(), ev.y.toInt())) {
             ev.offsetLocation(halfWidth - ev.x + targetHitRect.width() / 3, 0f)
         }
 
-        // Send action cancel to avoid recycler jump when scale end
         if (scaleDetector.isInProgress) {
             ev.action = MotionEvent.ACTION_CANCEL
         }

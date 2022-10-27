@@ -51,7 +51,7 @@ class WebtoonRecyclerView @JvmOverloads constructor(
                     if (childCount > 1) {
                         val nextChild = getChildAt(1) as WebtoonFrameLayout
                         val unconsumed =
-                            dy - consumedByChild - nextChild.top //will be consumed by scroll
+                            dy - consumedByChild - nextChild.top
                         if (unconsumed > 0) {
                             consumedByChild += nextChild.dispatchVerticalScroll(unconsumed)
                         }
@@ -66,7 +66,7 @@ class WebtoonRecyclerView @JvmOverloads constructor(
                     if (childCount > 1) {
                         val nextChild = getChildAt(childCount - 2) as WebtoonFrameLayout
                         val unconsumed =
-                            dy - consumedByChild + (height - nextChild.bottom) //will be consumed by scroll
+                            dy - consumedByChild + (height - nextChild.bottom)
                         if (unconsumed < 0) {
                             consumedByChild += nextChild.dispatchVerticalScroll(unconsumed)
                         }
@@ -113,7 +113,7 @@ class WebtoonRecyclerView @JvmOverloads constructor(
         open fun onPageChanged(recyclerView: WebtoonRecyclerView, index: Int) = Unit
     }
 
-    fun RecyclerView.findCenterViewPosition(): Int {
+    private fun RecyclerView.findCenterViewPosition(): Int {
         val centerX = width / 2f
         val centerY = height / 2f
         val view = findChildViewUnder(centerX, centerY) ?: return RecyclerView.NO_POSITION

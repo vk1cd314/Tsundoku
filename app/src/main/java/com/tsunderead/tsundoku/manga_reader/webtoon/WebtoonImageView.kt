@@ -41,7 +41,7 @@ class WebtoonImageView @JvmOverloads constructor(
 
     fun getScroll() = scrollPos
 
-    fun getScrollRange(): Int {
+    private fun getScrollRange(): Int {
         if (scrollRange == SCROLL_UNKNOWN) {
             computeScrollRange()
         }

@@ -7,24 +7,40 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ortiz.touchview.TouchImageView
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ChapterImageViewBinding
+import com.tsunderead.tsundoku.databinding.MangaReaderBinding
 
 class ChapterPageAdapter (private val chapterPages: ArrayList<ChapterPage>)
     : RecyclerView.Adapter<ChapterPageViewHolder>() {
+    private lateinit var fabNextChapter: FloatingActionButton
+    private lateinit var fabPreviousChapter: FloatingActionButton
+    private lateinit var fabGoBack: FloatingActionButton
+
     override fun getItemCount(): Int {
         return chapterPages.size
     }
 
     override fun onBindViewHolder(holder: ChapterPageViewHolder, position: Int) {
         holder.bindChapter(chapterPages[position], holder)
+//        holder.itemView.setOnClickListener {
+//            fabNextChapter.hide()
+//            fabPreviousChapter.hide()
+//            fabGoBack.hide()
+//        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterPageViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = ChapterImageViewBinding.inflate(from, parent, false)
+
+//        fabNextChapter = mangaReaderBinding.
+//        fabPreviousChapter = parent.findViewById(R.id.previous_chapter)
+//        fabGoBack = parent.findViewById(R.id.go_back)
+
 //        binding.chapterPageImageView.apply {
 //            setOnTouchListener { view, event ->
 //                var result = true

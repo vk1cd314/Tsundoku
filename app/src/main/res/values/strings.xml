@@ -28,4 +28,7 @@
     <string name="MaterialButton">Button</string>
     <string name="resume">Resume</string>
     <string name="search4">Search</string>
+    <string name="next_chapter">Next Chapter</string>
+    <string name="previous_chapter">Previous Chapter</string>
+    <string name="goes_back">Goes Back</string>
 </resources>

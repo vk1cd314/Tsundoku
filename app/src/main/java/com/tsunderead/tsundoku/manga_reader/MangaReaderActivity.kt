@@ -15,17 +15,21 @@ import com.tsunderead.tsundoku.api.MangaChapter
 import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPage
 import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPageAdapter
+import com.tsunderead.tsundoku.databinding.MangaReaderBinding
 import org.json.JSONObject
 
 class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
+    private lateinit var mangaReaderBinding: MangaReaderBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.manga_reader)
+        mangaReaderBinding = MangaReaderBinding.inflate(layoutInflater)
+        setContentView(mangaReaderBinding.root)
         val chapterId = intent.getStringExtra("ChapterId")
         chapterId?.let { MangaChapter(this, it) }?.execute()
         hideSystemBars()
     }
 
+    @Suppress("DEPRECATION")
     private fun hideSystemBars() {
         val windowInsetsController =
             ViewCompat.getWindowInsetsController(window.decorView) ?: return
@@ -44,8 +48,8 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
             chapterPages.add(chapterPage)
         }
         val recyclerView = findViewById<RecyclerView>(R.id.mangaReaderRecyclerView)
-        val layoutManager = LinearLayoutManager(this@MangaReaderActivity)
-        recyclerView.layoutManager = layoutManager
+//        val layoutManager = LinearLayoutManager(this@MangaReaderActivity)
+//        recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = ChapterPageAdapter(chapterPages)
     }

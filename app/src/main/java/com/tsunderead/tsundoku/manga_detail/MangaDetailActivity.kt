@@ -78,13 +78,12 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
                 }
                 R.id.likeManga -> {
                     val likeButton = binding.DescToolBar.menu.findItem(R.id.likeManga)
-                    if(!liked) {
+                    liked = if(!liked) {
                         likeButton.setIcon(R.drawable.ic_baseline_favorite_24)
-                        liked = true
-                    }
-                    else{
+                        true
+                    } else{
                         likeButton.setIcon(R.drawable.ic_baseline_favorite_border_24)
-                        liked = false
+                        false
                     }
                     true
                 }

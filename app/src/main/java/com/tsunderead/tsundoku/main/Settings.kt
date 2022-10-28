@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.tsunderead.tsundoku.account.LoginActivity
 import com.tsunderead.tsundoku.R
 
@@ -24,6 +26,7 @@ class Settings : Fragment(R.layout.fragment_settings) {
         val logout = viewOfLayout.findViewById<TextView>(R.id.log_out)
         assert(logout != null)
         logout!!.setOnClickListener {
+            Firebase.auth.signOut()
             activity?.let {
                 val intent = Intent(it, LoginActivity::class.java)
                 it.startActivity(intent)
@@ -41,7 +44,7 @@ class Settings : Fragment(R.layout.fragment_settings) {
             try{
                 startActivity(intent)
             }catch(e: ActivityNotFoundException){
-                print("how the fuck do you not have a mail app?")
+                print("how the f*ck do you not have a mail app?")
             }
         }
         return viewOfLayout

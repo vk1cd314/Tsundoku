@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp">
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="409dp"
@@ -63,9 +64,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:contentDescription="@string/post_options_button"
                         android:minHeight="48dp"
-                        app:srcCompat="@drawable/dots_vertical"
-                        android:contentDescription="@string/post_options_button" />
+                        android:visibility="invisible"
+                        app:srcCompat="@drawable/ic_baseline_delete_24" />
                 </LinearLayout>
 
                 <LinearLayout

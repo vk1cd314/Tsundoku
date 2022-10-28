@@ -1,5 +1,6 @@
 package com.tsunderead.tsundoku.community_card_cell
 
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -14,6 +15,7 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     private val db = Firebase.firestore
     private val user = Firebase.auth.currentUser
     private val userInteractionCollection = "user_interaction"
+    private val communityCollection = "community"
 
     fun bindPost(post: CommunityPost) {
         val postedOn = "Posted on ${post.timestamp.substring(0, 10)} ${post.timestamp.substring(11, 16)}"
@@ -24,7 +26,6 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
         communityPostBinding.textViewVoteCounter.text = post.voteCount.toString()
 
         modifyLooks(post)
-
 
         communityPostBinding.btnCommunityUpdoot.setOnClickListener {
             updoot(post)
@@ -197,6 +198,7 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     }
 
     private fun deletePost(post: CommunityPost) {
+
         MaterialAlertDialogBuilder(communityPostBinding.root.context)
             .setTitle("Delete Post?")
             .setMessage("Post will be deleted Permanently")
@@ -204,14 +206,16 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
 
             }
             .setPositiveButton("Delete") { _, _ ->
-                db.collection(userInteractionCollection).document(post.docRef.id).delete()
+                db.collection(communityCollection).document(post.docRef.id).delete()
                     .addOnSuccessListener {
                         Toast.makeText(communityPostBinding.root.context, "Post Deleted Successfully", Toast.LENGTH_SHORT).show()
+
                     }
                     .addOnFailureListener {
                         Toast.makeText(communityPostBinding.root.context, "Post Could Not Be Deleted", Toast.LENGTH_SHORT).show()
                     }
             }
+            .show()
 
     }
 }

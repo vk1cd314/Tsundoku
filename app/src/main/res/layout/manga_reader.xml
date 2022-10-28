@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.tsunderead.tsundoku.manga_reader.webtoon.WebtoonScalingFrame
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -11,4 +12,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layoutManager=".manga_reader.webtoon.WebtoonLayoutManager"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/next_chapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        tools:ignore="RtlHardcoded"
+        android:contentDescription="@string/next_chapter"
+        app:srcCompat="@drawable/ic_baseline_skip_next_24"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/previous_chapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="16dp"
+        tools:ignore="RtlHardcoded"
+        android:contentDescription="@string/previous_chapter"
+        app:srcCompat="@drawable/ic_baseline_skip_previous_24"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/go_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_margin="16dp"
+        tools:ignore="RtlHardcoded"
+        android:contentDescription="@string/goes_back"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24"/>
+
 </com.tsunderead.tsundoku.manga_reader.webtoon.WebtoonScalingFrame>

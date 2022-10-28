@@ -6,6 +6,7 @@ import android.graphics.Matrix
 import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -13,6 +14,9 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.OverScroller
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.isVisible
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.tsunderead.tsundoku.R
 
 private const val MAX_SCALE = 2.5f
 private const val MIN_SCALE = 1f
@@ -180,6 +184,24 @@ class WebtoonScalingFrame @JvmOverloads constructor(
                 start()
             }
             return true
+        }
+
+        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+            Log.i("THIS IS THE PROBLEM", "ZE OPROBLME")
+            val fabNext = findViewById<FloatingActionButton>(R.id.next_chapter)
+            val fabPrevious = findViewById<FloatingActionButton>(R.id.previous_chapter)
+            val fabGoBack = findViewById<FloatingActionButton>(R.id.go_back)
+            if (fabNext.isVisible) {
+                fabNext.hide()
+                fabPrevious.hide()
+                fabGoBack.hide()
+            } else {
+                fabNext.show()
+                fabPrevious.show()
+                fabGoBack.show()
+            }
+
+            return super.onSingleTapConfirmed(e)
         }
 
         override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {

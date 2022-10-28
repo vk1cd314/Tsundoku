@@ -1,6 +1,5 @@
 package com.tsunderead.tsundoku.community_card_cell
 
-import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -16,8 +15,12 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     private val user = Firebase.auth.currentUser
     private val userInteractionCollection = "user_interaction"
     private val communityCollection = "community"
+    private lateinit var parentAdapter: CommunityPostAdapter
 
-    fun bindPost(post: CommunityPost) {
+    fun bindPost(post: CommunityPost, parentAdapter: CommunityPostAdapter) {
+
+        this.parentAdapter = parentAdapter
+
         val postedOn = "Posted on ${post.timestamp.substring(0, 10)} ${post.timestamp.substring(11, 16)}"
         communityPostBinding.textViewUserName.text = post.username
         communityPostBinding.textViewPostTitle.text = post.title
@@ -209,7 +212,7 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
                 db.collection(communityCollection).document(post.docRef.id).delete()
                     .addOnSuccessListener {
                         Toast.makeText(communityPostBinding.root.context, "Post Deleted Successfully", Toast.LENGTH_SHORT).show()
-
+                        parentAdapter.deletePost(layoutPosition)
                     }
                     .addOnFailureListener {
                         Toast.makeText(communityPostBinding.root.context, "Post Could Not Be Deleted", Toast.LENGTH_SHORT).show()

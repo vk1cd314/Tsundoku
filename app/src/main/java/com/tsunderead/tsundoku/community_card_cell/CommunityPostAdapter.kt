@@ -14,7 +14,12 @@ class CommunityPostAdapter(private val postList: ArrayList<CommunityPost>) :
     }
 
     override fun onBindViewHolder(holder: CommunityPostViewHolder, position: Int) {
-        holder.bindPost(postList[position])
+        holder.bindPost(postList[position], this)
+    }
+
+    fun deletePost(position: Int) {
+        postList.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     override fun getItemCount(): Int {

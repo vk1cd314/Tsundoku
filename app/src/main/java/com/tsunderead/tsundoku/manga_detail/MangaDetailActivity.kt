@@ -105,7 +105,8 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         val chapters = ArrayList<Chapter>()
         for (key in result!!.keys()) {
             if (key.toIntOrNull() != null){
-                val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"), result.getJSONObject(key).getString("chapterId"))
+                val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"),
+                    result.getJSONObject(key).getString("chapterId"))
                 chapters.add(chapter)
             }
         }

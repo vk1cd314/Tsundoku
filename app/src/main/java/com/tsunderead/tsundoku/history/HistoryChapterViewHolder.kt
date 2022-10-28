@@ -17,9 +17,9 @@ class HistoryChapterViewHolder(private val historyCellBinding: HistoryCellBindin
         historyCellBinding.mangaNameTextView.text = mangaWithChapter.manga.title
         historyCellBinding.chapterIDTextView.text = "Chapter ${mangaWithChapter.chapter.chapterNumber}"
         historyCellBinding.resumeChapterButton.setOnClickListener {
-            val intent = Intent(it.context, MangaReaderActivity::class.java)
-            intent.putExtra("ChapterId", mangaWithChapter.chapter.chapterHash)
-            it.context.startActivity(intent)
+//            val intent = Intent(it.context, MangaReaderActivity::class.java)
+//            intent.putExtra("ChapterId", mangaWithChapter.chapter.chapterHash)
+//            it.context.startActivity(intent)
         }
     }
 }

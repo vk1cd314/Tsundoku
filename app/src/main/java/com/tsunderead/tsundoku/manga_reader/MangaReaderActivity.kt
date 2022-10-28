@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapter
@@ -36,8 +37,10 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
     private fun hideSystemBars() {
         val windowInsetsController =
             ViewCompat.getWindowInsetsController(window.decorView) ?: return
+        // Configure the behavior of the hidden system bars
         windowInsetsController.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        // Hide both the status bar and the navigation bar
         windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
     }
 
@@ -52,30 +55,25 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         val gestureDetector = GestureDetector(this@MangaReaderActivity, object: GestureDetector.SimpleOnGestureListener() {
             override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
                 Log.i("Very Weird", "This Behaviour")
-                hidden = if (!hidden) {
+                if (mangaReaderBinding.nextChapter.isVisible) {
                     mangaReaderBinding.nextChapter.hide()
                     mangaReaderBinding.previousChapter.hide()
                     mangaReaderBinding.goBack.hide()
-                    true
                 } else {
                     mangaReaderBinding.nextChapter.show()
                     mangaReaderBinding.previousChapter.show()
                     mangaReaderBinding.goBack.show()
-                    false
                 }
                 return true
             }
         })
         val recyclerView = findViewById<RecyclerView>(R.id.mangaReaderRecyclerView)
+//        val layoutManager = LinearLayoutManager(this@MangaReaderActivity)
+//        recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                 return gestureDetector.onTouchEvent(e)
-            }
-
-            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-                Log.i("In touch event", "?")
-                super.onTouchEvent(rv, e)
             }
         })
         recyclerView.adapter = ChapterPageAdapter(chapterPages)

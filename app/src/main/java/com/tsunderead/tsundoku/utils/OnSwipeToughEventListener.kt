@@ -1,4 +1,4 @@
-package com.tsunderead.tsundoku.helperclasses
+package com.tsunderead.tsundoku.utils
 
 import android.content.Context
 import android.view.GestureDetector

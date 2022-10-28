@@ -3,6 +3,10 @@ package com.tsunderead.tsundoku.manga_reader
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -19,6 +23,17 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         setContentView(R.layout.manga_reader)
         val chapterId = intent.getStringExtra("ChapterId")
         chapterId?.let { MangaChapter(this, it) }?.execute()
+        hideSystemBars()
+    }
+
+    private fun hideSystemBars() {
+        val windowInsetsController =
+            ViewCompat.getWindowInsetsController(window.decorView) ?: return
+        // Configure the behavior of the hidden system bars
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        // Hide both the status bar and the navigation bar
+        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
     }
 
     override fun onCallSuccess(result: JSONObject?) {

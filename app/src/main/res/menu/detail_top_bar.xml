@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Add to Library"
+        android:id="@+id/add2Library"
+        android:icon="@drawable/ic_sharp_add_24"
+        app:showAsAction="always"/>
+    <item android:title="Like"
+        android:id="@+id/likeManga"
+        android:icon="@drawable/ic_baseline_favorite_border_24"
+        app:showAsAction="ifRoom"
+        />
+    <item android:title="share"
+        android:id="@+id/shareManga"
+        android:icon="@drawable/ic_baseline_share_24"
+        app:showAsAction="ifRoom"/>
+</menu>

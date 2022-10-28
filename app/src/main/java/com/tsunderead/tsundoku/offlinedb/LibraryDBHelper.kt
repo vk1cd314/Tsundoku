@@ -96,6 +96,11 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
         return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
     }
 
+    fun getOneManga(mangaId: String): Cursor? {
+        val db = this.readableDatabase
+        return db.rawQuery("SELECT * FROM $TABLE_NAME WHERE $COLUMN_MANGAID = ?", arrayOf(mangaId))
+    }
+
     fun getAllMangaWithHistory(): Cursor? {
         val db = this.readableDatabase
         return db.rawQuery(

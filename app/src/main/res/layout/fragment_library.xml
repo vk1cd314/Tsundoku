@@ -19,7 +19,7 @@
 <!--            android:theme="@style/ThemeOverlay.AppCompat.Light"-->
 <!--            tools:ignore="MissingConstraints">-->
 
-                <androidx.appcompat.widget.Toolbar
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/library_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -25,7 +25,6 @@ class ApiCall(val parent: NetworkCaller<JSONObject>, private val flag: Int = 0):
         val url = URL("$apiUrl/${param[0]}")
         val conn = url.openConnection() as HttpURLConnection
         conn.requestMethod = "GET"
-//        Log.i(tag, conn.url.toString())
 
         try {
             conn.connect()

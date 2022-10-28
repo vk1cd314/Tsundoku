@@ -24,7 +24,11 @@ class Community : Fragment() {
 
     private lateinit var binding: FragmentCommunityBinding
     private lateinit var skeleton: Skeleton
+    var postList = ArrayList<CommunityPost>()
     private val db = Firebase.firestore
+    private var postListFetched = false;
+    private var updootFetched = false;
+    private var bookmarkFetched = false;
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -56,9 +60,14 @@ class Community : Fragment() {
     }
 
     private fun getPost() {
+
+        postListFetched = false
+        updootFetched = false
+        bookmarkFetched = false
+
         db.collection("community").orderBy("timestamp", Query.Direction.DESCENDING).limit(20).get()
             .addOnSuccessListener {
-                val postList = ArrayList<CommunityPost>()
+                postList = ArrayList()
                 for (document in it) {
                     val communityPost = CommunityPost(
                         document.reference,

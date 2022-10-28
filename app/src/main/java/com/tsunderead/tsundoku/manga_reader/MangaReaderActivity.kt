@@ -37,13 +37,10 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
     private fun hideSystemBars() {
         val windowInsetsController =
             ViewCompat.getWindowInsetsController(window.decorView) ?: return
-        // Configure the behavior of the hidden system bars
         windowInsetsController.systemBarsBehavior =
             WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        // Hide both the status bar and the navigation bar
         windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
     }
-
 
     override fun onCallSuccess(result: JSONObject?) {
         Log.i("MangaReaderActivity", result.toString())
@@ -68,8 +65,6 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
             }
         })
         val recyclerView = findViewById<RecyclerView>(R.id.mangaReaderRecyclerView)
-//        val layoutManager = LinearLayoutManager(this@MangaReaderActivity)
-//        recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {

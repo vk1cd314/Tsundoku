@@ -41,11 +41,11 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         chapterId?.let { MangaChapter(this, it) }?.execute()
         hideSystemBars()
         mangaReaderBinding.goBack.setOnClickListener {
-            mangaReaderBinding.goBack.show()
+            mangaReaderBinding.goBack.hide()
             finish()
         }
         mangaReaderBinding.nextChapter.setOnClickListener {
-            mangaReaderBinding.nextChapter.show()
+            mangaReaderBinding.nextChapter.hide()
             if (position == chapterList.size - 1) {
                 Toast.makeText(this@MangaReaderActivity, "No Chapter After", Toast.LENGTH_SHORT).show()
             } else {
@@ -58,7 +58,7 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
             }
         }
         mangaReaderBinding.previousChapter.setOnClickListener {
-            mangaReaderBinding.nextChapter.show()
+            mangaReaderBinding.nextChapter.hide()
             if (position == 0) {
                 Toast.makeText(this@MangaReaderActivity, "No Chapter Before", Toast.LENGTH_SHORT).show()
             } else {

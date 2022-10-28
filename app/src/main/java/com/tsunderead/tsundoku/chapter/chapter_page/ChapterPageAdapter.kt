@@ -15,9 +15,9 @@ import com.tsunderead.tsundoku.databinding.MangaReaderBinding
 
 class ChapterPageAdapter (private val chapterPages: ArrayList<ChapterPage>)
     : RecyclerView.Adapter<ChapterPageViewHolder>() {
-    private lateinit var fabNextChapter: FloatingActionButton
-    private lateinit var fabPreviousChapter: FloatingActionButton
-    private lateinit var fabGoBack: FloatingActionButton
+//    private lateinit var fabNextChapter: FloatingActionButton
+//    private lateinit var fabPreviousChapter: FloatingActionButton
+//    private lateinit var fabGoBack: FloatingActionButton
 
     override fun getItemCount(): Int {
         return chapterPages.size
@@ -26,6 +26,7 @@ class ChapterPageAdapter (private val chapterPages: ArrayList<ChapterPage>)
     override fun onBindViewHolder(holder: ChapterPageViewHolder, position: Int) {
         holder.bindChapter(chapterPages[position], holder)
 //        holder.itemView.setOnClickListener {
+//            Log.i("ChapterPageAdapter", "Clicked item at $position")
 //            fabNextChapter.hide()
 //            fabPreviousChapter.hide()
 //            fabGoBack.hide()
@@ -36,6 +37,9 @@ class ChapterPageAdapter (private val chapterPages: ArrayList<ChapterPage>)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterPageViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = ChapterImageViewBinding.inflate(from, parent, false)
+//        fabNextChapter =  mangaReaderBinding.nextChapter
+//        fabPreviousChapter =  mangaReaderBinding.previousChapter
+//        fabGoBack =  mangaReaderBinding.goBack
 
 //        fabNextChapter = mangaReaderBinding.
 //        fabPreviousChapter = parent.findViewById(R.id.previous_chapter)

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.tsunderead.tsundoku.R
+import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.databinding.FragmentHistoryBinding
 import com.tsunderead.tsundoku.history.HistoryChapterAdapter
@@ -21,8 +22,9 @@ import com.tsunderead.tsundoku.manga_card_cell.Manga
 import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
-class History : Fragment() {
+class History : Fragment(), NetworkCaller<JSONObject> {
     private var fragmentHistoryBinding: FragmentHistoryBinding? = null
     private lateinit var libraryDBHandler : LibraryDBHelper
     private lateinit var historyChapterList: ArrayList<MangaWithChapter>
@@ -105,5 +107,9 @@ class History : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         fragmentHistoryBinding = null
+    }
+
+    override fun onCallSuccess(result: JSONObject?) {
+
     }
 }

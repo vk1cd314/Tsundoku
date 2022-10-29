@@ -15,9 +15,6 @@ import com.tsunderead.tsundoku.databinding.MangaReaderBinding
 
 class ChapterPageAdapter (private val chapterPages: ArrayList<ChapterPage>)
     : RecyclerView.Adapter<ChapterPageViewHolder>() {
-//    private lateinit var fabNextChapter: FloatingActionButton
-//    private lateinit var fabPreviousChapter: FloatingActionButton
-//    private lateinit var fabGoBack: FloatingActionButton
 
     override fun getItemCount(): Int {
         return chapterPages.size

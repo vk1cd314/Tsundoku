@@ -34,9 +34,7 @@ class ChapterAdapter (private val manga: Manga, private val chapters: ArrayList<
             val intent = Intent(it.context, MangaReaderActivity::class.java)
             intent.putExtra("ChapterId", chapters[position].chapterHash)
             val chapterList = arrayListOf<String>()
-            for (item in chapters) {
-                chapterList.add(item.chapterHash)
-            }
+            for (item in chapters) chapterList.add(item.chapterHash)
             intent.putExtra("chapterList", chapterList)
             intent.putExtra("position", position)
             it.context.startActivity(intent)

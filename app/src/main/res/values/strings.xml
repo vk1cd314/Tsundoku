@@ -38,4 +38,5 @@
     <string name="next_chapter" />
     <string name="previous_chapter" />
     <string name="goes_back" />
+    <string name="button_to_resume_chapter">Button to Resume chapter</string>
 </resources>

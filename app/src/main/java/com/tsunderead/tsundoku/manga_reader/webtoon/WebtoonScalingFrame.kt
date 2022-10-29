@@ -46,7 +46,7 @@ class WebtoonScalingFrame @JvmOverloads constructor(
     private val targetHitRect = Rect()
     private var pendingScroll = 0
 
-    var isZoomEnable = true
+    private var isZoomEnable = true
         set(value) {
             field = value
             if (scale != 1f) {

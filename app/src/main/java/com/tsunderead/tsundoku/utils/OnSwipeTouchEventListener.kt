@@ -1,6 +1,8 @@
 package com.tsunderead.tsundoku.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -20,7 +22,9 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
         gestureDetector = GestureDetector(ctx, GestureListener())
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouch(v: View, event: MotionEvent): Boolean {
+        Log.i("In ontouch listener", "Helllo")
         return gestureDetector.onTouchEvent(event)
     }
 
@@ -32,30 +36,31 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
             velocityX: Float,
             velocityY: Float
         ): Boolean {
-            var result = false
-            try {
-                val diffY = e2.y - e1.y
-                val diffX = e2.x - e1.x
-                if (abs(diffX) > abs(diffY)) {
-                    if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        result = if (diffX > 0) {
-                            onSwipeRight()
-                        } else {
-                            onSwipeLeft()
-                        }
-                    }
-                } else if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                    result = if (diffY > 0) {
-                        onSwipeBottom()
-                    } else {
-                        onSwipeTop()
-                    }
-                }
-            } catch (exception: Exception) {
-                exception.printStackTrace()
-            }
-
-            return result
+            return super.onFling(e1, e2, velocityX, velocityY)
+//            var result = false
+//            try {
+//                val diffY = e2.y - e1.y
+//                val diffX = e2.x - e1.x
+//                if (abs(diffX) > abs(diffY)) {
+//                    if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+//                        result = if (diffX > 0) {
+//                            onSwipeRight()
+//                        } else {
+//                            onSwipeLeft()
+//                        }
+//                    }
+//                } else if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+//                    result = if (diffY > 0) {
+//                        onSwipeBottom()
+//                    } else {
+//                        onSwipeTop()
+//                    }
+//                }
+//            } catch (exception: Exception) {
+//                exception.printStackTrace()
+//            }
+//
+//            return result
         }
 
 

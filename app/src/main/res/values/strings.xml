@@ -28,11 +28,14 @@
     <string name="MaterialButton">Button</string>
     <string name="resume">Resume</string>
     <string name="search4">Search</string>
-    <string name="profile_picture">Profile Picture</string>
-    <string name="post_options_button">Post Options Button</string>
-    <string name="post_title">Post Title</string>
-    <string name="post_description">Post Description</string>
-    <string name="bookmark_button">Bookmark Button</string>
-    <string name="updoot_button">Updoot Button</string>
-    <string name="downvote_button">Downvote Button</string>
+    <string name="profile_picture" />
+    <string name="post_options_button" />
+    <string name="post_title" />
+    <string name="post_description" />
+    <string name="bookmark_button" />
+    <string name="updoot_button" />
+    <string name="downvote_button" />
+    <string name="next_chapter" />
+    <string name="previous_chapter" />
+    <string name="goes_back" />
 </resources>

@@ -54,41 +54,6 @@ class WebtoonImageView @JvmOverloads constructor(
         super.recycle()
     }
 
-    override fun getSuggestedMinimumHeight(): Int {
-        var desiredHeight = super.getSuggestedMinimumHeight()
-        if (sHeight == 0) {
-            val parentHeight = parentHeight()
-            if (desiredHeight < parentHeight) {
-                desiredHeight = parentHeight
-            }
-        }
-        return desiredHeight
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val widthSpecMode = MeasureSpec.getMode(widthMeasureSpec)
-        val heightSpecMode = MeasureSpec.getMode(heightMeasureSpec)
-        val parentWidth = MeasureSpec.getSize(widthMeasureSpec)
-        val parentHeight = MeasureSpec.getSize(heightMeasureSpec)
-        val resizeWidth = widthSpecMode != MeasureSpec.EXACTLY
-        val resizeHeight = heightSpecMode != MeasureSpec.EXACTLY
-        var width = parentWidth
-        var height = parentHeight
-        if (sWidth > 0 && sHeight > 0) {
-            if (resizeWidth && resizeHeight) {
-                width = sWidth
-                height = sHeight
-            } else if (resizeHeight) {
-                height = (sHeight.toDouble() / sWidth.toDouble() * width).toInt()
-            } else if (resizeWidth) {
-                width = (sWidth.toDouble() / sHeight.toDouble() * height).toInt()
-            }
-        }
-        width = width.coerceAtLeast(suggestedMinimumWidth)
-        height = height.coerceIn(suggestedMinimumHeight, parentHeight())
-        setMeasuredDimension(width, height)
-    }
-
     private fun scrollToInternal(pos: Int) {
         scrollPos = pos
         ct.set(sWidth / 2f, (height / 2f + pos.toFloat()) / minScale)

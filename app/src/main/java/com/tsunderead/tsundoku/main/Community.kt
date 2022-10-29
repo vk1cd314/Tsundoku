@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -25,11 +24,11 @@ class Community : Fragment() {
 
     private lateinit var binding: FragmentCommunityBinding
     private lateinit var skeleton: Skeleton
-    var postList = ArrayList<CommunityPost>()
+    private var postList = ArrayList<CommunityPost>()
     private val db = Firebase.firestore
-    private var postListFetched = false;
-    private var updootFetched = false;
-    private var bookmarkFetched = false;
+    private var postListFetched = false
+    private var updootFetched = false
+    private var bookmarkFetched = false
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -43,7 +42,6 @@ class Community : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i(tag, Firebase.auth.currentUser!!.email!!)
         binding.btnCommunityAdd.setOnClickListener {
             val intent = Intent(activity, NewPost::class.java)
             activity?.startActivity(intent)

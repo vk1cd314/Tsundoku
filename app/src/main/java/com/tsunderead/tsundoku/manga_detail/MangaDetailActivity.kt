@@ -2,23 +2,24 @@ package com.tsunderead.tsundoku.manga_detail
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.view.forEach
-import androidx.core.view.iterator
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapterList
-import com.tsunderead.tsundoku.api.MangaWithCover
 import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.chapter.ChapterAdapter
+import com.tsunderead.tsundoku.community_helper.NewPost
 import com.tsunderead.tsundoku.databinding.ActivityMangaDetailBinding
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 import com.tsunderead.tsundoku.manga_reader.MangaReaderActivity
@@ -26,39 +27,49 @@ import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 import org.json.JSONObject
 
 class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
+
     private lateinit var libraryDBHandler : LibraryDBHelper
     private lateinit var binding: ActivityMangaDetailBinding
     private lateinit var manga: Manga
+    private lateinit var cover: String
+    private lateinit var mangaId: String
+    private lateinit var author: String
+    private lateinit var title: String
+    private val db = Firebase.firestore
+    private var liked = false
+    private val user = Firebase.auth.currentUser
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
         binding = ActivityMangaDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val cover = intent.getStringExtra("Cover")
-        val author = intent.getStringExtra("Author")
-        val title = intent.getStringExtra("Title")
-//        println("Cover is $cover")
-//        println("Title is $title")
-//        println("Author is $author")
+
+        cover = intent.getStringExtra("Cover").toString()
+        author = intent.getStringExtra("Author").toString()
+        title = intent.getStringExtra("Title").toString()
         val authorId = findViewById<TextView>(R.id.author)
         val coverId = binding.mangacover
         authorId.text = author
+
         binding.mangaDetailCollapsebar.title = title
         binding.DescToolBar.inflateMenu(R.menu.detail_top_bar)
+
         //finding icon
         val inLibrary = binding.DescToolBar.menu.findItem(R.id.add2Library)
-        val mangaId = intent.getStringExtra("MangaID")
-        if (mangaId != null) {
-            Log.d("mangaID", mangaId)
-        }
+        mangaId = intent.getStringExtra("MangaID").toString()
 
         libraryDBHandler = LibraryDBHelper(this, null)
-        manga = Manga(cover!!, author!!, title!!, mangaId!!)
+        manga = Manga(cover, author, title, mangaId)
 
         if (libraryDBHandler.isPresent(manga)) {
             //updating icon
             inLibrary.setIcon(R.drawable.ic_sharp_check_24)
         }
-        var liked: Boolean = false
+
+        modifyLikeLook()
+
         binding.DescToolBar.setOnMenuItemClickListener{
             when(it.itemId){
                 R.id.add2Library -> {
@@ -73,19 +84,11 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
                     true
                 }
                 R.id.shareManga ->{
-
+                    shareManga()
                     true
                 }
                 R.id.likeManga -> {
-                    val likeButton = binding.DescToolBar.menu.findItem(R.id.likeManga)
-                    if(!liked) {
-                        likeButton.setIcon(R.drawable.ic_baseline_favorite_24)
-                        liked = true
-                    }
-                    else{
-                        likeButton.setIcon(R.drawable.ic_baseline_favorite_border_24)
-                        liked = false
-                    }
+                    likeManga()
                     true
                 }
                 else -> false
@@ -96,9 +99,10 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         MangaChapterList(this, mangaId).execute(0)
     }
 
+
     @SuppressLint("Range")
     override fun onCallSuccess(result: JSONObject?) {
-        Log.i("MangaDetailActivity", result.toString())
+//        Log.i("MangaDetailActivity", result.toString())
         val recyclerView = findViewById<RecyclerView>(R.id.chapterRecyclerView)
         val layoutManager = LinearLayoutManager(this@MangaDetailActivity)
         recyclerView.layoutManager = layoutManager
@@ -133,6 +137,68 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
                     startActivity(intent)
                 }
             }
+        }
+    }
+
+    private fun modifyLikeLook() {
+        val likeButton = binding.DescToolBar.menu.findItem(R.id.likeManga)
+
+        if (user != null) {
+            db.collection("user_interaction")
+                .whereEqualTo("user", user.email)
+                .whereEqualTo("type", "like")
+                .whereEqualTo("mangaId", mangaId)
+                .get()
+                .addOnSuccessListener {
+                    liked = if (!it.isEmpty) {
+                        likeButton.setIcon(R.drawable.ic_baseline_favorite_24)
+                        true
+                    } else {
+                        likeButton.setIcon(R.drawable.ic_baseline_favorite_border_24)
+                        false
+                    }
+                }
+        }
+    }
+
+    private fun shareManga() {
+        val intent = Intent(this, NewPost::class.java)
+        intent.putExtra("title", title)
+        intent.putExtra("author", author)
+        startActivity(intent)
+    }
+
+    private fun likeManga() {
+        if (user == null) {
+            Toast.makeText(baseContext, "You must sign in to add manga to favorites", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val likeButton = binding.DescToolBar.menu.findItem(R.id.likeManga)
+        liked = if (liked) {
+            db.collection("user_interaction")
+                .whereEqualTo("user", user.email)
+                .whereEqualTo("type", "like")
+                .whereEqualTo("mangaId", mangaId)
+                .get()
+                .addOnSuccessListener {
+                    for (document in it)
+                        db.collection("user_interaction").document(document.id).delete()
+                }
+            likeButton.setIcon(R.drawable.ic_baseline_favorite_border_24)
+            false
+        } else {
+            val interaction = mapOf(
+                "user" to user.email,
+                "type" to "like",
+                "mangaId" to mangaId
+            )
+            db.collection("user_interaction").add(interaction)
+                .addOnFailureListener {
+                    Toast.makeText(baseContext, "Could not add to favorites", Toast.LENGTH_SHORT).show()
+                    likeButton.setIcon(R.drawable.ic_baseline_favorite_border_24)
+                }
+            likeButton.setIcon(R.drawable.ic_baseline_favorite_24)
+            true
         }
     }
 }

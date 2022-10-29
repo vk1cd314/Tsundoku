@@ -7,21 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.whenCreated
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.android.material.progressindicator.LinearProgressIndicator
-import com.google.android.material.textfield.TextInputEditText
-import com.roacult.backdrop.BackdropLayout
 import com.tsunderead.tsundoku.ConstData
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaWithCover
@@ -29,8 +19,6 @@ import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.databinding.FragmentSearchBinding
 import com.tsunderead.tsundoku.manga_card_cell.CardCellAdapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class Search : Fragment(), NetworkCaller<JSONObject> {
@@ -39,7 +27,11 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
     private lateinit var chipGroupGenre: ChipGroup
     private var chipFilters: MutableSet<String> = mutableSetOf()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         view1 = binding.root
         return binding.root
@@ -65,7 +57,8 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                 result.getJSONObject(i).getString("cover_art"),
                 result.getJSONObject(i).getString("author"),
                 result.getJSONObject(i).getString("name"),
-                result.getJSONObject(i).getString("id"))
+                result.getJSONObject(i).getString("id")
+            )
             mangaList.add(manga1)
         }
 
@@ -77,16 +70,17 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         Log.i("Search", "Indeed failed")
     }
 
-    private fun initRecyclerView () {
+    private fun initRecyclerView() {
         val recyclerView = binding.includedFront.exploreRecylcerView
 
-        recyclerView.layoutManager = StaggeredGridLayoutManager( 3, StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.layoutManager =
+            StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.setHasFixedSize(true)
     }
 
-    private fun initSearchButton () {
+    private fun initSearchButton() {
         binding.searchSearchView.queryHint = "Search for Manga"
-        binding.searchSearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        binding.searchSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val filterMap = HashMap<String, Array<String>>()
                 val searchBox = binding.searchSearchView
@@ -94,7 +88,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                     Log.i("Searching", query)
                 }
                 filterMap["title"] = query?.let { arrayOf(it) }!!
-                val checkedChipList = Array(chipFilters.size){""}
+                val checkedChipList = Array(chipFilters.size) { "" }
                 var i = 0
                 chipFilters.forEach {
                     checkedChipList[i++] = it
@@ -138,7 +132,8 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                         }
                         binding.mangaSearchBackdrop.close()
                         binding.includedFront.searchProgressIndicator.isIndeterminate = true
-                        binding.includedFront.exploreRecylcerView.adapter = CardCellAdapter(ArrayList())
+                        binding.includedFront.exploreRecylcerView.adapter =
+                            CardCellAdapter(ArrayList())
                         Log.i("Chips", "Logging Chips")
                         chipFilters.forEach {
                             Log.i("Chips", it)
@@ -151,13 +146,13 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         })
     }
 
-    private fun initToggleButtons () {
+    private fun initToggleButtons() {
         val includedBack = binding.includedBack
 
         includedBack.tagToggleFormat.setOnClickListener {
             chipGroupGenre.removeAllViews()
             val s = ConstData().tagListGrouped["format"]!!
-            for(str in s) {
+            for (str in s) {
                 val newChip = Chip(context)
                 newChip.text = str
                 newChip.isClickable = true
@@ -189,7 +184,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         includedBack.tagToggleGenre.setOnClickListener {
             chipGroupGenre.removeAllViews()
             val s = ConstData().tagListGrouped["genre"]!!
-            for(str in s) {
+            for (str in s) {
                 val newChip = Chip(context)
                 newChip.text = str
                 newChip.isClickable = true
@@ -221,7 +216,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         includedBack.tagToggleTheme.setOnClickListener {
             chipGroupGenre.removeAllViews()
             val s = ConstData().tagListGrouped["theme"]!!
-            for(str in s) {
+            for (str in s) {
                 val newChip = Chip(context)
                 newChip.text = str
                 newChip.isClickable = true
@@ -288,7 +283,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
 //        }
     }
 
-    private fun initChipGroupGenre () {
+    private fun initChipGroupGenre() {
         chipGroupGenre = binding.includedBack.chipGroupGenre
 //        val s = ConstData().tagList
 //        for(str in s) {

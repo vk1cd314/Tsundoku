@@ -4,15 +4,15 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.tsunderead.tsundoku.account.LoginActivity
 import com.tsunderead.tsundoku.R
+import com.tsunderead.tsundoku.account.LoginActivity
 
 class Settings : Fragment(R.layout.fragment_settings) {
     private lateinit var viewOfLayout: View
@@ -41,9 +41,9 @@ class Settings : Fragment(R.layout.fragment_settings) {
                 putExtra(Intent.EXTRA_EMAIL, stringarr)
                 putExtra(Intent.EXTRA_SUBJECT, "Tsundoku Bug")
             }
-            try{
+            try {
                 startActivity(intent)
-            }catch(e: ActivityNotFoundException){
+            } catch (e: ActivityNotFoundException) {
                 print("how the f*ck do you not have a mail app?")
             }
         }

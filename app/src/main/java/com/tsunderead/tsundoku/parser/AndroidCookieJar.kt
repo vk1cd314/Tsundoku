@@ -1,13 +1,13 @@
 package com.tsunderead.tsundoku.parser
 
 import android.webkit.CookieManager
+import okhttp3.Cookie
+import okhttp3.CookieJar
+import okhttp3.HttpUrl
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
-import okhttp3.Cookie
-import okhttp3.CookieJar
-import okhttp3.HttpUrl
 
 @Singleton
 class AndroidCookieJar @Inject constructor() : CookieJar {

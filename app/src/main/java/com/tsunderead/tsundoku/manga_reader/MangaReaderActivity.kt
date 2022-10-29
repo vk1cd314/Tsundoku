@@ -1,12 +1,12 @@
 package com.tsunderead.tsundoku.manga_reader
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -18,10 +18,7 @@ import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPage
 import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPageAdapter
 import com.tsunderead.tsundoku.databinding.MangaReaderBinding
-import com.tsunderead.tsundoku.manga_card_cell.Manga
-import com.tsunderead.tsundoku.utils.OnSwipeTouchListener
 import org.json.JSONObject
-import kotlin.math.abs
 import kotlin.properties.Delegates
 
 class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
@@ -47,7 +44,8 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         mangaReaderBinding.nextChapter.setOnClickListener {
             mangaReaderBinding.nextChapter.hide()
             if (position == chapterList.size - 1) {
-                Toast.makeText(this@MangaReaderActivity, "No Chapter After", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MangaReaderActivity, "No Chapter After", Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 val intent = Intent(this@MangaReaderActivity, MangaReaderActivity::class.java)
                 intent.putExtra("ChapterId", chapterList[position + 1])
@@ -60,7 +58,8 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         mangaReaderBinding.previousChapter.setOnClickListener {
             mangaReaderBinding.nextChapter.hide()
             if (position == 0) {
-                Toast.makeText(this@MangaReaderActivity, "No Chapter Before", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MangaReaderActivity, "No Chapter Before", Toast.LENGTH_SHORT)
+                    .show()
             } else {
                 val intent = Intent(this@MangaReaderActivity, MangaReaderActivity::class.java)
                 intent.putExtra("ChapterId", chapterList[position - 1])
@@ -88,21 +87,23 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
             val chapterPage = ChapterPage(key.toInt(), result.getString(key))
             chapterPages.add(chapterPage)
         }
-        val gestureDetector = GestureDetector(this@MangaReaderActivity, object: GestureDetector.SimpleOnGestureListener() {
-            override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                Log.i("Very Weird", "This Behaviour")
-                if (mangaReaderBinding.nextChapter.isVisible) {
-                    mangaReaderBinding.nextChapter.hide()
-                    mangaReaderBinding.previousChapter.hide()
-                    mangaReaderBinding.goBack.hide()
-                } else {
-                    mangaReaderBinding.nextChapter.show()
-                    mangaReaderBinding.previousChapter.show()
-                    mangaReaderBinding.goBack.show()
+        val gestureDetector = GestureDetector(
+            this@MangaReaderActivity,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                    Log.i("Very Weird", "This Behaviour")
+                    if (mangaReaderBinding.nextChapter.isVisible) {
+                        mangaReaderBinding.nextChapter.hide()
+                        mangaReaderBinding.previousChapter.hide()
+                        mangaReaderBinding.goBack.hide()
+                    } else {
+                        mangaReaderBinding.nextChapter.show()
+                        mangaReaderBinding.previousChapter.show()
+                        mangaReaderBinding.goBack.show()
+                    }
+                    return true
                 }
-                return true
-            }
-        })
+            })
         val recyclerView = findViewById<RecyclerView>(R.id.mangaReaderRecyclerView)
         recyclerView.setHasFixedSize(true)
         recyclerView.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {

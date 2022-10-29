@@ -3,14 +3,10 @@ package com.tsunderead.tsundoku.main
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.view.MenuItem.OnMenuItemClickListener
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -24,20 +20,18 @@ import com.tsunderead.tsundoku.manga_card_cell.Manga
 import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
 
 class Library : Fragment() {
     private var fragmentLibraryBinding: FragmentLibraryBinding? = null
 
     private lateinit var adapter: CardCellAdapter
-    private lateinit var recyclerView : RecyclerView
+    private lateinit var recyclerView: RecyclerView
 
-    private lateinit var mangaList : ArrayList<Manga>
+    private lateinit var mangaList: ArrayList<Manga>
     private lateinit var skeleton: Skeleton
     private var setAdapter: Boolean = false
 
-    private lateinit var libraryDBHandler : LibraryDBHelper
+    private lateinit var libraryDBHandler: LibraryDBHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,12 +52,14 @@ class Library : Fragment() {
 //        (activity as AppCompatActivity?)!!.setHas
         fragmentLibraryBinding?.libraryToolbar?.inflateMenu(R.menu.library_toolbar_menu)
         fragmentLibraryBinding?.libraryToolbar?.title = "Library"
-        val searchButton = fragmentLibraryBinding?.libraryToolbar?.menu?.findItem(R.id.library_search)?.actionView as SearchView
+        val searchButton =
+            fragmentLibraryBinding?.libraryToolbar?.menu?.findItem(R.id.library_search)?.actionView as SearchView
         searchButton.queryHint = "Search"
         searchButton.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 // filter here
                 if (newText != null) {
@@ -73,7 +69,7 @@ class Library : Fragment() {
             }
         })
         fragmentLibraryBinding?.libraryToolbar?.setOnMenuItemClickListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.library_search -> {
                     Log.i("Inside", "Lib search")
                     false

@@ -41,13 +41,15 @@ class CreateAccountActivity : AppCompatActivity() {
         }
     }
 
-    private fun badAccount() : Boolean {
+    private fun badAccount(): Boolean {
         var errorText = ""
         if (username.text.isNullOrEmpty()) errorText = "Please enter username"
         else if (email.text.isNullOrEmpty()) errorText = "Please enter email"
-        else if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) errorText = "Invalid email"
+        else if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) errorText =
+            "Invalid email"
         else if (password.text.isNullOrEmpty()) errorText = "Please enter password"
-        else if (password.text.toString() != confirmPassword.text.toString()) errorText = "Passwords Don't match"
+        else if (password.text.toString() != confirmPassword.text.toString()) errorText =
+            "Passwords Don't match"
 
         if (errorText.isNotEmpty()) Toast.makeText(baseContext, errorText, Toast.LENGTH_LONG).show()
         return errorText.isNotEmpty()
@@ -58,25 +60,27 @@ class CreateAccountActivity : AppCompatActivity() {
         var uniqueUsername = false
         db.collection("account").whereEqualTo("email", email.text.toString()).get()
             .addOnSuccessListener {
-                if (it.size() > 0) Toast.makeText(baseContext, "Email Already Registered", Toast.LENGTH_LONG).show()
+                if (it.size() > 0) Toast.makeText(
+                    baseContext, "Email Already Registered", Toast.LENGTH_LONG
+                ).show()
                 else {
                     uniqueEmail = true
-                    if (uniqueEmail && uniqueUsername)
-                        firebaseAuth()
+                    if (uniqueEmail && uniqueUsername) firebaseAuth()
                 }
             }
         db.collection("account").whereEqualTo("username", username.text.toString()).get()
             .addOnSuccessListener {
-                if (it.size() > 0) Toast.makeText(baseContext, "Username Already Registered", Toast.LENGTH_LONG).show()
+                if (it.size() > 0) Toast.makeText(
+                    baseContext, "Username Already Registered", Toast.LENGTH_LONG
+                ).show()
                 else {
                     uniqueUsername = true
-                    if (uniqueEmail && uniqueUsername)
-                        firebaseAuth()
+                    if (uniqueEmail && uniqueUsername) firebaseAuth()
                 }
             }
     }
 
-    private fun createAccount () {
+    private fun createAccount() {
         if (badAccount()) return
         createAccountIfUnique()
     }
@@ -87,27 +91,25 @@ class CreateAccountActivity : AppCompatActivity() {
             "email" to email.text.toString(),
             "password" to password.text.toString()
         )
-        auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString()).addOnCompleteListener(this) {
-            if (it.isSuccessful) {
+        auth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful) {
 
-                db.collection("account").add(user)
-                    .addOnSuccessListener {
+                    db.collection("account").add(user).addOnSuccessListener {
                         Log.i(tag, "user with info created")
-                    }
-                    .addOnFailureListener{
+                    }.addOnFailureListener {
                         Log.e(tag, "user addition failed. user: , $user")
                     }
 
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.putExtra("email", email.text.toString())
-                intent.putExtra("password", password.text.toString())
-                startActivity(intent)
-                finish()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.putExtra("email", email.text.toString())
+                    intent.putExtra("password", password.text.toString())
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Log.e(tag, it.exception.toString())
+                }
             }
-            else {
-                Log.e(tag, it.exception.toString())
-            }
-        }
     }
 
 }

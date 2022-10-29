@@ -79,7 +79,8 @@ class WebtoonRecyclerView @JvmOverloads constructor(
     }
 
     fun addOnPageScrollListener(listener: OnPageScrollListener) {
-        val list = onPageScrollListeners ?: LinkedList<OnPageScrollListener>().also { onPageScrollListeners = it }
+        val list = onPageScrollListeners
+            ?: LinkedList<OnPageScrollListener>().also { onPageScrollListeners = it }
         list.add(listener)
     }
 

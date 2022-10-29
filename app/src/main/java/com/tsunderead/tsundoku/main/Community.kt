@@ -46,7 +46,8 @@ class Community : Fragment() {
             val intent = Intent(activity, NewPost::class.java)
             activity?.startActivity(intent)
         }
-        binding.rViewCommunity.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.rViewCommunity.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rViewCommunity.setHasFixedSize(false)
 
         skeleton = binding.rViewCommunity.applySkeleton(R.layout.community_card_cell)

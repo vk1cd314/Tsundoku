@@ -3,10 +3,10 @@ package com.tsunderead.tsundoku.main
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +26,7 @@ import org.json.JSONObject
 
 class History : Fragment(), NetworkCaller<JSONObject> {
     private var fragmentHistoryBinding: FragmentHistoryBinding? = null
-    private lateinit var libraryDBHandler : LibraryDBHelper
+    private lateinit var libraryDBHandler: LibraryDBHelper
     private lateinit var historyChapterList: ArrayList<MangaWithChapter>
     private lateinit var recyclerView: RecyclerView
     private lateinit var skeleton: Skeleton
@@ -40,19 +40,21 @@ class History : Fragment(), NetworkCaller<JSONObject> {
         fragmentHistoryBinding = binding
         return binding.root
     }
+
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val toolbar = fragmentHistoryBinding?.historyToolbar
         toolbar?.inflateMenu(R.menu.history_toolbar_menu)
-        toolbar?.title="History"
-        toolbar?.setOnMenuItemClickListener{
+        toolbar?.title = "History"
+        toolbar?.setOnMenuItemClickListener {
             //IN CASE WE NEED TO ADD NEW STUFF TO THIS MENU
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.delete_history -> {
                     Log.i("Delete", "History")
-                    libraryDBHandler = this@History.context?.let { it1 -> LibraryDBHelper(it1, null) }!!
+                    libraryDBHandler =
+                        this@History.context?.let { it1 -> LibraryDBHelper(it1, null) }!!
                     libraryDBHandler.deleteHistory()
                     libraryDBHandler.close()
                     true
@@ -91,11 +93,15 @@ class History : Fragment(), NetworkCaller<JSONObject> {
             manga.author = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_AUTHOR))
             manga.cover = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_COVER))
             manga.title = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE))
-            chapter.chapterNumber = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt()
-            chapter.chapterHash = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
+            chapter.chapterNumber =
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt()
+            chapter.chapterHash =
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
             Log.i("Manga", manga.toString())
             Log.i("Chapter", chapter.toString())
-            if (chapter.chapterHash != "-1" && chapter.chapterNumber != -1) historyChapterList.add(MangaWithChapter(manga, chapter))
+            if (chapter.chapterHash != "-1" && chapter.chapterNumber != -1) historyChapterList.add(
+                MangaWithChapter(manga, chapter)
+            )
             cursor.moveToNext()
         }
         libraryDBHandler.close()

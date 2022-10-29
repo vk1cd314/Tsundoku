@@ -11,7 +11,7 @@ import com.tsunderead.tsundoku.history.MangaWithChapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
 
 class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
-    SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION){
+    SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase?) {
         Log.i("DB", "CREATED")
         db?.execSQL(
@@ -27,7 +27,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     @SuppressLint("Recycle", "Range")
-    fun insertManga(manga: Manga)  {
+    fun insertManga(manga: Manga) {
         val values = ContentValues()
         values.put(COLUMN_MANGAID, manga.mangaId)
         values.put(COLUMN_AUTHOR, manga.author)
@@ -56,9 +56,12 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     @SuppressLint("Recycle")
-    fun isPresent(manga: Manga) : Boolean {
+    fun isPresent(manga: Manga): Boolean {
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT * from $TABLE_NAME WHERE ($COLUMN_MANGAID = '${manga.mangaId}')", null) ?: return false
+        val cursor = db.rawQuery(
+            "SELECT * from $TABLE_NAME WHERE ($COLUMN_MANGAID = '${manga.mangaId}')",
+            null
+        ) ?: return false
         if (cursor.count < 1) return false
         return true
     }

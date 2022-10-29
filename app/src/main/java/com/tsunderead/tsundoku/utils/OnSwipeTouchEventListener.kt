@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import kotlin.math.abs
 
 open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
 
@@ -29,39 +28,6 @@ open class OnSwipeTouchListener(ctx: Context) : View.OnTouchListener {
     }
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
-
-        override fun onFling(
-            e1: MotionEvent,
-            e2: MotionEvent,
-            velocityX: Float,
-            velocityY: Float
-        ): Boolean {
-            return super.onFling(e1, e2, velocityX, velocityY)
-//            var result = false
-//            try {
-//                val diffY = e2.y - e1.y
-//                val diffX = e2.x - e1.x
-//                if (abs(diffX) > abs(diffY)) {
-//                    if (abs(diffX) > SWIPE_THRESHOLD && abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-//                        result = if (diffX > 0) {
-//                            onSwipeRight()
-//                        } else {
-//                            onSwipeLeft()
-//                        }
-//                    }
-//                } else if (abs(diffY) > SWIPE_THRESHOLD && abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-//                    result = if (diffY > 0) {
-//                        onSwipeBottom()
-//                    } else {
-//                        onSwipeTop()
-//                    }
-//                }
-//            } catch (exception: Exception) {
-//                exception.printStackTrace()
-//            }
-//
-//            return result
-        }
 
 
     }

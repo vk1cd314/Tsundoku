@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapterList
-import com.tsunderead.tsundoku.api.MangaWithCover
 import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.chapter.Chapter
 import com.tsunderead.tsundoku.databinding.HistoryCellBinding
@@ -71,7 +70,7 @@ class HistoryChapterViewHolder(private val historyCellBinding: HistoryCellBindin
                 it.context.startActivity(intent)
             }
         } else {
-            Log.e("Well", "If this ain't a problem HMMMMMMMMMMMMMM");
+            Log.e("Well", "If this ain't a problem HMMMMMMMMMMMMMM")
         }
     }
 }

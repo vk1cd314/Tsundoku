@@ -1,7 +1,8 @@
 package com.tsunderead.tsundoku
 
 class ConstData {
-    val tagList = arrayOf("Oneshot",
+    val tagList = arrayOf(
+        "Oneshot",
         "Thriller",
         "Award Winning",
         "Reincarnation",
@@ -76,16 +77,92 @@ class ConstData {
         "Music",
         "Full Color",
         "Tragedy",
-        "Gyaru")
-    val tagListGrouped = mapOf(
-        "format" to arrayOf("4-Koma", "Adaptation", "Anthology", "Award Winning", "Doujinshi", "Fan Colored", "Full Color", "Long Strip", "Official Colored", "Oneshot", "User Created", "Web Comic"),
-        "genre" to arrayOf("Action", "Adventure", "Boys' Love", "Comedy", "Crime", "Drama", "Fantasy", "Girls' Love", "Historical", "Horror", "Isekai", "Magical Girls", "Mecha", "Medical", "Mystery",
-            "Philosophical", "Psychological", "Romance", "Sci-Fi", "Slice of Life", "Sports", "Superhero", "Thriller", "Tragedy", "Wuxia"),
-        "theme" to arrayOf("Aliens", "Animals", "Cooking", "Crossdressing", "Delinquents", "Demons", "Genderswap", "Ghosts", "Gyaru", "Harem", "Incest", "Loli", "Mafia", "Magic", "Martial Arts",
-            "Military", "Monster Girls", "Monsters", "Music", "Ninja", "Office Workers", "Police", "Post-Apocalyptic", "Reincarnation", "Reverse Harem", "Samurai", "School Life", "Shota",
-            "Supernatural", "Survival", "Time Travel", "Traditional Games", "Vampires", "Video Games", "Villainess", "Virtual Reality", "Zombies")
+        "Gyaru"
     )
-    val tagMap = mapOf("Oneshot" to "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
+    val tagListGrouped = mapOf(
+        "format" to arrayOf(
+            "4-Koma",
+            "Adaptation",
+            "Anthology",
+            "Award Winning",
+            "Doujinshi",
+            "Fan Colored",
+            "Full Color",
+            "Long Strip",
+            "Official Colored",
+            "Oneshot",
+            "User Created",
+            "Web Comic"
+        ),
+        "genre" to arrayOf(
+            "Action",
+            "Adventure",
+            "Boys' Love",
+            "Comedy",
+            "Crime",
+            "Drama",
+            "Fantasy",
+            "Girls' Love",
+            "Historical",
+            "Horror",
+            "Isekai",
+            "Magical Girls",
+            "Mecha",
+            "Medical",
+            "Mystery",
+            "Philosophical",
+            "Psychological",
+            "Romance",
+            "Sci-Fi",
+            "Slice of Life",
+            "Sports",
+            "Superhero",
+            "Thriller",
+            "Tragedy",
+            "Wuxia"
+        ),
+        "theme" to arrayOf(
+            "Aliens",
+            "Animals",
+            "Cooking",
+            "Crossdressing",
+            "Delinquents",
+            "Demons",
+            "Genderswap",
+            "Ghosts",
+            "Gyaru",
+            "Harem",
+            "Incest",
+            "Loli",
+            "Mafia",
+            "Magic",
+            "Martial Arts",
+            "Military",
+            "Monster Girls",
+            "Monsters",
+            "Music",
+            "Ninja",
+            "Office Workers",
+            "Police",
+            "Post-Apocalyptic",
+            "Reincarnation",
+            "Reverse Harem",
+            "Samurai",
+            "School Life",
+            "Shota",
+            "Supernatural",
+            "Survival",
+            "Time Travel",
+            "Traditional Games",
+            "Vampires",
+            "Video Games",
+            "Villainess",
+            "Virtual Reality",
+            "Zombies"
+        )
+    )
+    val tagMap = mapOf(
+        "Oneshot" to "0234a31e-a729-4e28-9d6a-3f87c4966b9e",
         "Thriller" to "07251805-a27e-4d59-b488-f0bfbec15168",
         "Award Winning" to "0a39b5a1-b235-4886-a747-1d05d216532d",
         "Reincarnation" to "0bc90acb-ccc1-44ca-a34a-b9f3a73259d0",
@@ -160,5 +237,6 @@ class ConstData {
         "Music" to "f42fbf9e-188a-447b-9fdc-f19dc1e4d685",
         "Full Color" to "f5ba408b-0e7a-484d-8d49-4e9125ac96de",
         "Tragedy" to "f8f62932-27da-4fe4-8ee1-6779a8c5edba",
-        "Gyaru" to "fad12b5e-68ba-460e-b933-9ae8318f5b65")
+        "Gyaru" to "fad12b5e-68ba-460e-b933-9ae8318f5b65"
+    )
 }

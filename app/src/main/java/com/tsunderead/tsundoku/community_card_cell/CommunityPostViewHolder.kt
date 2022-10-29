@@ -10,7 +10,8 @@ import com.google.firebase.ktx.Firebase
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.CommunityCardCellBinding
 
-class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCellBinding): RecyclerView.ViewHolder(communityPostBinding.root) {
+class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCellBinding) :
+    RecyclerView.ViewHolder(communityPostBinding.root) {
     private val db = Firebase.firestore
     private val user = Firebase.auth.currentUser
     private val userInteractionCollection = "user_interaction"
@@ -21,7 +22,8 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
 
         this.parentAdapter = parentAdapter
 
-        val postedOn = "Posted on ${post.timestamp.substring(0, 10)} ${post.timestamp.substring(11, 16)}"
+        val postedOn =
+            "Posted on ${post.timestamp.substring(0, 10)} ${post.timestamp.substring(11, 16)}"
         communityPostBinding.textViewUserName.text = post.username
         communityPostBinding.textViewPostTitle.text = post.title
         communityPostBinding.textViewPostDescription.text = post.description
@@ -42,7 +44,11 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     }
 
     private fun updoot(post: CommunityPost) {
-        if (user == null) Toast.makeText(communityPostBinding.root.context, "You Have To Login First", Toast.LENGTH_SHORT).show()
+        if (user == null) Toast.makeText(
+            communityPostBinding.root.context,
+            "You Have To Login First",
+            Toast.LENGTH_SHORT
+        ).show()
         else {
             db.collection(userInteractionCollection)
                 .whereEqualTo("user", user.email)
@@ -61,8 +67,7 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
                         )
                         db.collection(userInteractionCollection).add(interaction)
 
-                    }
-                    else{
+                    } else {
                         post.docRef.update("vote", FieldValue.increment(-1))
                         voteDecrementUI()
                         for (document in it.documents)
@@ -74,8 +79,12 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
         }
     }
 
-    private fun downvote (post: CommunityPost) {
-        if (user == null) Toast.makeText(communityPostBinding.root.context, "You Have To Login First", Toast.LENGTH_SHORT).show()
+    private fun downvote(post: CommunityPost) {
+        if (user == null) Toast.makeText(
+            communityPostBinding.root.context,
+            "You Have To Login First",
+            Toast.LENGTH_SHORT
+        ).show()
         else {
             db.collection(userInteractionCollection)
                 .whereEqualTo("user", user.email)
@@ -107,8 +116,12 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
         }
     }
 
-    private fun bookmark (post: CommunityPost) {
-        if (user == null) Toast.makeText(communityPostBinding.root.context, "You Have To Login First", Toast.LENGTH_SHORT).show()
+    private fun bookmark(post: CommunityPost) {
+        if (user == null) Toast.makeText(
+            communityPostBinding.root.context,
+            "You Have To Login First",
+            Toast.LENGTH_SHORT
+        ).show()
         else {
             db.collection(userInteractionCollection)
                 .whereEqualTo("user", user.email)
@@ -124,8 +137,7 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
                             "docId" to post.docRef.id
                         )
                         db.collection(userInteractionCollection).add(interaction)
-                    }
-                    else {
+                    } else {
                         communityPostBinding.btnCommunityBookmark.setImageResource(R.drawable.ic_baseline_bookmark_border_24)
                         for (document in it.documents)
                             db.collection(userInteractionCollection).document(document.id).delete()
@@ -135,18 +147,20 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     }
 
     private fun voteIncrementUI() {
-        val voteCount = ((communityPostBinding.textViewVoteCounter.text as String).toInt() + 1).toString()
+        val voteCount =
+            ((communityPostBinding.textViewVoteCounter.text as String).toInt() + 1).toString()
         communityPostBinding.textViewVoteCounter.text = voteCount
         communityPostBinding.btnCommunityUpdoot.setImageResource(R.drawable.ic_baseline_arrow_circle_up_24)
     }
 
     private fun voteDecrementUI() {
-        val voteCount = ((communityPostBinding.textViewVoteCounter.text as String).toInt() - 1).toString()
+        val voteCount =
+            ((communityPostBinding.textViewVoteCounter.text as String).toInt() - 1).toString()
         communityPostBinding.textViewVoteCounter.text = voteCount
         communityPostBinding.btnCommunityDownvote.setImageResource(R.drawable.ic_baseline_arrow_circle_down_24)
     }
 
-    private fun modifyLooks (post: CommunityPost) {
+    private fun modifyLooks(post: CommunityPost) {
         if (user != null && post.username == user.email) {
             communityPostBinding.btnCommunityOptions.setOnClickListener {
                 deletePost(post)
@@ -159,7 +173,7 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     }
 
     private fun isUpdooted(post: CommunityPost) {
-        if (user != null)  {
+        if (user != null) {
             db.collection(userInteractionCollection)
                 .whereEqualTo("user", user.email)
                 .whereEqualTo("type", "updoot")
@@ -173,7 +187,7 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     }
 
     private fun isDownvoted(post: CommunityPost) {
-        if (user != null)  {
+        if (user != null) {
             db.collection(userInteractionCollection)
                 .whereEqualTo("user", user.email)
                 .whereEqualTo("type", "downvote")
@@ -187,7 +201,7 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     }
 
     private fun isBookmarked(post: CommunityPost) {
-        if (user != null)  {
+        if (user != null) {
             db.collection(userInteractionCollection)
                 .whereEqualTo("user", user.email)
                 .whereEqualTo("type", "bookmark")
@@ -211,11 +225,19 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
             .setPositiveButton("Delete") { _, _ ->
                 db.collection(communityCollection).document(post.docRef.id).delete()
                     .addOnSuccessListener {
-                        Toast.makeText(communityPostBinding.root.context, "Post Deleted Successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            communityPostBinding.root.context,
+                            "Post Deleted Successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         parentAdapter.deletePost(layoutPosition)
                     }
                     .addOnFailureListener {
-                        Toast.makeText(communityPostBinding.root.context, "Post Could Not Be Deleted", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            communityPostBinding.root.context,
+                            "Post Could Not Be Deleted",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
             }
             .show()

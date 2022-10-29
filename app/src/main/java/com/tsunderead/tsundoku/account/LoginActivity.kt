@@ -37,12 +37,13 @@ class LoginActivity : AppCompatActivity() {
             password.setText(extras.getString("password"))
         }
 
-        initSignup ()
+        initSignup()
         initForgotPass()
         initSignIn()
 
     }
-    private fun initSignup () {
+
+    private fun initSignup() {
         val signupButton = findViewById<Button>(R.id.signup_button)
         signupButton.setOnClickListener {
             val intent = Intent(this, CreateAccountActivity::class.java)
@@ -51,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun initForgotPass () {
+    private fun initForgotPass() {
         val forgotPassword = findViewById<Button>(R.id.forgot_password_button)
         forgotPassword.setOnClickListener {
             val intent = Intent(this, ForgotPasswordActivity::class.java)
@@ -60,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun initSignIn () {
+    private fun initSignIn() {
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
             login(email.text.toString(), password.text.toString())
@@ -68,38 +69,39 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun badLogin(): Boolean {
-        var error = "";
+        var error = ""
         if (email.text.isNullOrEmpty()) error = "Please enter username or email"
         else if (password.text.isNullOrEmpty()) error = "Please enter Password"
         if (error.isNotEmpty()) Toast.makeText(baseContext, error, Toast.LENGTH_SHORT).show()
         return error.isNotEmpty()
     }
 
-    private fun login (loginName: String, loginPass: String) {
+    private fun login(loginName: String, loginPass: String) {
         if (badLogin()) return
         if (!Patterns.EMAIL_ADDRESS.matcher(loginName).matches()) {
             db.collection("account").whereEqualTo("username", loginName).get()
                 .addOnSuccessListener {
-                    if (it.size() > 0)
-                        firebaseAuth(it.documents[0].data?.get("email").toString(), loginPass)
+                    if (it.size() > 0) firebaseAuth(
+                        it.documents[0].data?.get("email").toString(), loginPass
+                    )
                     else Toast.makeText(baseContext, "No Username Found", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener{
+                }.addOnFailureListener {
                     Log.e(TAG, "failed", it)
                 }
-        }
-        else firebaseAuth(loginName, loginPass)
+        } else firebaseAuth(loginName, loginPass)
     }
 
-    private fun firebaseAuth (loginMail: String, loginPass: String) {
+    private fun firebaseAuth(loginMail: String, loginPass: String) {
         auth.signInWithEmailAndPassword(loginMail, loginPass).addOnCompleteListener(this) {
             if (it.isSuccessful) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
-            }else {
+            } else {
                 Log.w(TAG, "Could not sign in", it.exception)
-                Toast.makeText(baseContext, "Sign In Failed: No Matching email or password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    baseContext, "Sign In Failed: No Matching email or password", Toast.LENGTH_SHORT
+                ).show()
             }
 
         }

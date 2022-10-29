@@ -53,5 +53,6 @@ class MangaLoaderContextImpl @Inject constructor(
     }
 
     private fun LocaleListCompat.toList(): List<Locale> = List(size()) { i -> getOrThrow(i) }
-    private fun LocaleListCompat.getOrThrow(index: Int) = get(index) ?: throw NoSuchElementException()
+    private fun LocaleListCompat.getOrThrow(index: Int) =
+        get(index) ?: throw NoSuchElementException()
 }

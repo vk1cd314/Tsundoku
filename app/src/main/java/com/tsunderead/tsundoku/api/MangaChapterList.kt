@@ -22,9 +22,8 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
     override fun onCallSuccess(result: JSONObject?) {
         if ((result == null) || (result.getString("result") != "ok")) {
             onCallFail()
-            return;
-        } else
-            populateWithChapterList(result)
+            return
+        } else populateWithChapterList(result)
     }
 
     private fun populateWithChapterList(result: JSONObject) {
@@ -41,7 +40,7 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
             e.printStackTrace()
         } finally {
             populatedWithChapterList = true
-            if (populatedWithChapterList && populatedWithDescription){
+            if (populatedWithChapterList && populatedWithDescription) {
                 parent.onCallSuccess(returnObj)
             }
         }
@@ -56,9 +55,13 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
                 manga.getJSONObject("attributes").getJSONObject("description").getString("en")
             )
         } catch (e: Exception) {
-            for (descriptionLang in manga.getJSONObject("attributes").getJSONObject("description").keys()) {
-                returnObj.put("description",manga.getJSONObject("attributes")
-                    .getJSONObject("description").getString(descriptionLang))
+            for (descriptionLang in manga.getJSONObject("attributes").getJSONObject("description")
+                .keys()) {
+                returnObj.put(
+                    "description",
+                    manga.getJSONObject("attributes").getJSONObject("description")
+                        .getString(descriptionLang)
+                )
                 break
             }
         }
@@ -68,23 +71,27 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
         for (j in 0 until tagList.length()) {
 
             try {
-                tags.put(j, tagList.getJSONObject(j).getJSONObject("attributes")
-                    .getJSONObject("name").getString("en")
+                tags.put(
+                    j,
+                    tagList.getJSONObject(j).getJSONObject("attributes").getJSONObject("name")
+                        .getString("en")
                 )
             } catch (e: Exception) {
                 for (tag in tagList.getJSONObject(j).getJSONObject("attributes")
                     .getJSONObject("name").keys()) {
-                    tags.put(j, tagList.getJSONObject(j).getJSONObject("attributes")
-                        .getJSONObject("name").getString(tag)
+                    tags.put(
+                        j,
+                        tagList.getJSONObject(j).getJSONObject("attributes").getJSONObject("name")
+                            .getString(tag)
                     )
-                    break;
+                    break
                 }
             }
         }
         returnObj.put("tags", tags)
 
-        populatedWithDescription = true;
-        if (populatedWithChapterList && populatedWithDescription){
+        populatedWithDescription = true
+        if (populatedWithChapterList && populatedWithDescription) {
             Log.i("inside", returnObj.toString())
             parent.onCallSuccess(returnObj)
         }
@@ -100,9 +107,8 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
         override fun onCallSuccess(result: JSONObject?) {
             if ((result == null) || (result.getString("result") != "ok")) {
                 onCallFail()
-                return;
-            } else
-                manga.populateWithDetails(result)
+                return
+            } else manga.populateWithDetails(result)
         }
 
     }

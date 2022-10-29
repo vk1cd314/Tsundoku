@@ -1,6 +1,5 @@
 package com.tsunderead.tsundoku.api
 
-import android.util.Log
 import com.tsunderead.tsundoku.ConstData
 import org.json.JSONArray
 import org.json.JSONObject
@@ -20,8 +19,7 @@ class MangaWithCover(
     fun execute(offset: Int) {
         val endpoint = "manga?limit=$limit&offset=$offset${generateFilter()}"
 //        Log.i(tag, endpoint)
-        @Suppress("DEPRECATION")
-        ApiCall(this).execute(endpoint)
+        @Suppress("DEPRECATION") ApiCall(this).execute(endpoint)
     }
 
     private fun generateFilter(): String {
@@ -32,11 +30,8 @@ class MangaWithCover(
             val filterKey = filter[key]
             if (key == "includedTags%5B%5D") {
                 val tagMap = ConstData().tagMap
-                for (filterVal in filterKey!!)
-                    str = "$str&$key=${tagMap[filterVal]}"
-            } else
-                for (filterVal in filterKey!!)
-                    str = "$str&$key=$filterVal"
+                for (filterVal in filterKey!!) str = "$str&$key=${tagMap[filterVal]}"
+            } else for (filterVal in filterKey!!) str = "$str&$key=$filterVal"
         }
         return str
     }
@@ -61,10 +56,12 @@ class MangaWithCover(
                         manga.getJSONObject("attributes").getJSONObject("title").getString("en")
                     )
                 } catch (e: Exception) {
-                    for (nameLang in manga.getJSONObject("attributes").getJSONObject("title").keys()) {
+                    for (nameLang in manga.getJSONObject("attributes").getJSONObject("title")
+                        .keys()) {
                         jsonObject.put(
                             "name",
-                            manga.getJSONObject("attributes").getJSONObject("title").getString(nameLang)
+                            manga.getJSONObject("attributes").getJSONObject("title")
+                                .getString(nameLang)
                         )
                         break
                     }
@@ -110,8 +107,7 @@ class MangaWithCover(
 
     private fun onPopulateComplete() {
 
-        if (populatedWithCover && populatedWithAuthor)
-            parent.onCallSuccess(returnObj)
+        if (populatedWithCover && populatedWithAuthor) parent.onCallSuccess(returnObj)
 
     }
 
@@ -128,19 +124,17 @@ class MangaWithCover(
                     val manga = mangaWithoutCover.mangaList.getJSONObject(i)
                     val relationships = manga.getJSONArray("relationships")
 
-                    for (rel in 0 until relationships.length())
-                        if (relationships.getJSONObject(rel).getString("type")
-                                .equals("cover_art")
-                        ) {
+                    for (rel in 0 until relationships.length()) if (relationships.getJSONObject(rel)
+                            .getString("type").equals("cover_art")
+                    ) {
 
-                            @Suppress("DEPRECATION")
-                            ApiCall(this, i).execute(
-                                "cover/${
-                                    relationships.getJSONObject(rel).getString("id")
-                                }"
-                            )
-                            break
-                        }
+                        @Suppress("DEPRECATION") ApiCall(this, i).execute(
+                            "cover/${
+                                relationships.getJSONObject(rel).getString("id")
+                            }"
+                        )
+                        break
+                    }
 
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -182,17 +176,17 @@ class MangaWithCover(
                     val manga = mangaWithoutAuthor.mangaList.getJSONObject(i)
                     val relationships = manga.getJSONArray("relationships")
 
-                    for (rel in 0 until relationships.length())
-                        if (relationships.getJSONObject(rel).getString("type").equals("author")) {
+                    for (rel in 0 until relationships.length()) if (relationships.getJSONObject(rel)
+                            .getString("type").equals("author")
+                    ) {
 
-                            @Suppress("DEPRECATION")
-                            ApiCall(this, i).execute(
-                                "author/${
-                                    relationships.getJSONObject(rel).getString("id")
-                                }"
-                            )
-                            break
-                        }
+                        @Suppress("DEPRECATION") ApiCall(this, i).execute(
+                            "author/${
+                                relationships.getJSONObject(rel).getString("id")
+                            }"
+                        )
+                        break
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

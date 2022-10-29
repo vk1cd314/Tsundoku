@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.databinding.HistoryCellBinding
 
-class HistoryChapterAdapter(private val historChapters: ArrayList<MangaWithChapter>)
-    : RecyclerView.Adapter<HistoryChapterViewHolder>(){
+class HistoryChapterAdapter(private val historChapters: ArrayList<MangaWithChapter>) :
+    RecyclerView.Adapter<HistoryChapterViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryChapterViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = HistoryCellBinding.inflate(from, parent, false)

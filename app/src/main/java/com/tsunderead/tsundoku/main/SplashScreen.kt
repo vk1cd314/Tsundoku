@@ -1,8 +1,8 @@
 package com.tsunderead.tsundoku.main
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import com.tsunderead.tsundoku.R
 
@@ -16,7 +16,7 @@ class splash_screen : AppCompatActivity() {
         supportActionBar?.hide()
         splashLayout = findViewById(R.id.splashMotionLayout)
         splashLayout.startLayoutAnimation()
-        splashLayout.setTransitionListener(object :MotionLayout.TransitionListener{
+        splashLayout.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(
                 motionLayout: MotionLayout?,
                 startId: Int,
@@ -35,7 +35,7 @@ class splash_screen : AppCompatActivity() {
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-               startActivity(Intent(this@splash_screen, MainActivity::class.java))
+                startActivity(Intent(this@splash_screen, MainActivity::class.java))
                 finish()
             }
 

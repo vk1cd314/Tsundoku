@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.tsunderead.tsundoku.manga_reader.MangaReaderActivity
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ChapterCellBinding
 import com.tsunderead.tsundoku.history.MangaWithChapter
 import com.tsunderead.tsundoku.manga_card_cell.Manga
+import com.tsunderead.tsundoku.manga_reader.MangaReaderActivity
 import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 
-class ChapterAdapter (private val manga: Manga, private val chapters: ArrayList<Chapter>)
-    : RecyclerView.Adapter<ChapterViewHolder>(){
-    private lateinit var libraryDBHandler : LibraryDBHelper
+class ChapterAdapter(private val manga: Manga, private val chapters: ArrayList<Chapter>) :
+    RecyclerView.Adapter<ChapterViewHolder>() {
+    private lateinit var libraryDBHandler: LibraryDBHelper
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChapterViewHolder {
         val from = LayoutInflater.from(parent.context)
         val binding = ChapterCellBinding.inflate(from, parent, false)
@@ -26,7 +26,7 @@ class ChapterAdapter (private val manga: Manga, private val chapters: ArrayList<
         holder.bindChapter(chapters[position])
         holder.itemView.findViewById<CardView>(R.id.chapterCardView).findViewById<TextView>(
             R.id.chapterTextView
-        ).setOnClickListener() {
+        ).setOnClickListener {
             libraryDBHandler = LibraryDBHelper(it.context, null)
             val mangaWithChapter = MangaWithChapter(manga, chapters[position])
             libraryDBHandler.updateManga(manga.mangaId, mangaWithChapter)

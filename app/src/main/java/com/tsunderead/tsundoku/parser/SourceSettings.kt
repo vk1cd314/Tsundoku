@@ -21,7 +21,8 @@ class SourceSettings(context: Context, source: MangaSource) : MangaSourceConfig 
     @Suppress("UNCHECKED_CAST")
     override fun <T> get(key: ConfigKey<T>): T {
         return when (key) {
-            is ConfigKey.Domain -> prefs.getString(key.key, key.defaultValue).ifNullOrEmpty { key.defaultValue }
+            is ConfigKey.Domain -> prefs.getString(key.key, key.defaultValue)
+                .ifNullOrEmpty { key.defaultValue }
         } as T
     }
 

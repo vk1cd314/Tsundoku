@@ -26,9 +26,9 @@ import com.tsunderead.tsundoku.manga_reader.MangaReaderActivity
 import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 import org.json.JSONObject
 
-class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
+class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
 
-    private lateinit var libraryDBHandler : LibraryDBHelper
+    private lateinit var libraryDBHandler: LibraryDBHelper
     private lateinit var binding: ActivityMangaDetailBinding
     private lateinit var manga: Manga
     private lateinit var cover: String
@@ -70,8 +70,8 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
 
         modifyLikeLook()
 
-        binding.DescToolBar.setOnMenuItemClickListener{
-            when(it.itemId){
+        binding.DescToolBar.setOnMenuItemClickListener {
+            when (it.itemId) {
                 R.id.add2Library -> {
                     //bugs for some reason
                     if (libraryDBHandler.isPresent(manga)) {
@@ -83,7 +83,7 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
                     }
                     true
                 }
-                R.id.shareManga ->{
+                R.id.shareManga -> {
                     shareManga()
                     true
                 }
@@ -95,7 +95,8 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             }
         }
 
-        Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder).into(coverId)
+        Glide.with(this@MangaDetailActivity).load(cover).placeholder(R.drawable.placeholder)
+            .into(coverId)
         MangaChapterList(this, mangaId).execute(0)
     }
 
@@ -109,9 +110,11 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
         recyclerView.setHasFixedSize(true)
         val chapters = ArrayList<Chapter>()
         for (key in result!!.keys()) {
-            if (key.toIntOrNull() != null){
-                val chapter = Chapter(result.getJSONObject(key).getInt("chapterNo"),
-                    result.getJSONObject(key).getString("chapterId"))
+            if (key.toIntOrNull() != null) {
+                val chapter = Chapter(
+                    result.getJSONObject(key).getInt("chapterNo"),
+                    result.getJSONObject(key).getString("chapterId")
+                )
                 chapters.add(chapter)
             }
         }
@@ -131,7 +134,8 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             if (libraryDBHandler.isPresent(manga)) {
                 val cursor = libraryDBHandler.getOneManga(manga.mangaId)
                 cursor!!.moveToFirst()
-                val chapterHash = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
+                val chapterHash =
+                    cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
                 if (chapterHash != "-1") {
                     val intent = Intent(this@MangaDetailActivity, MangaReaderActivity::class.java)
                     intent.putExtra("ChapterId", chapterHash)
@@ -171,7 +175,11 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
 
     private fun likeManga() {
         if (user == null) {
-            Toast.makeText(baseContext, "You must sign in to add manga to favorites", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                baseContext,
+                "You must sign in to add manga to favorites",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
         val likeButton = binding.DescToolBar.menu.findItem(R.id.likeManga)
@@ -195,7 +203,8 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject>{
             )
             db.collection("user_interaction").add(interaction)
                 .addOnFailureListener {
-                    Toast.makeText(baseContext, "Could not add to favorites", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "Could not add to favorites", Toast.LENGTH_SHORT)
+                        .show()
                     likeButton.setIcon(R.drawable.ic_baseline_favorite_border_24)
                 }
             likeButton.setIcon(R.drawable.ic_baseline_favorite_24)

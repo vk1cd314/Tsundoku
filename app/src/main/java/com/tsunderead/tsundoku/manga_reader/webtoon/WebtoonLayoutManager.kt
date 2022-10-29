@@ -25,7 +25,11 @@ class WebtoonLayoutManager : LinearLayoutManager {
         defStyleRes: Int,
     ) : super(context, attrs, defStyleAttr, defStyleRes)
 
-    override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State): Int {
+    override fun scrollVerticallyBy(
+        dy: Int,
+        recycler: RecyclerView.Recycler?,
+        state: RecyclerView.State
+    ): Int {
         scrollDirection = dy.sign
         return super.scrollVerticallyBy(dy, recycler, state)
     }

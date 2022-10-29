@@ -30,18 +30,17 @@ class NewPost : AppCompatActivity() {
             binding.txtPostTitle.setText(titleString)
         }
 
-        binding.btnSubmitPost.setOnClickListener{
+        binding.btnSubmitPost.setOnClickListener {
             submitPost()
         }
 
         setContentView(binding.root)
     }
 
-    private fun submitPost () {
+    private fun submitPost() {
         val user = Firebase.auth.currentUser
-        if (user == null)
-            Toast.makeText(baseContext, "You must sign in to post", Toast.LENGTH_LONG).show()
-
+        if (user == null) Toast.makeText(baseContext, "You must sign in to post", Toast.LENGTH_LONG)
+            .show()
         else {
             binding.textViewCommunityError.visibility = View.GONE
             var err = false
@@ -63,14 +62,12 @@ class NewPost : AppCompatActivity() {
                     "vote" to "0"
                 )
 
-                db.collection("community").add(post)
-                    .addOnSuccessListener {
-                        finish()
-                    }
-                    .addOnFailureListener{
-                        Log.e(tag, it.toString())
-                        finish()
-                    }
+                db.collection("community").add(post).addOnSuccessListener {
+                    finish()
+                }.addOnFailureListener {
+                    Log.e(tag, it.toString())
+                    finish()
+                }
             }
         }
     }

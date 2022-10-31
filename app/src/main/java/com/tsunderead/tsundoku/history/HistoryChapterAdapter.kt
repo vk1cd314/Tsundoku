@@ -15,6 +15,7 @@ class HistoryChapterAdapter(private val historChapters: ArrayList<MangaWithChapt
 
     override fun onBindViewHolder(holder: HistoryChapterViewHolder, position: Int) {
         holder.bindHistoryChapter(historChapters[position], holder)
+
     }
 
     override fun getItemCount(): Int {

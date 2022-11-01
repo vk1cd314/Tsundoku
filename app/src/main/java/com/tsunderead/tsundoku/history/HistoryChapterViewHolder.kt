@@ -3,6 +3,7 @@ package com.tsunderead.tsundoku.history
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,8 +26,11 @@ class HistoryChapterViewHolder(private val historyCellBinding: HistoryCellBindin
         historyChapterViewHolder: HistoryChapterViewHolder
     ) {
         val imgUrl = mangaWithChapter.manga.cover
+
+
         Glide.with(historyChapterViewHolder.itemView.context).load(imgUrl)
             .placeholder(R.drawable.placeholder).into(historyCellBinding.mangaHistoryImageView)
+
         historyCellBinding.mangaNameTextView.text = mangaWithChapter.manga.title
         historyCellBinding.chapterIDTextView.text =
             "Chapter ${mangaWithChapter.chapter.chapterNumber}"
@@ -38,7 +42,7 @@ class HistoryChapterViewHolder(private val historyCellBinding: HistoryCellBindin
     }
 
     override fun onCallSuccess(result: JSONObject?) {
-        Log.i("HistoryCell", result.toString())
+//        Log.i("HistoryCell", result.toString())
         val chapters = ArrayList<Chapter>()
         for (key in result!!.keys()) {
             if (key.toIntOrNull() != null) {

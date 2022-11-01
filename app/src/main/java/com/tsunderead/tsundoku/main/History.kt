@@ -81,24 +81,32 @@ class History : Fragment(), NetworkCaller<JSONObject> {
 
     @SuppressLint("UseRequireInsteadOfGet", "Range")
     suspend fun getHistoryData() {
-        historyChapterList = ArrayList<MangaWithChapter>()
+        historyChapterList = ArrayList()
         libraryDBHandler = this@History.context?.let { LibraryDBHelper(it, null) }!!
         val cursor = libraryDBHandler.getAllMangaWithHistory()
         cursor!!.moveToFirst()
 
         while (!cursor.isAfterLast) {
-            val manga = Manga("1", "2", "3", "4")
-            val chapter = Chapter(1, "-1")
-            manga.mangaId = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_MANGAID))
-            manga.author = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_AUTHOR))
-            manga.cover = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_COVER))
-            manga.title = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE))
-            chapter.chapterNumber =
-                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt()
-            chapter.chapterHash =
+            val manga = Manga(
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_MANGAID)),
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_AUTHOR)),
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_COVER)),
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE))
+            )
+            val chapter = Chapter(
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt(),
                 cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
-            Log.i("Manga", manga.toString())
-            Log.i("Chapter", chapter.toString())
+            )
+//            manga.mangaId = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_MANGAID))
+//            manga.author = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_AUTHOR))
+//            manga.cover = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_COVER))
+//            manga.title = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE))
+//            chapter.chapterNumber =
+//                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt()
+//            chapter.chapterHash =
+//                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
+//            Log.i("Manga", manga.toString())
+//            Log.i("Chapter", chapter.toString())
             if (chapter.chapterHash != "-1" && chapter.chapterNumber != -1) historyChapterList.add(
                 MangaWithChapter(manga, chapter)
             )

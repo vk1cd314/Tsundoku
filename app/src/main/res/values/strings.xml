@@ -5,7 +5,6 @@
     <string name="search">Search</string>
     <string name="history">History</string>
     <string name="settings">Settings</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
@@ -13,7 +12,7 @@
     <string name="contact_us">Contact Us</string>
     <string name="log_out">Log Out</string>
     <string name="forgot_password">Forgot Password</string>
-    <string name="sign_up">sign up</string>
+    <string name="sign_up">Sign Up</string>
     <string name="cover">Cover</string>
     <string name="textview">TextView</string>
     <string name="chaptername">TextView</string>
@@ -39,4 +38,13 @@
     <string name="previous_chapter" />
     <string name="goes_back" />
     <string name="button_to_resume_chapter">Button to Resume chapter</string>
+    <string name="email">Email</string>
+    <string name="likes">Likes</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="posts">Posts</string>
+    <string name="format">Format</string>
+    <string name="genre">Genre</string>
+    <string name="theme">Theme</string>
+    <string name="sign_in_to_see_profile">Sign In to See Profile</string>
+    <string name="or_sign_up">Or Sign Up</string>
 </resources>

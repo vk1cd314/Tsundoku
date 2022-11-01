@@ -14,7 +14,7 @@
         android:layout_marginBottom="7dp">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="409dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="14dp"
@@ -30,6 +30,7 @@
                 android:padding="16dp">
 
                 <LinearLayout
+                    android:id="@+id/layoutProfile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -44,8 +45,8 @@
                             android:id="@+id/imgPfp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ginnosaji"
-                            android:contentDescription="@string/profile_picture" />
+                            android:contentDescription="@string/profile_picture"
+                            android:src="@drawable/ginnosaji" />
                     </androidx.cardview.widget.CardView>
 
                     <TextView
@@ -95,6 +96,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layoutInteraction"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -113,8 +115,8 @@
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:background="@null"
-                        app:srcCompat="@drawable/ic_baseline_bookmark_border_24"
-                        android:contentDescription="@string/bookmark_button" />
+                        android:contentDescription="@string/bookmark_button"
+                        app:srcCompat="@drawable/ic_baseline_bookmark_border_24" />
 
                     <ImageButton
                         android:id="@+id/btnCommunityUpdoot"
@@ -122,15 +124,15 @@
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:contentDescription="@string/updoot_button"
                         app:srcCompat="@drawable/ic_baseline_arrow_upward_24"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        android:contentDescription="@string/updoot_button" />
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <TextView
                         android:id="@+id/textViewVoteCounter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <ImageButton
                         android:id="@+id/btnCommunityDownvote"
@@ -138,9 +140,9 @@
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:contentDescription="@string/downvote_button"
                         app:srcCompat="@drawable/ic_baseline_arrow_downward_24"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        android:contentDescription="@string/downvote_button" />
+                        tools:ignore="SpeakableTextPresentCheck" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

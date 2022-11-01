@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tsunderead.tsundoku.databinding.HistoryCellBinding
 
-class HistoryChapterAdapter(private val historChapters: ArrayList<MangaWithChapter>) :
+class HistoryChapterAdapter(private val historyChapters: ArrayList<MangaWithChapter>) :
     RecyclerView.Adapter<HistoryChapterViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryChapterViewHolder {
         val from = LayoutInflater.from(parent.context)
@@ -14,11 +14,11 @@ class HistoryChapterAdapter(private val historChapters: ArrayList<MangaWithChapt
     }
 
     override fun onBindViewHolder(holder: HistoryChapterViewHolder, position: Int) {
-        holder.bindHistoryChapter(historChapters[position], holder)
+        holder.bindHistoryChapter(historyChapters[position], holder)
     }
 
     override fun getItemCount(): Int {
-        return historChapters.size
+        return historyChapters.size
     }
 
 }

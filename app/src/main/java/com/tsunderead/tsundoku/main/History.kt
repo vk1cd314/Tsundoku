@@ -57,6 +57,7 @@ class History : Fragment(), NetworkCaller<JSONObject> {
                         this@History.context?.let { it1 -> LibraryDBHelper(it1, null) }!!
                     libraryDBHandler.deleteHistory()
                     libraryDBHandler.close()
+                    recyclerView.adapter = HistoryChapterAdapter(arrayListOf())
                     true
                 }
                 else -> false

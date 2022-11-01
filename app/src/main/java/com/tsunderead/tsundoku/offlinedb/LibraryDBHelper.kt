@@ -39,7 +39,7 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
 
         Log.i("Inserting Manga", manga.toString())
 
-        if (isPresent(manga)) return
+        if (isPresent(manga.mangaId)) return
 
         val db = this.writableDatabase
         try {
@@ -56,10 +56,10 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
     }
 
     @SuppressLint("Recycle")
-    fun isPresent(manga: Manga): Boolean {
+    fun isPresent(mangaId: String): Boolean {
         val db = this.readableDatabase
         val cursor = db.rawQuery(
-            "SELECT * from $TABLE_NAME WHERE ($COLUMN_MANGAID = '${manga.mangaId}')",
+            "SELECT * from $TABLE_NAME WHERE ($COLUMN_MANGAID = '${mangaId}')",
             null
         ) ?: return false
         if (cursor.count < 1) return false
@@ -68,10 +68,6 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
 
     fun updateManga(mangaId: String, manga: MangaWithChapter) {
         val values = ContentValues()
-        values.put(COLUMN_MANGAID, mangaId)
-        values.put(COLUMN_AUTHOR, manga.manga.author)
-        values.put(COLUMN_COVER, manga.manga.cover)
-        values.put(COLUMN_TITLE, manga.manga.title)
         values.put(COLUMN_LASTREAD, manga.chapter.chapterNumber.toString())
         values.put(COLUMN_LASTREADHASH, manga.chapter.chapterHash)
         values.put(COLUMN_TIMELASTREAD, System.currentTimeMillis() / 1000)
@@ -83,9 +79,13 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
 
     @SuppressLint("Recycle")
     fun deleteHistory() {
+        val values = ContentValues()
+        values.put(COLUMN_LASTREADHASH, "-1")
+        values.put(COLUMN_LASTREAD, "-1")
         val db = this.writableDatabase
         Log.i("Trying", "To Delete")
-        db.rawQuery("UPDATE $TABLE_NAME SET $COLUMN_LASTREADHASH = -1", null)
+        db.update(TABLE_NAME, values, null, null)
+        db.close()
     }
 
     fun deleteManga(mangaId: String) {
@@ -110,6 +110,18 @@ class LibraryDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) 
             "SELECT * FROM $TABLE_NAME WHERE ($COLUMN_LASTREADHASH != -1) ORDER BY $COLUMN_TIMELASTREAD DESC",
             null
         )
+    }
+
+    @SuppressLint("Recycle")
+    fun updateHistoryChapterRead(mangaId: String, chapterHash: String, chapterNum: String) {
+        val values = ContentValues()
+        values.put(COLUMN_LASTREAD, chapterNum)
+        values.put(COLUMN_LASTREADHASH, chapterHash)
+        values.put(COLUMN_TIMELASTREAD, System.currentTimeMillis() / 1000)
+
+        val db = this.writableDatabase
+        db.update(TABLE_NAME, values, "$COLUMN_MANGAID = ?", arrayOf(mangaId))
+        db.close()
     }
 
     companion object Constants {

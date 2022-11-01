@@ -61,16 +61,21 @@ class HistoryChapterViewHolder(private val historyCellBinding: HistoryCellBindin
             }
         }
         val chapterList = arrayListOf<String>()
+        val chapterNumlist = arrayListOf<String>()
         for (item in chapters) {
             chapterList.add(item.chapterHash)
+            chapterNumlist.add(item.chapterNumber.toString())
         }
 
         if (position != -1) {
             historyCellBinding.resumeChapterButton.setOnClickListener {
                 val intent = Intent(it.context, MangaReaderActivity::class.java)
+                intent.putExtra("MangaId", mangaChapInfo.manga.mangaId)
                 intent.putExtra("ChapterId", mangaChapInfo.chapter.chapterHash)
+                intent.putExtra("ChapterNum", mangaChapInfo.chapter.chapterNumber.toString())
                 intent.putExtra("chapterList", chapterList)
                 intent.putExtra("position", position)
+                intent.putExtra("chapterNumlist", chapterNumlist)
                 it.context.startActivity(intent)
             }
         } else {

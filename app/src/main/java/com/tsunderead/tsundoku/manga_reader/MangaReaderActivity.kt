@@ -18,6 +18,7 @@ import com.tsunderead.tsundoku.api.NetworkCaller
 import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPage
 import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPageAdapter
 import com.tsunderead.tsundoku.databinding.MangaReaderBinding
+import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
 import org.json.JSONObject
 import kotlin.properties.Delegates
 
@@ -25,16 +26,29 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
     private lateinit var mangaReaderBinding: MangaReaderBinding
     private lateinit var chapterList: ArrayList<String>
     private var position by Delegates.notNull<Int>()
+    private lateinit var libraryDBHandler: LibraryDBHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mangaReaderBinding = MangaReaderBinding.inflate(layoutInflater)
         setContentView(mangaReaderBinding.root)
+        val chapterNumlist = intent.getStringArrayListExtra("chapterNumlist")
+        val chapterNum = intent.getStringExtra("ChapterNum")
+        val mangaId = intent.getStringExtra("MangaId")
         val chapterId = intent.getStringExtra("ChapterId")
         chapterList = intent.getStringArrayListExtra("chapterList")!!
         position = intent.getIntExtra("position", -1)
         Log.i("Stuff1", chapterId.toString())
         Log.i("Stuff2", chapterList.toString())
         Log.i("Stuff3", position.toString())
+        libraryDBHandler = LibraryDBHelper(this@MangaReaderActivity, null)
+        Log.i("Before here", "Def")
+        if (mangaId?.let { libraryDBHandler.isPresent(it) } == true) chapterId?.let {
+            if (chapterNum != null) {
+                libraryDBHandler.updateHistoryChapterRead(mangaId,
+                    it, chapterNum)
+                Log.i("In here", "Def")
+            }
+        }
         chapterId?.let { MangaChapter(this, it) }?.execute()
         hideSystemBars()
         mangaReaderBinding.goBack.setOnClickListener {
@@ -48,9 +62,12 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
                     .show()
             } else {
                 val intent = Intent(this@MangaReaderActivity, MangaReaderActivity::class.java)
+                intent.putExtra("MangaId", mangaId)
                 intent.putExtra("ChapterId", chapterList[position + 1])
                 intent.putExtra("chapterList", chapterList)
                 intent.putExtra("position", position + 1)
+                intent.putExtra("ChapterNum", chapterNumlist?.get(position + 1))
+                intent.putExtra("chapterNumlist", chapterNumlist)
                 startActivity(intent)
                 finish()
             }
@@ -62,9 +79,12 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
                     .show()
             } else {
                 val intent = Intent(this@MangaReaderActivity, MangaReaderActivity::class.java)
+                intent.putExtra("MangaId", mangaId)
                 intent.putExtra("ChapterId", chapterList[position - 1])
                 intent.putExtra("chapterList", chapterList)
                 intent.putExtra("position", position - 1)
+                intent.putExtra("ChapterNum", chapterNumlist?.get(position - 1))
+                intent.putExtra("chapterNumlist", chapterNumlist)
                 startActivity(intent)
                 finish()
             }

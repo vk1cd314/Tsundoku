@@ -63,7 +63,7 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         libraryDBHandler = LibraryDBHelper(this, null)
         manga = Manga(cover, author, title, mangaId)
 
-        if (libraryDBHandler.isPresent(manga)) {
+        if (libraryDBHandler.isPresent(manga.mangaId)) {
             //updating icon
             inLibrary.setIcon(R.drawable.ic_sharp_check_24)
         }
@@ -74,7 +74,7 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
             when (it.itemId) {
                 R.id.add2Library -> {
                     //bugs for some reason
-                    if (libraryDBHandler.isPresent(manga)) {
+                    if (libraryDBHandler.isPresent(manga.mangaId)) {
                         libraryDBHandler.deleteManga(manga.mangaId)
                         inLibrary.setIcon(R.drawable.ic_sharp_add_24)
                     } else {
@@ -131,15 +131,38 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         recyclerView.adapter = ChapterAdapter(manga, chapters)
         binding.continueReading.setOnClickListener {
             libraryDBHandler = LibraryDBHelper(this@MangaDetailActivity, null)
-            if (libraryDBHandler.isPresent(manga)) {
+            if (libraryDBHandler.isPresent(manga.mangaId)) {
                 val cursor = libraryDBHandler.getOneManga(manga.mangaId)
                 cursor!!.moveToFirst()
                 val chapterHash =
                     cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
                 if (chapterHash != "-1") {
-                    val intent = Intent(this@MangaDetailActivity, MangaReaderActivity::class.java)
-                    intent.putExtra("ChapterId", chapterHash)
-                    startActivity(intent)
+                    var position = -1
+                    for (i in 0 until chapters.size) {
+                        if (chapters[i].chapterHash == chapterHash) {
+                            position = i
+                            break
+                        }
+                    }
+                    val chapterList = arrayListOf<String>()
+                    val chapterNumlist = arrayListOf<String>()
+                    for (item in chapters) {
+                        chapterList.add(item.chapterHash)
+                        chapterNumlist.add(item.chapterNumber.toString())
+                    }
+                    if (position != -1) {
+                        val intent =
+                            Intent(this@MangaDetailActivity, MangaReaderActivity::class.java)
+                        intent.putExtra("MangaId", mangaId)
+                        intent.putExtra("chapterList", chapterList)
+                        intent.putExtra("position", position)
+                        intent.putExtra("ChapterId", chapterHash)
+                        intent.putExtra("ChapterNum", chapters[position].chapterNumber.toString())
+                        intent.putExtra("chapterNumlist", chapterNumlist)
+                        startActivity(intent)
+                    } else {
+                        Log.i("THIS IS A PROBLEM", "WELP")
+                    }
                 }
             }
         }

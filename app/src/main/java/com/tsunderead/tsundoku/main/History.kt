@@ -24,7 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class History : Fragment(), NetworkCaller<JSONObject> {
+class History : Fragment() {
     private var fragmentHistoryBinding: FragmentHistoryBinding? = null
     private lateinit var libraryDBHandler: LibraryDBHelper
     private lateinit var historyChapterList: ArrayList<MangaWithChapter>
@@ -88,10 +88,10 @@ class History : Fragment(), NetworkCaller<JSONObject> {
 
         while (!cursor.isAfterLast) {
             val manga = Manga(
-                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_MANGAID)),
-                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_AUTHOR)),
                 cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_COVER)),
-                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE))
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_AUTHOR)),
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE)),
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_MANGAID))
             )
             val chapter = Chapter(
                 cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt(),
@@ -121,9 +121,5 @@ class History : Fragment(), NetworkCaller<JSONObject> {
     override fun onDestroyView() {
         super.onDestroyView()
         fragmentHistoryBinding = null
-    }
-
-    override fun onCallSuccess(result: JSONObject?) {
-
     }
 }

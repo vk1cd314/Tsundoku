@@ -3,7 +3,6 @@ package com.tsunderead.tsundoku.history
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -26,11 +25,8 @@ class HistoryChapterViewHolder(private val historyCellBinding: HistoryCellBindin
         historyChapterViewHolder: HistoryChapterViewHolder
     ) {
         val imgUrl = mangaWithChapter.manga.cover
-
-
         Glide.with(historyChapterViewHolder.itemView.context).load(imgUrl)
             .placeholder(R.drawable.placeholder).into(historyCellBinding.mangaHistoryImageView)
-
         historyCellBinding.mangaNameTextView.text = mangaWithChapter.manga.title
         historyCellBinding.chapterIDTextView.text =
             "Chapter ${mangaWithChapter.chapter.chapterNumber}"
@@ -42,7 +38,7 @@ class HistoryChapterViewHolder(private val historyCellBinding: HistoryCellBindin
     }
 
     override fun onCallSuccess(result: JSONObject?) {
-//        Log.i("HistoryCell", result.toString())
+        Log.i("HistoryCell", result.toString())
         val chapters = ArrayList<Chapter>()
         for (key in result!!.keys()) {
             if (key.toIntOrNull() != null) {
@@ -61,16 +57,21 @@ class HistoryChapterViewHolder(private val historyCellBinding: HistoryCellBindin
             }
         }
         val chapterList = arrayListOf<String>()
+        val chapterNumlist = arrayListOf<String>()
         for (item in chapters) {
             chapterList.add(item.chapterHash)
+            chapterNumlist.add(item.chapterNumber.toString())
         }
 
         if (position != -1) {
             historyCellBinding.resumeChapterButton.setOnClickListener {
                 val intent = Intent(it.context, MangaReaderActivity::class.java)
+                intent.putExtra("MangaId", mangaChapInfo.manga.mangaId)
                 intent.putExtra("ChapterId", mangaChapInfo.chapter.chapterHash)
+                intent.putExtra("ChapterNum", mangaChapInfo.chapter.chapterNumber.toString())
                 intent.putExtra("chapterList", chapterList)
                 intent.putExtra("position", position)
+                intent.putExtra("chapterNumlist", chapterNumlist)
                 it.context.startActivity(intent)
             }
         } else {

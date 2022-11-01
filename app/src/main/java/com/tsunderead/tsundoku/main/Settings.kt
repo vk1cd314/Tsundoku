@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
@@ -18,7 +19,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.tsunderead.tsundoku.R
-import com.tsunderead.tsundoku.account.CreateAccountActivity
 import com.tsunderead.tsundoku.account.LoginActivity
 import com.tsunderead.tsundoku.community_card_cell.CommunityPost
 import com.tsunderead.tsundoku.community_card_cell.ReducedCommunityPostAdapter
@@ -39,22 +39,34 @@ class Settings : Fragment(R.layout.fragment_settings) {
 
         user = Firebase.auth.currentUser
 
-        if (user == null) notSignedIn()
+        if (user == null) {
+            try {
+                Firebase.auth.signOut()
+            } catch (_: Exception) {
+            }
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            requireActivity().startActivity(intent)
+        }
         else signedIn()
 
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        user = Firebase.auth.currentUser
+        if (user == null)
+            Navigation.findNavController(requireView()).navigate(R.id.action_profile3_to_library3)
+    }
+
     private fun signedIn() {
-        binding.layoutNotSignedIn.visibility = View.GONE
-        binding.layoutSignedIn.visibility = View.VISIBLE
         profileSkeleton = binding.skeletonLayoutProfile.createSkeleton()
         profileSkeleton.showSkeleton()
 
         binding.btnLogout.setOnClickListener {
             Firebase.auth.signOut()
-            user = null
-            notSignedIn()
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            requireActivity().startActivity(intent)
         }
 
         binding.btnContactUs.setOnClickListener {
@@ -113,23 +125,6 @@ class Settings : Fragment(R.layout.fragment_settings) {
             .addOnFailureListener {
                 Toast.makeText(context, "Could not get user profile information. Please check your connection", Toast.LENGTH_SHORT).show()
             }
-    }
-
-    private fun notSignedIn() {
-        binding.layoutSignedIn.visibility = View.GONE
-        binding.layoutNotSignedIn.visibility = View.VISIBLE
-
-        binding.btnLogIn.setOnClickListener {
-            val intent = Intent(requireActivity(), LoginActivity::class.java)
-            requireActivity().startActivity(intent)
-            requireActivity().finish()
-        }
-
-        binding.btnSignUp.setOnClickListener {
-            val intent = Intent(requireActivity(), CreateAccountActivity::class.java)
-            requireActivity().startActivity(intent)
-            requireActivity().finish()
-        }
     }
 
     private fun getHistoryData() {

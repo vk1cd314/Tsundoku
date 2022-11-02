@@ -24,7 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class History : Fragment(), NetworkCaller<JSONObject> {
+class History : Fragment() {
     private var fragmentHistoryBinding: FragmentHistoryBinding? = null
     private lateinit var libraryDBHandler: LibraryDBHelper
     private lateinit var historyChapterList: ArrayList<MangaWithChapter>
@@ -82,24 +82,32 @@ class History : Fragment(), NetworkCaller<JSONObject> {
 
     @SuppressLint("UseRequireInsteadOfGet", "Range")
     suspend fun getHistoryData() {
-        historyChapterList = ArrayList<MangaWithChapter>()
+        historyChapterList = ArrayList()
         libraryDBHandler = this@History.context?.let { LibraryDBHelper(it, null) }!!
         val cursor = libraryDBHandler.getAllMangaWithHistory()
         cursor!!.moveToFirst()
 
         while (!cursor.isAfterLast) {
-            val manga = Manga("1", "2", "3", "4")
-            val chapter = Chapter(1, "-1")
-            manga.mangaId = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_MANGAID))
-            manga.author = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_AUTHOR))
-            manga.cover = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_COVER))
-            manga.title = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE))
-            chapter.chapterNumber =
-                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt()
-            chapter.chapterHash =
+            val manga = Manga(
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_COVER)),
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_AUTHOR)),
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE)),
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_MANGAID))
+            )
+            val chapter = Chapter(
+                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt(),
                 cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
-            Log.i("Manga", manga.toString())
-            Log.i("Chapter", chapter.toString())
+            )
+//            manga.mangaId = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_MANGAID))
+//            manga.author = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_AUTHOR))
+//            manga.cover = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_COVER))
+//            manga.title = cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_TITLE))
+//            chapter.chapterNumber =
+//                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREAD)).toInt()
+//            chapter.chapterHash =
+//                cursor.getString(cursor.getColumnIndex(LibraryDBHelper.COLUMN_LASTREADHASH))
+//            Log.i("Manga", manga.toString())
+//            Log.i("Chapter", chapter.toString())
             if (chapter.chapterHash != "-1" && chapter.chapterNumber != -1) historyChapterList.add(
                 MangaWithChapter(manga, chapter)
             )
@@ -114,9 +122,5 @@ class History : Fragment(), NetworkCaller<JSONObject> {
     override fun onDestroyView() {
         super.onDestroyView()
         fragmentHistoryBinding = null
-    }
-
-    override fun onCallSuccess(result: JSONObject?) {
-
     }
 }

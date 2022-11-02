@@ -34,21 +34,21 @@
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Format" />
+                    android:text="@string/format" />
 
                 <Button
                     android:id="@+id/tagToggleGenre"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Genre" />
+                    android:text="@string/genre" />
 
                 <Button
                     android:id="@+id/tagToggleTheme"
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Theme" />
+                    android:text="@string/theme" />
 
             </com.google.android.material.button.MaterialButtonToggleGroup>
 

@@ -1,5 +1,6 @@
 package com.tsunderead.tsundoku.community_card_cell
 
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -18,9 +19,11 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     private val communityCollection = "community"
     private lateinit var parentAdapter: CommunityPostAdapter
 
-    fun bindPost(post: CommunityPost, parentAdapter: CommunityPostAdapter) {
+    fun bindPost(post: CommunityPost, parentAdapter: CommunityPostAdapter?) {
 
-        this.parentAdapter = parentAdapter
+        if (parentAdapter != null) {
+            this.parentAdapter = parentAdapter
+        }
 
         val postedOn =
             "Posted on ${post.timestamp.substring(0, 10)} ${post.timestamp.substring(11, 16)}"
@@ -225,6 +228,13 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
             .setPositiveButton("Delete") { _, _ ->
                 db.collection(communityCollection).document(post.docRef.id).delete()
                     .addOnSuccessListener {
+                        db.collection(userInteractionCollection)
+                            .whereEqualTo("docId", post.docRef.id)
+                            .get()
+                            .addOnSuccessListener {
+                                for (document in it)
+                                    db.collection(userInteractionCollection).document(document.id).delete()
+                            }
                         Toast.makeText(
                             communityPostBinding.root.context,
                             "Post Deleted Successfully",
@@ -242,5 +252,10 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
             }
             .show()
 
+    }
+
+    fun reduce () {
+        communityPostBinding.layoutProfile.visibility = View.GONE
+        communityPostBinding.layoutInteraction.visibility = View.GONE
     }
 }

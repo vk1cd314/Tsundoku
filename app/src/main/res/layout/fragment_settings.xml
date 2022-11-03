@@ -37,8 +37,8 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="center_horizontal"
+                android:orientation="vertical"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp">
 
@@ -59,8 +59,7 @@
                     android:layout_height="210dp"
                     android:layout_marginHorizontal="50dp"
                     app:cardCornerRadius="30dp"
-                    app:cardElevation="5dp"
-                    app:contentPadding="20dp">
+                    app:cardElevation="5dp">
 
                     <com.faltenreich.skeletonlayout.SkeletonLayout
                         android:id="@+id/skeletonLayoutProfile"
@@ -68,39 +67,66 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center">
 
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                            <ImageView
-                                android:id="@+id/imgPfp"
-                                android:layout_width="120dp"
-                                android:layout_height="120dp"
-                                android:background="@drawable/profile_circle"
-                                android:contentDescription="@string/profile_picture"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ginnosaji" />
-
-                            <TextView
-                                android:id="@+id/txtUsername"
+                            <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:fontFamily="sans-serif-black"
-                                android:text="@string/username" />
+                                android:layout_gravity="center"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/txtEmail"
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/view2"
+                                    android:layout_width="120dp"
+                                    android:layout_height="120dp"
+                                    android:layout_centerHorizontal="true"
+                                    android:elevation="12dp"
+                                    android:innerRadius="0dp"
+                                    android:shape="ring"
+                                    android:thicknessRatio="1.9"
+                                    app:cardCornerRadius="60dp">
+
+                                    <ImageView
+                                        android:id="@+id/imgPfp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:background="@drawable/profile_circle"
+                                        android:contentDescription="@string/profile_picture"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/ginnosaji" />
+
+                                </androidx.cardview.widget.CardView>
+
+                                <TextView
+                                    android:id="@+id/txtUsername"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="sans-serif-black"
+                                    android:text="@string/username" />
+
+                                <TextView
+                                    android:id="@+id/txtEmail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:text="@string/email" />
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <Button
+                                android:id="@+id/btnEditPfp"
+                                style="?attr/materialIconButtonFilledStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:text="@string/email" />
+                                android:drawableEnd="@drawable/ic_baseline_edit_24"
+                                android:translationX="169dp"
+                                android:translationY="-4dp" />
 
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
+                        </FrameLayout>
                     </com.faltenreich.skeletonlayout.SkeletonLayout>
 
                 </androidx.cardview.widget.CardView>

@@ -30,13 +30,14 @@
                 android:padding="16dp">
 
                 <LinearLayout
-                    android:id="@+id/layoutProfile"
+                    android:id="@+id/layoutTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardUserDetail"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         app:cardCornerRadius="48dp">

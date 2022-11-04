@@ -11,7 +11,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.applySkeleton
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.api.MangaChapter
 import com.tsunderead.tsundoku.api.NetworkCaller
@@ -19,6 +22,8 @@ import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPage
 import com.tsunderead.tsundoku.chapter.chapter_page.ChapterPageAdapter
 import com.tsunderead.tsundoku.databinding.MangaReaderBinding
 import com.tsunderead.tsundoku.offlinedb.LibraryDBHelper
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import kotlin.properties.Delegates
 
@@ -124,7 +129,7 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
                     return true
                 }
             })
-        val recyclerView = findViewById<RecyclerView>(R.id.mangaReaderRecyclerView)
+        val recyclerView = mangaReaderBinding.mangaReaderRecyclerView
         recyclerView.setHasFixedSize(true)
         recyclerView.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {

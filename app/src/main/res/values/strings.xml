@@ -49,5 +49,9 @@
     <string name="or_sign_up">Or Sign Up</string>
     <string name="forgot_pass"><u>Forgot Password?</u></string>
     <string name="str_sign_up"><u>Sign up</u></string>
+    <string name="community" />
+    <string name="profile" />
+    <string name="community1">Community</string>
+    <string name="profile1">Profile</string>
 
 </resources>

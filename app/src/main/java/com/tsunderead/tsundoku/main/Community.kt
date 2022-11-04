@@ -73,11 +73,11 @@ class Community : Fragment() {
                     binding.rViewCommunity.adapter = CommunityPostAdapter(postList)
                 }
 
-                var accountRetrieved = 0;
+                var accountRetrieved = 0
 
                 for (document in it) {
 
-                    var communityPost: CommunityPost? = null;
+                    var communityPost: CommunityPost? = null
                     db.collection("account")
                         .whereEqualTo("email", document.data["email"] as String)
                         .get()
@@ -103,6 +103,7 @@ class Community : Fragment() {
                             } catch (_: Exception) {
                             }
                             if (accountRetrieved == postCount) {
+                                postList.sortByDescending{post -> post.timestamp}
                                 skeleton.showOriginal()
                                 binding.rViewCommunity.adapter = CommunityPostAdapter(postList)
                             }

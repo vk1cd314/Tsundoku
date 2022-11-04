@@ -1,15 +1,16 @@
 package com.tsunderead.tsundoku.api
 
+import android.util.Log
 import com.tsunderead.tsundoku.ConstData
 import org.json.JSONArray
 import org.json.JSONObject
 
 class MangaWithCover(
     private val parent: NetworkCaller<JSONObject>,
-    private val filter: HashMap<String, Array<String>> = HashMap(),
+    private val filter: HashMap<String, ArrayList<String>> = HashMap(),
 ) : NetworkCaller<JSONObject> {
 
-    private val limit = 10
+    private val limit = 25
     private val tag = "MangaWithCover"
     private lateinit var mangaList: JSONArray
     private lateinit var returnObj: JSONObject
@@ -18,7 +19,7 @@ class MangaWithCover(
 
     fun execute(offset: Int) {
         val endpoint = "manga?limit=$limit&offset=$offset${generateFilter()}"
-//        Log.i(tag, endpoint)
+        Log.i(tag, endpoint)
         @Suppress("DEPRECATION") ApiCall(this).execute(endpoint)
     }
 

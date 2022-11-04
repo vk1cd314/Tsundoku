@@ -1,5 +1,7 @@
 package com.tsunderead.tsundoku.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import org.koitharu.kotatsu.parsers.model.MangaSource
 import org.koitharu.kotatsu.parsers.newParser
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

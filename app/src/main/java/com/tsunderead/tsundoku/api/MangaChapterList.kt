@@ -4,6 +4,7 @@ import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 
+@Suppress("DEPRECATION")
 class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private val mangaID: String) :
     NetworkCaller<JSONObject> {
 
@@ -14,7 +15,7 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
     fun execute(offset: Int) {
         val endpoint =
             "manga/$mangaID/feed/?offset=$offset&order%5Bchapter%5D=asc&translatedLanguage%5B%5D=en"
-//        Log.i("mangachapter", endpoint)
+        Log.i("mangachapter", endpoint)
         ApiCall(this).execute(endpoint)
         MangaDetails(this).execute()
     }
@@ -30,6 +31,14 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
         try {
             val chapterList = result.getJSONArray("data")
             for (i in 0 until chapterList.length()) {
+
+                try {
+                    if (chapterList.getJSONObject(i).getJSONObject("attributes").getInt("pages") == 0)
+                        continue
+                } catch (e: Exception) {
+                    Log.e("chapter", "could not get page")
+                    continue
+                }
                 val chapter = chapterList.getJSONObject(i)
                 val jsonObj = JSONObject()
                 jsonObj.put("chapterId", chapter.getString("id"))
@@ -54,15 +63,20 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
                 "description",
                 manga.getJSONObject("attributes").getJSONObject("description").getString("en")
             )
-        } catch (e: Exception) {
-            for (descriptionLang in manga.getJSONObject("attributes").getJSONObject("description")
-                .keys()) {
-                returnObj.put(
-                    "description",
-                    manga.getJSONObject("attributes").getJSONObject("description")
-                        .getString(descriptionLang)
-                )
-                break
+        } catch (_: Exception) {
+
+            try {
+                for (descriptionLang in manga.getJSONObject("attributes").getJSONObject("description")
+                    .keys()) {
+                    returnObj.put(
+                        "description",
+                        manga.getJSONObject("attributes").getJSONObject("description")
+                            .getString(descriptionLang)
+                    )
+                    break
+                }
+            } catch (_: Exception) {
+                returnObj.put("description", "")
             }
         }
 

@@ -20,10 +20,14 @@
         android:label="Search"
         tools:layout="@layout/fragment_search"/>
     <fragment
-        android:id="@+id/settings3"
+        android:id="@+id/profile3"
         android:name="com.tsunderead.tsundoku.main.Settings"
-        android:label="Settings"
-        tools:layout="@layout/fragment_settings"/>
+        android:label="Profile"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_profile3_to_library3"
+            app:destination="@id/library3" />
+    </fragment>
     <fragment
         android:id="@+id/Community3"
         android:name="com.tsunderead.tsundoku.main.Community"

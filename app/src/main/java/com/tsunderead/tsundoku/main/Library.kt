@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.marginEnd
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -72,10 +73,6 @@ class Library : Fragment() {
             when (it.itemId) {
                 R.id.library_search -> {
                     Log.i("Inside", "Lib search")
-                    false
-                }
-                R.id.refresh_library -> {
-                    Log.i("ANOTHER BUTTON", "BUTTON")
                     false
                 }
                 else -> {

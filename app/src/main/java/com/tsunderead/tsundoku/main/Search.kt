@@ -82,18 +82,18 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         binding.searchSearchView.queryHint = "Search for Manga"
         binding.searchSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                val filterMap = HashMap<String, Array<String>>()
-                val searchBox = binding.searchSearchView
+                val filterMap = HashMap<String, ArrayList<String>>()
+//                val searchBox = binding.searchSearchView
                 if (query != null) {
                     Log.i("Searching", query)
                 }
-                filterMap["title"] = query?.let { arrayOf(it) }!!
+                filterMap["title"] = query?.let { arrayListOf(it) }!!
                 val checkedChipList = Array(chipFilters.size) { "" }
                 var i = 0
                 chipFilters.forEach {
                     checkedChipList[i++] = it
                 }
-                filterMap["includedTags%5B%5D"] = checkedChipList
+                filterMap["includedTags%5B%5D"] = checkedChipList.toCollection(ArrayList())
                 for (key in filterMap.keys) {
                     val arr = filterMap[key]
                     if (arr != null) {
@@ -114,16 +114,16 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
                     if (newText.isEmpty()) {
-                        val filterMap = HashMap<String, Array<String>>()
-                        val searchBox = binding.searchSearchView
+                        val filterMap = HashMap<String, ArrayList<String>>()
+//                        val searchBox = binding.searchSearchView
                         Log.i("Searching", newText)
-                        filterMap["title"] = arrayOf(newText)
+                        filterMap["title"] = arrayListOf(newText)
                         val checkedChipList = Array(chipFilters.size) { "" }
                         var i = 0
                         chipFilters.forEach {
                             checkedChipList[i++] = it
                         }
-                        filterMap["includedTags%5B%5D"] = checkedChipList
+                        filterMap["includedTags%5B%5D"] = checkedChipList.toCollection(ArrayList())
                         for (key in filterMap.keys) {
                             val arr = filterMap[key]
                             if (arr != null) {

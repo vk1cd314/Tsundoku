@@ -19,6 +19,7 @@ import com.tsunderead.tsundoku.community_card_cell.CommunityPost
 import com.tsunderead.tsundoku.community_card_cell.CommunityPostAdapter
 import com.tsunderead.tsundoku.community_helper.NewPost
 import com.tsunderead.tsundoku.databinding.FragmentCommunityBinding
+import java.net.URI
 
 class Community : Fragment() {
 
@@ -55,11 +56,6 @@ class Community : Fragment() {
         getPost()
     }
 
-    override fun onResume() {
-        super.onResume()
-        getPost()
-    }
-
     private fun getPost() {
 
         postListFetched = false
@@ -69,22 +65,51 @@ class Community : Fragment() {
         db.collection("community").orderBy("timestamp", Query.Direction.DESCENDING).limit(20).get()
             .addOnSuccessListener {
                 postList = ArrayList()
-                for (document in it) {
-                    val communityPost = CommunityPost(
-                        document.reference,
-                        null,
-                        document.data["email"] as String,
-                        document.data["title"] as String,
-                        document.data["description"] as String,
-                        document.data["timestamp"] as String,
-                        document.data["vote"].toString().toInt()
-                    )
 
-                    postList.add(communityPost)
+                val postCount = it.size()
+
+                if (postCount == 0) {
+                    skeleton.showOriginal()
+                    binding.rViewCommunity.adapter = CommunityPostAdapter(postList)
                 }
 
-                skeleton.showOriginal()
-                binding.rViewCommunity.adapter = CommunityPostAdapter(postList)
+                var accountRetrieved = 0
+
+                for (document in it) {
+
+                    var communityPost: CommunityPost? = null
+                    db.collection("account")
+                        .whereEqualTo("email", document.data["email"] as String)
+                        .get()
+                        .addOnSuccessListener { accountSnapshot ->
+                            accountRetrieved++
+                            for (account in accountSnapshot) {
+                                var photoUri: URI? = null
+                                if (account.data["photoUri"] != null)
+                                    photoUri = URI(account.data["photoUri"] as String)
+                                communityPost = CommunityPost(
+                                    document.reference,
+                                    photoUri,
+                                    account.data["username"] as String,
+                                    document.data["title"] as String,
+                                    document.data["description"] as String,
+                                    document.data["timestamp"] as String,
+                                    document.data["vote"].toString().toInt()
+                                )
+                                break
+                            }
+                            try {
+                                postList.add(communityPost!!)
+                            } catch (_: Exception) {
+                            }
+                            if (accountRetrieved == postCount) {
+                                postList.sortByDescending{post -> post.timestamp}
+                                skeleton.showOriginal()
+                                binding.rViewCommunity.adapter = CommunityPostAdapter(postList)
+                            }
+                        }
+                }
+
             }
             .addOnFailureListener {
                 Log.e(tag, "Post loading failed: $it")

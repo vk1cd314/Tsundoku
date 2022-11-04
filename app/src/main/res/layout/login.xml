@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -16,14 +15,14 @@
         app:tint="@color/seed"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        />
+        android:contentDescription="@string/logo"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Login"
+        android:text="@string/login"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -35,7 +34,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username/Email"
+        android:hint="@string/username_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -94,29 +93,40 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginPasswordParent" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="40dp"
-        android:textSize="15sp"
-        android:text="New to Tsundoku? "
-        app:layout_constraintStart_toStartOf="@+id/loginPasswordParent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
-    <TextView
-        android:id="@+id/signup_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:orientation="horizontal"
         android:layout_marginTop="40dp"
         android:gravity="center"
-        android:text="@string/str_sign_up"
-        android:textColor="@color/seed"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@id/loginButton" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_to_tsundoku"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/loginPasswordParent"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+        <TextView
+            android:id="@+id/signup_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
+            android:text="@string/str_sign_up"
+            android:textColor="@color/seed"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

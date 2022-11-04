@@ -24,7 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
-class History : Fragment(), NetworkCaller<JSONObject> {
+class History : Fragment() {
     private var fragmentHistoryBinding: FragmentHistoryBinding? = null
     private lateinit var libraryDBHandler: LibraryDBHelper
     private lateinit var historyChapterList: ArrayList<MangaWithChapter>
@@ -122,9 +122,5 @@ class History : Fragment(), NetworkCaller<JSONObject> {
     override fun onDestroyView() {
         super.onDestroyView()
         fragmentHistoryBinding = null
-    }
-
-    override fun onCallSuccess(result: JSONObject?) {
-
     }
 }

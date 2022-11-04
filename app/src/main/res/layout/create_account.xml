@@ -3,11 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
     android:paddingLeft="13dp"
     android:paddingRight="13dp">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="170dp"
+        android:layout_height="204dp"
+        android:layout_marginTop="64dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_icon_foreground"
+        app:tint="@color/seed" />
 
     <TextView
         android:id="@+id/textView9"
@@ -17,7 +31,7 @@
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/imageView" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/signupUsernameParent"
@@ -100,7 +114,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Account"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signupConfirmPasswordParent" />
+        app:layout_constraintTop_toBottomOf="@id/signupConfirmPasswordParent"
+        app:layout_constraintVertical_bias="0.198" />
 </androidx.constraintlayout.widget.ConstraintLayout>

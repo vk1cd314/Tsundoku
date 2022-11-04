@@ -57,6 +57,9 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
                 .whereEqualTo("type", "downvote").whereEqualTo("docId", post.docRef.id).get()
                 .addOnSuccessListener {
                     for (document in it.documents) {
+                        val voteCount =
+                            ((communityPostBinding.textViewVoteCounter.text as String).toInt() + 1).toString()
+                        communityPostBinding.textViewVoteCounter.text = voteCount
                         db.collection(userInteractionCollection).document(document.id).delete()
                         post.docRef.update("vote", FieldValue.increment(1))
                     }
@@ -96,6 +99,9 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
                 .whereEqualTo("type", "updoot").whereEqualTo("docId", post.docRef.id).get()
                 .addOnSuccessListener {
                     for (document in it.documents) {
+                        val voteCount =
+                            ((communityPostBinding.textViewVoteCounter.text as String).toInt() - 1).toString()
+                        communityPostBinding.textViewVoteCounter.text = voteCount
                         db.collection(userInteractionCollection).document(document.id).delete()
                         post.docRef.update("vote", FieldValue.increment(-1))
                     }

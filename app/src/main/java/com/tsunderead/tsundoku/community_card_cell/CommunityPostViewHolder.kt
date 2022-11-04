@@ -53,6 +53,19 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
             Toast.LENGTH_SHORT
         ).show()
         else {
+
+            db.collection((userInteractionCollection))
+                .whereEqualTo("user", user.email)
+                .whereEqualTo("type", "downvote")
+                .whereEqualTo("docId", post.docRef.id)
+                .get()
+                .addOnSuccessListener {
+                    for (document in it.documents){
+                        db.collection(userInteractionCollection).document(document.id).delete()
+                        post.docRef.update("vote", FieldValue.increment(1))
+                    }
+                    communityPostBinding.btnCommunityDownvote.setImageResource(R.drawable.ic_baseline_arrow_downward_24)
+                }
             db.collection(userInteractionCollection)
                 .whereEqualTo("user", user.email)
                 .whereEqualTo("type", "updoot")
@@ -71,10 +84,11 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
                         db.collection(userInteractionCollection).add(interaction)
 
                     } else {
-                        post.docRef.update("vote", FieldValue.increment(-1))
                         voteDecrementUI()
-                        for (document in it.documents)
+                        for (document in it.documents){
                             db.collection(userInteractionCollection).document(document.id).delete()
+                            post.docRef.update("vote", FieldValue.increment(-1))
+                        }
                         communityPostBinding.btnCommunityUpdoot.setImageResource(R.drawable.ic_baseline_arrow_upward_24)
                         communityPostBinding.btnCommunityDownvote.setImageResource(R.drawable.ic_baseline_arrow_downward_24)
                     }
@@ -89,6 +103,18 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
             Toast.LENGTH_SHORT
         ).show()
         else {
+            db.collection((userInteractionCollection))
+                .whereEqualTo("user", user.email)
+                .whereEqualTo("type", "updoot")
+                .whereEqualTo("docId", post.docRef.id)
+                .get()
+                .addOnSuccessListener {
+                    for (document in it.documents){
+                        db.collection(userInteractionCollection).document(document.id).delete()
+                        post.docRef.update("vote", FieldValue.increment(-1))
+                    }
+                    communityPostBinding.btnCommunityUpdoot.setImageResource(R.drawable.ic_baseline_arrow_upward_24)
+                }
             db.collection(userInteractionCollection)
                 .whereEqualTo("user", user.email)
                 .whereEqualTo("type", "downvote")
@@ -108,10 +134,11 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
                         db.collection(userInteractionCollection).add(interaction)
 
                     } else {
-                        post.docRef.update("vote", FieldValue.increment(1))
                         voteIncrementUI()
-                        for (document in it.documents)
+                        for (document in it.documents){
                             db.collection(userInteractionCollection).document(document.id).delete()
+                            post.docRef.update("vote", FieldValue.increment(1))
+                        }
                         communityPostBinding.btnCommunityUpdoot.setImageResource(R.drawable.ic_baseline_arrow_upward_24)
                         communityPostBinding.btnCommunityDownvote.setImageResource(R.drawable.ic_baseline_arrow_downward_24)
                     }
@@ -255,7 +282,11 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     }
 
     fun reduce () {
-        communityPostBinding.layoutProfile.visibility = View.GONE
+        if (communityPostBinding.btnCommunityOptions.visibility == View.VISIBLE) {
+            communityPostBinding.cardUserDetail.visibility = View.INVISIBLE
+            communityPostBinding.textViewUserName.visibility = View.INVISIBLE
+        }
+        else communityPostBinding.layoutTitle.visibility = View.GONE
         communityPostBinding.layoutInteraction.visibility = View.GONE
     }
 }

@@ -4,7 +4,7 @@
     <item android:title="@string/library"
         android:id="@+id/library3"
         android:icon="@drawable/ic_outline_library_books_24"/>
-    <item android:title="Community"
+    <item android:title="@string/community"
         android:id="@+id/Community3"
         android:icon="@drawable/ic_outline_new_releases_24"/>
     <item android:title="@string/search"
@@ -13,7 +13,7 @@
     <item android:title="@string/history"
         android:id="@+id/history3"
         android:icon="@drawable/ic_outline_history_24"/>
-    <item android:title="@string/settings"
-        android:id="@+id/settings3"
+    <item android:title="@string/profile"
+        android:id="@+id/profile3"
         android:icon="@drawable/ic_outline_settings_24"/>
 </menu>

@@ -91,17 +91,28 @@ class Settings : Fragment(R.layout.fragment_settings), NetworkCaller<JSONObject>
             newPfp.downloadUrl
         }.addOnSuccessListener {
             newPfp.downloadUrl.addOnSuccessListener { pfpUri ->
-                Glide.with(requireContext()).load(pfpUri)
-                    .placeholder(R.drawable.placeholder).into(binding.imgPfp)
+                Glide.with(requireContext()).load(pfpUri).placeholder(R.drawable.placeholder)
+                    .into(binding.imgPfp)
                 val profileUpdates = userProfileChangeRequest {
                     photoUri = pfpUri
                 }
-                user!!.updateProfile(profileUpdates)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(context, "User profile updated.", Toast.LENGTH_SHORT).show()
+                if (user != null) {
+                    db.collection("account")
+                        .whereEqualTo("email", user!!.email)
+                        .get()
+                        .addOnSuccessListener {
+                            for (document in it) {
+                                db.collection("account").document(document.id).update("photoUri", pfpUri)
+                            }
                         }
-                    }
+                    user!!.updateProfile(profileUpdates).addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(context, "User profile updated.", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+
+                }
             }
         }.addOnFailureListener { fail ->
             Log.i(TAG, fail.toString())
@@ -170,8 +181,8 @@ class Settings : Fragment(R.layout.fragment_settings), NetworkCaller<JSONObject>
         }
 
         try {
-            Glide.with(requireContext()).load(user!!.photoUrl)
-                .placeholder(R.drawable.placeholder).into(binding.imgPfp)
+            Glide.with(requireContext()).load(user!!.photoUrl).placeholder(R.drawable.placeholder)
+                .into(binding.imgPfp)
         } catch (_: Exception) {
             Log.e(tag, "no image load for you")
         }

@@ -83,7 +83,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
         binding.searchSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val filterMap = HashMap<String, ArrayList<String>>()
-                val searchBox = binding.searchSearchView
+//                val searchBox = binding.searchSearchView
                 if (query != null) {
                     Log.i("Searching", query)
                 }
@@ -115,7 +115,7 @@ class Search : Fragment(), NetworkCaller<JSONObject> {
                 if (newText != null) {
                     if (newText.isEmpty()) {
                         val filterMap = HashMap<String, ArrayList<String>>()
-                        val searchBox = binding.searchSearchView
+//                        val searchBox = binding.searchSearchView
                         Log.i("Searching", newText)
                         filterMap["title"] = arrayListOf(newText)
                         val checkedChipList = Array(chipFilters.size) { "" }

@@ -120,13 +120,13 @@ class MangaDetailActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         }
         val res = result.getJSONArray("tags")
         for (i in 0 until res.length()) {
-            Log.i("J son", res.getString(i).toString())
+//            Log.i("J son", res.getString(i).toString())
             val chip = Chip(this@MangaDetailActivity)
             chip.text = res.getString(i)
             binding.mangaIdChipgroup.addView(chip)
         }
         val details = result.getString("description")
-        Log.i("DEEETS", details)
+//        Log.i("DEEETS", details)
         binding.MangaDescription.text = details
         recyclerView.adapter = ChapterAdapter(manga, chapters)
         binding.continueReading.setOnClickListener {

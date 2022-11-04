@@ -4,6 +4,7 @@ import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 
+@Suppress("DEPRECATION")
 class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private val mangaID: String) :
     NetworkCaller<JSONObject> {
 
@@ -30,6 +31,14 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
         try {
             val chapterList = result.getJSONArray("data")
             for (i in 0 until chapterList.length()) {
+
+                try {
+                    if (chapterList.getJSONObject(i).getJSONObject("attributes").getInt("pages") == 0)
+                        continue
+                } catch (e: Exception) {
+                    Log.e("chapter", "could not get page")
+                    continue
+                }
                 val chapter = chapterList.getJSONObject(i)
                 val jsonObj = JSONObject()
                 jsonObj.put("chapterId", chapter.getString("id"))

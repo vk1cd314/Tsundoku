@@ -1,15 +1,24 @@
 package com.tsunderead.tsundoku.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.tsunderead.tsundoku.R
 import com.tsunderead.tsundoku.databinding.ActivityMainBinding
+import com.tsunderead.tsundoku.parser.AndroidCookieJar
+import com.tsunderead.tsundoku.parser.MangaLoaderContextImpl
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import org.koitharu.kotatsu.parsers.model.MangaSource
+import org.koitharu.kotatsu.parsers.newParser
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -26,18 +35,19 @@ class MainActivity : AppCompatActivity() {
             showBottomNav(bottomNavigationView, true)
         }
         bottomNavigationView.setupWithNavController(navController)
-//        lifecycleScope.launch {
-//            val parser = MangaSource.MANGADEX.newParser(MangaLoaderContextImpl(OkHttpClient(), AndroidCookieJar(), this@MainActivity))
-//            parser.getList(0, "One Piece").forEach {
+        lifecycleScope.launch {
+            val parser = MangaSource.TOPMANHUA.newParser(MangaLoaderContextImpl(OkHttpClient(), AndroidCookieJar(), this@MainActivity))
+            parser.getList(0, "One Piece").forEach {
 //                it.chapters?.forEach { chapter ->
-//                    lifecycleScope.launch(Dispatchers.IO) {
-//                        val ch = parser.getPages(chapter)
-//                        Log.i("Chapter", ch[0].)
-//                    }
+////                    lifecycleScope.launch(Dispatchers.IO) {
+////                        val ch = parser.getPages(chapter)
+////                        Log.i("Chapter", ch[0].)
+////                    }
 //                }
-//                Log.i("MANGAAAA", it.author + " " + it.title)
-//            }
-//        }
+
+                Log.i("MANGAAAA", it.author + " " + it.title)
+            }
+        }
     }
 
     private fun showBottomNav(bottomNavigationView: BottomNavigationView, isVisible: Boolean) {

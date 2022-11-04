@@ -14,7 +14,7 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
     fun execute(offset: Int) {
         val endpoint =
             "manga/$mangaID/feed/?offset=$offset&order%5Bchapter%5D=asc&translatedLanguage%5B%5D=en"
-//        Log.i("mangachapter", endpoint)
+        Log.i("mangachapter", endpoint)
         ApiCall(this).execute(endpoint)
         MangaDetails(this).execute()
     }
@@ -54,15 +54,20 @@ class MangaChapterList(private val parent: NetworkCaller<JSONObject>, private va
                 "description",
                 manga.getJSONObject("attributes").getJSONObject("description").getString("en")
             )
-        } catch (e: Exception) {
-            for (descriptionLang in manga.getJSONObject("attributes").getJSONObject("description")
-                .keys()) {
-                returnObj.put(
-                    "description",
-                    manga.getJSONObject("attributes").getJSONObject("description")
-                        .getString(descriptionLang)
-                )
-                break
+        } catch (_: Exception) {
+
+            try {
+                for (descriptionLang in manga.getJSONObject("attributes").getJSONObject("description")
+                    .keys()) {
+                    returnObj.put(
+                        "description",
+                        manga.getJSONObject("attributes").getJSONObject("description")
+                            .getString(descriptionLang)
+                    )
+                    break
+                }
+            } catch (_: Exception) {
+                returnObj.put("description", "")
             }
         }
 

@@ -3,6 +3,7 @@ package com.tsunderead.tsundoku.community_card_cell
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
@@ -48,33 +49,37 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
 
     private fun updoot(post: CommunityPost) {
         if (user == null) Toast.makeText(
-            communityPostBinding.root.context,
-            "You Have To Login First",
-            Toast.LENGTH_SHORT
+            communityPostBinding.root.context, "You Have To Login First", Toast.LENGTH_SHORT
         ).show()
         else {
-            db.collection(userInteractionCollection)
-                .whereEqualTo("user", user.email)
-                .whereEqualTo("type", "updoot")
-                .whereEqualTo("docId", post.docRef.id)
-                .get()
+
+            db.collection((userInteractionCollection)).whereEqualTo("user", user.email)
+                .whereEqualTo("type", "downvote").whereEqualTo("docId", post.docRef.id).get()
+                .addOnSuccessListener {
+                    for (document in it.documents) {
+                        db.collection(userInteractionCollection).document(document.id).delete()
+                        post.docRef.update("vote", FieldValue.increment(1))
+                    }
+                    communityPostBinding.btnCommunityDownvote.setImageResource(R.drawable.ic_baseline_arrow_downward_24)
+                }
+            db.collection(userInteractionCollection).whereEqualTo("user", user.email)
+                .whereEqualTo("type", "updoot").whereEqualTo("docId", post.docRef.id).get()
                 .addOnSuccessListener {
                     if (it.isEmpty) {
                         voteIncrementUI()
                         post.docRef.update("vote", FieldValue.increment(1))
 
                         val interaction = mapOf(
-                            "user" to user.email,
-                            "type" to "updoot",
-                            "docId" to post.docRef.id
+                            "user" to user.email, "type" to "updoot", "docId" to post.docRef.id
                         )
                         db.collection(userInteractionCollection).add(interaction)
 
                     } else {
-                        post.docRef.update("vote", FieldValue.increment(-1))
                         voteDecrementUI()
-                        for (document in it.documents)
+                        for (document in it.documents) {
                             db.collection(userInteractionCollection).document(document.id).delete()
+                            post.docRef.update("vote", FieldValue.increment(-1))
+                        }
                         communityPostBinding.btnCommunityUpdoot.setImageResource(R.drawable.ic_baseline_arrow_upward_24)
                         communityPostBinding.btnCommunityDownvote.setImageResource(R.drawable.ic_baseline_arrow_downward_24)
                     }
@@ -84,16 +89,20 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
 
     private fun downvote(post: CommunityPost) {
         if (user == null) Toast.makeText(
-            communityPostBinding.root.context,
-            "You Have To Login First",
-            Toast.LENGTH_SHORT
+            communityPostBinding.root.context, "You Have To Login First", Toast.LENGTH_SHORT
         ).show()
         else {
-            db.collection(userInteractionCollection)
-                .whereEqualTo("user", user.email)
-                .whereEqualTo("type", "downvote")
-                .whereEqualTo("docId", post.docRef.id)
-                .get()
+            db.collection((userInteractionCollection)).whereEqualTo("user", user.email)
+                .whereEqualTo("type", "updoot").whereEqualTo("docId", post.docRef.id).get()
+                .addOnSuccessListener {
+                    for (document in it.documents) {
+                        db.collection(userInteractionCollection).document(document.id).delete()
+                        post.docRef.update("vote", FieldValue.increment(-1))
+                    }
+                    communityPostBinding.btnCommunityUpdoot.setImageResource(R.drawable.ic_baseline_arrow_upward_24)
+                }
+            db.collection(userInteractionCollection).whereEqualTo("user", user.email)
+                .whereEqualTo("type", "downvote").whereEqualTo("docId", post.docRef.id).get()
                 .addOnSuccessListener {
                     if (it.isEmpty) {
                         voteDecrementUI()
@@ -101,17 +110,16 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
                         post.docRef.update("vote", FieldValue.increment(-1))
 
                         val interaction = mapOf(
-                            "user" to user.email,
-                            "type" to "downvote",
-                            "docId" to post.docRef.id
+                            "user" to user.email, "type" to "downvote", "docId" to post.docRef.id
                         )
                         db.collection(userInteractionCollection).add(interaction)
 
                     } else {
-                        post.docRef.update("vote", FieldValue.increment(1))
                         voteIncrementUI()
-                        for (document in it.documents)
+                        for (document in it.documents) {
                             db.collection(userInteractionCollection).document(document.id).delete()
+                            post.docRef.update("vote", FieldValue.increment(1))
+                        }
                         communityPostBinding.btnCommunityUpdoot.setImageResource(R.drawable.ic_baseline_arrow_upward_24)
                         communityPostBinding.btnCommunityDownvote.setImageResource(R.drawable.ic_baseline_arrow_downward_24)
                     }
@@ -121,29 +129,22 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
 
     private fun bookmark(post: CommunityPost) {
         if (user == null) Toast.makeText(
-            communityPostBinding.root.context,
-            "You Have To Login First",
-            Toast.LENGTH_SHORT
+            communityPostBinding.root.context, "You Have To Login First", Toast.LENGTH_SHORT
         ).show()
         else {
-            db.collection(userInteractionCollection)
-                .whereEqualTo("user", user.email)
-                .whereEqualTo("type", "bookmark")
-                .whereEqualTo("docId", post.docRef.id)
-                .get()
+            db.collection(userInteractionCollection).whereEqualTo("user", user.email)
+                .whereEqualTo("type", "bookmark").whereEqualTo("docId", post.docRef.id).get()
                 .addOnSuccessListener {
                     if (it.isEmpty) {
                         communityPostBinding.btnCommunityBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
                         val interaction = mapOf(
-                            "user" to user.email,
-                            "type" to "bookmark",
-                            "docId" to post.docRef.id
+                            "user" to user.email, "type" to "bookmark", "docId" to post.docRef.id
                         )
                         db.collection(userInteractionCollection).add(interaction)
                     } else {
                         communityPostBinding.btnCommunityBookmark.setImageResource(R.drawable.ic_baseline_bookmark_border_24)
-                        for (document in it.documents)
-                            db.collection(userInteractionCollection).document(document.id).delete()
+                        for (document in it.documents) db.collection(userInteractionCollection)
+                            .document(document.id).delete()
                     }
                 }
         }
@@ -164,11 +165,21 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
     }
 
     private fun modifyLooks(post: CommunityPost) {
-        if (user != null && post.username == user.email) {
-            communityPostBinding.btnCommunityOptions.setOnClickListener {
-                deletePost(post)
+        if (user != null) {
+
+            if (post.photoURL != null) {
+                Glide.with(this.itemView.context).load(post.photoURL.toString())
+                    .placeholder(R.drawable.placeholder).into(communityPostBinding.imgPfp)
             }
-            communityPostBinding.btnCommunityOptions.visibility = android.view.View.VISIBLE
+            else
+                communityPostBinding.imgPfp.setImageResource(R.drawable.pfp_placeholder)
+
+            if (post.username == user.email) {
+                communityPostBinding.btnCommunityOptions.setOnClickListener {
+                    deletePost(post)
+                }
+                communityPostBinding.btnCommunityOptions.visibility = View.VISIBLE
+            }
         }
         isUpdooted(post)
         isDownvoted(post)
@@ -177,63 +188,46 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
 
     private fun isUpdooted(post: CommunityPost) {
         if (user != null) {
-            db.collection(userInteractionCollection)
-                .whereEqualTo("user", user.email)
-                .whereEqualTo("type", "updoot")
-                .whereEqualTo("docId", post.docRef.id)
-                .get()
+            db.collection(userInteractionCollection).whereEqualTo("user", user.email)
+                .whereEqualTo("type", "updoot").whereEqualTo("docId", post.docRef.id).get()
                 .addOnSuccessListener {
-                    if (!it.isEmpty)
-                        communityPostBinding.btnCommunityUpdoot.setImageResource(R.drawable.ic_baseline_arrow_circle_up_24)
+                    if (!it.isEmpty) communityPostBinding.btnCommunityUpdoot.setImageResource(R.drawable.ic_baseline_arrow_circle_up_24)
                 }
         }
     }
 
     private fun isDownvoted(post: CommunityPost) {
         if (user != null) {
-            db.collection(userInteractionCollection)
-                .whereEqualTo("user", user.email)
-                .whereEqualTo("type", "downvote")
-                .whereEqualTo("docId", post.docRef.id)
-                .get()
+            db.collection(userInteractionCollection).whereEqualTo("user", user.email)
+                .whereEqualTo("type", "downvote").whereEqualTo("docId", post.docRef.id).get()
                 .addOnSuccessListener {
-                    if (!it.isEmpty)
-                        communityPostBinding.btnCommunityDownvote.setImageResource(R.drawable.ic_baseline_arrow_circle_down_24)
+                    if (!it.isEmpty) communityPostBinding.btnCommunityDownvote.setImageResource(R.drawable.ic_baseline_arrow_circle_down_24)
                 }
         }
     }
 
     private fun isBookmarked(post: CommunityPost) {
         if (user != null) {
-            db.collection(userInteractionCollection)
-                .whereEqualTo("user", user.email)
-                .whereEqualTo("type", "bookmark")
-                .whereEqualTo("docId", post.docRef.id)
-                .get()
+            db.collection(userInteractionCollection).whereEqualTo("user", user.email)
+                .whereEqualTo("type", "bookmark").whereEqualTo("docId", post.docRef.id).get()
                 .addOnSuccessListener {
-                    if (!it.isEmpty)
-                        communityPostBinding.btnCommunityBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
+                    if (!it.isEmpty) communityPostBinding.btnCommunityBookmark.setImageResource(R.drawable.ic_baseline_bookmark_24)
                 }
         }
     }
 
     private fun deletePost(post: CommunityPost) {
 
-        MaterialAlertDialogBuilder(communityPostBinding.root.context)
-            .setTitle("Delete Post?")
-            .setMessage("Post will be deleted Permanently")
-            .setNegativeButton("Cancel") { _, _ ->
+        MaterialAlertDialogBuilder(communityPostBinding.root.context).setTitle("Delete Post?")
+            .setMessage("Post will be deleted Permanently").setNegativeButton("Cancel") { _, _ ->
 
-            }
-            .setPositiveButton("Delete") { _, _ ->
+            }.setPositiveButton("Delete") { _, _ ->
                 db.collection(communityCollection).document(post.docRef.id).delete()
                     .addOnSuccessListener {
                         db.collection(userInteractionCollection)
-                            .whereEqualTo("docId", post.docRef.id)
-                            .get()
-                            .addOnSuccessListener {
-                                for (document in it)
-                                    db.collection(userInteractionCollection).document(document.id).delete()
+                            .whereEqualTo("docId", post.docRef.id).get().addOnSuccessListener {
+                                for (document in it) db.collection(userInteractionCollection)
+                                    .document(document.id).delete()
                             }
                         Toast.makeText(
                             communityPostBinding.root.context,
@@ -241,21 +235,22 @@ class CommunityPostViewHolder(private val communityPostBinding: CommunityCardCel
                             Toast.LENGTH_SHORT
                         ).show()
                         parentAdapter.deletePost(layoutPosition)
-                    }
-                    .addOnFailureListener {
+                    }.addOnFailureListener {
                         Toast.makeText(
                             communityPostBinding.root.context,
                             "Post Could Not Be Deleted",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-            }
-            .show()
+            }.show()
 
     }
 
-    fun reduce () {
-        communityPostBinding.layoutProfile.visibility = View.GONE
+    fun reduce() {
+        if (communityPostBinding.btnCommunityOptions.visibility == View.VISIBLE) {
+            communityPostBinding.cardUserDetail.visibility = View.INVISIBLE
+            communityPostBinding.textViewUserName.visibility = View.INVISIBLE
+        } else communityPostBinding.layoutTitle.visibility = View.GONE
         communityPostBinding.layoutInteraction.visibility = View.GONE
     }
 }

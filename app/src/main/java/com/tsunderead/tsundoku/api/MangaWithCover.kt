@@ -10,7 +10,7 @@ class MangaWithCover(
     private val filter: HashMap<String, ArrayList<String>> = HashMap(),
 ) : NetworkCaller<JSONObject> {
 
-    private val limit = 10
+    private val limit = 25
     private val tag = "MangaWithCover"
     private lateinit var mangaList: JSONArray
     private lateinit var returnObj: JSONObject

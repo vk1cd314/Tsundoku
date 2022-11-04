@@ -1,199 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?><!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutSignedIn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="#982020"
     tools:context=".main.Settings">
 
-    <FrameLayout
-        android:id="@+id/layoutSignedIn"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="167"
+            android:background="@color/md_theme_light_inversePrimary" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="200" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="167"
-                android:background="@color/md_theme_light_inversePrimary" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="200" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btnLogout"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="10dp">
+                android:layout_gravity="end"
+                android:text="@string/log_out" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:layout_marginHorizontal="50dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="5dp">
+
+                <com.faltenreich.skeletonlayout.SkeletonLayout
+                    android:id="@+id/skeletonLayoutProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/view2"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_centerHorizontal="true"
+                                android:elevation="12dp"
+                                android:innerRadius="0dp"
+                                android:shape="ring"
+                                android:thicknessRatio="1.9"
+                                app:cardCornerRadius="60dp">
+
+                                <ImageView
+                                    android:id="@+id/imgPfp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/profile_circle"
+                                    android:contentDescription="@string/profile_picture"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/pfp_placeholder" />
+
+                            </androidx.cardview.widget.CardView>
+
+                            <TextView
+                                android:id="@+id/txtUsername"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="sans-serif-black"
+                                android:text="@string/username" />
+
+                            <TextView
+                                android:id="@+id/txtEmail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text="@string/email" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <Button
+                            android:id="@+id/btnEditPfp"
+                            style="?attr/materialIconButtonFilledStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:drawableEnd="@drawable/ic_baseline_edit_24"
+                            android:translationX="50dp"
+                            android:translationY="-4dp" />
+
+                    </FrameLayout>
+                </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/tagToggleProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#831F1F"
+                android:backgroundTintMode="add"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:selectionRequired="true"
+                app:singleSelection="true">
 
                 <Button
-                    android:id="@+id/btnLogout"
-                    style="?attr/materialButtonOutlinedStyle"
+                    android:id="@+id/tagToggleLike"
+                    style="?attr/materialButtonToggleGroupStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@string/log_out" />
+                    android:text="@string/likes" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp" />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="210dp"
-                    android:layout_marginHorizontal="50dp"
-                    app:cardCornerRadius="30dp"
-                    app:cardElevation="5dp">
-
-                    <com.faltenreich.skeletonlayout.SkeletonLayout
-                        android:id="@+id/skeletonLayoutProfile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center">
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <androidx.appcompat.widget.LinearLayoutCompat
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center_horizontal"
-                                android:orientation="vertical">
-
-                                <androidx.cardview.widget.CardView
-                                    android:id="@+id/view2"
-                                    android:layout_width="120dp"
-                                    android:layout_height="120dp"
-                                    android:layout_centerHorizontal="true"
-                                    android:elevation="12dp"
-                                    android:innerRadius="0dp"
-                                    android:shape="ring"
-                                    android:thicknessRatio="1.9"
-                                    app:cardCornerRadius="60dp">
-
-                                    <ImageView
-                                        android:id="@+id/imgPfp"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:background="@drawable/profile_circle"
-                                        android:contentDescription="@string/profile_picture"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/ginnosaji" />
-
-                                </androidx.cardview.widget.CardView>
-
-                                <TextView
-                                    android:id="@+id/txtUsername"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:fontFamily="sans-serif-black"
-                                    android:text="@string/username" />
-
-                                <TextView
-                                    android:id="@+id/txtEmail"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:text="@string/email" />
-
-                            </androidx.appcompat.widget.LinearLayoutCompat>
-
-                            <Button
-                                android:id="@+id/btnEditPfp"
-                                style="?attr/materialIconButtonFilledStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:drawableEnd="@drawable/ic_baseline_edit_24"
-                                android:translationX="169dp"
-                                android:translationY="-4dp" />
-
-                        </FrameLayout>
-                    </com.faltenreich.skeletonlayout.SkeletonLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp" />
-
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:id="@+id/tagToggleProfile"
+                <Button
+                    android:id="@+id/tagToggleBookmark"
+                    style="?attr/materialButtonToggleGroupStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#831F1F"
-                    android:backgroundTintMode="add"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:selectionRequired="true"
-                    app:singleSelection="true">
+                    android:text="@string/bookmarks" />
 
-                    <Button
-                        android:id="@+id/tagToggleLike"
-                        style="?attr/materialButtonToggleGroupStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/likes" />
-
-                    <Button
-                        android:id="@+id/tagToggleBookmark"
-                        style="?attr/materialButtonToggleGroupStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/bookmarks" />
-
-                    <Button
-                        android:id="@+id/tagTogglePost"
-                        style="?attr/materialButtonToggleGroupStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/posts" />
-
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rViewProfile"
+                <Button
+                    android:id="@+id/tagTogglePost"
+                    style="?attr/materialButtonToggleGroupStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/posts" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
-        </ScrollView>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/btnContactUs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="96dp"
-            android:contentDescription="@string/contact_us"
-            android:text="@string/contact_us"
-            app:icon="@drawable/ic_baseline_contact_mail_24" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rViewProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    </FrameLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btnContactUs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="96dp"
+        android:contentDescription="@string/contact_us"
+        android:text="@string/contact_us"
+        app:icon="@drawable/ic_baseline_contact_mail_24" />
+
+</FrameLayout>

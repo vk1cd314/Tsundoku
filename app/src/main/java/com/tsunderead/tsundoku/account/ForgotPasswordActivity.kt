@@ -24,7 +24,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         email = findViewById(R.id.forgotPasswordEmail)
-        password = findViewById(R.id.forgotPasswordPassword)
         val recoverButton = findViewById<Button>(R.id.recover_button)
 
         recoverButton.setOnClickListener {

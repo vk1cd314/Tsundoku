@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
@@ -44,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initSignup() {
-        val signupButton = findViewById<Button>(R.id.signup_button)
+        val signupButton = findViewById<TextView>(R.id.signup_button)
         signupButton.setOnClickListener {
             val intent = Intent(this, CreateAccountActivity::class.java)
             startActivity(intent)
@@ -53,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initForgotPass() {
-        val forgotPassword = findViewById<Button>(R.id.forgot_password_button)
+        val forgotPassword = findViewById<TextView>(R.id.forgot_password_button)
         forgotPassword.setOnClickListener {
             val intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)

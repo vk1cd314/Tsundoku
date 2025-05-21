@@ -32,26 +32,33 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
     private lateinit var chapterList: ArrayList<String>
     private var position by Delegates.notNull<Int>()
     private lateinit var libraryDBHandler: LibraryDBHelper
+    private var mangaId: String? = null
+    private var chapterNumlist: ArrayList<String>? = null
+    private lateinit var recyclerView: RecyclerView // Added for easier access
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mangaReaderBinding = MangaReaderBinding.inflate(layoutInflater)
         setContentView(mangaReaderBinding.root)
-        val chapterNumlist = intent.getStringArrayListExtra("chapterNumlist")
+        chapterNumlist = intent.getStringArrayListExtra("chapterNumlist")
         val chapterNum = intent.getStringExtra("ChapterNum")
-        val mangaId = intent.getStringExtra("MangaId")
+        mangaId = intent.getStringExtra("MangaId")
         val chapterId = intent.getStringExtra("ChapterId")
         chapterList = intent.getStringArrayListExtra("chapterList")!!
         position = intent.getIntExtra("position", -1)
-        Log.i("Stuff1", chapterId.toString())
-        Log.i("Stuff2", chapterList.toString())
-        Log.i("Stuff3", position.toString())
+        // Log.i("Stuff1", chapterId.toString())
+        // Log.i("Stuff2", chapterList.toString())
+        // Log.i("Stuff3", position.toString())
         libraryDBHandler = LibraryDBHelper(this@MangaReaderActivity, null)
-        Log.i("Before here", "Def")
+        recyclerView = mangaReaderBinding.mangaReaderRecyclerView // Initialize RecyclerView
+        recyclerView.setHasFixedSize(true)
+
+        // Log.i("Before here", "Def")
         if (mangaId?.let { libraryDBHandler.isPresent(it) } == true) chapterId?.let {
             if (chapterNum != null) {
-                libraryDBHandler.updateHistoryChapterRead(mangaId,
+                libraryDBHandler.updateHistoryChapterRead(mangaId!!, // mangaId is now a class member
                     it, chapterNum)
-                Log.i("In here", "Def")
+                // Log.i("In here", "Def")
             }
         }
         chapterId?.let { MangaChapter(this, it) }?.execute()
@@ -62,36 +69,44 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
         }
         mangaReaderBinding.nextChapter.setOnClickListener {
             mangaReaderBinding.nextChapter.hide()
+            mangaReaderBinding.previousChapter.hide()
+            mangaReaderBinding.goBack.hide()
             if (position == chapterList.size - 1) {
                 Toast.makeText(this@MangaReaderActivity, "No Chapter After", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                val intent = Intent(this@MangaReaderActivity, MangaReaderActivity::class.java)
-                intent.putExtra("MangaId", mangaId)
-                intent.putExtra("ChapterId", chapterList[position + 1])
-                intent.putExtra("chapterList", chapterList)
-                intent.putExtra("position", position + 1)
-                intent.putExtra("ChapterNum", chapterNumlist?.get(position + 1))
-                intent.putExtra("chapterNumlist", chapterNumlist)
-                startActivity(intent)
-                finish()
+                position++
+                val newChapterId = chapterList[position]
+                val newChapterNum = chapterNumlist?.get(position)
+                if (newChapterId != null && newChapterNum != null && mangaId != null) {
+                    MangaChapter(this@MangaReaderActivity, newChapterId).execute()
+                    libraryDBHandler.updateHistoryChapterRead(mangaId!!, newChapterId, newChapterNum)
+                    // Clear RecyclerView
+                    recyclerView.adapter = null
+                } else {
+                    Toast.makeText(this@MangaReaderActivity, "Error loading chapter data", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         mangaReaderBinding.previousChapter.setOnClickListener {
+            mangaReaderBinding.previousChapter.hide()
             mangaReaderBinding.nextChapter.hide()
+            mangaReaderBinding.goBack.hide()
             if (position == 0) {
                 Toast.makeText(this@MangaReaderActivity, "No Chapter Before", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                val intent = Intent(this@MangaReaderActivity, MangaReaderActivity::class.java)
-                intent.putExtra("MangaId", mangaId)
-                intent.putExtra("ChapterId", chapterList[position - 1])
-                intent.putExtra("chapterList", chapterList)
-                intent.putExtra("position", position - 1)
-                intent.putExtra("ChapterNum", chapterNumlist?.get(position - 1))
-                intent.putExtra("chapterNumlist", chapterNumlist)
-                startActivity(intent)
-                finish()
+                position--
+                val newChapterId = chapterList[position]
+                val newChapterNum = chapterNumlist?.get(position)
+                if (newChapterId != null && newChapterNum != null && mangaId != null) {
+                    MangaChapter(this@MangaReaderActivity, newChapterId).execute()
+                    libraryDBHandler.updateHistoryChapterRead(mangaId!!, newChapterId, newChapterNum)
+                    // Clear RecyclerView
+                    recyclerView.adapter = null
+                } else {
+                    Toast.makeText(this@MangaReaderActivity, "Error loading chapter data", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -107,36 +122,70 @@ class MangaReaderActivity : AppCompatActivity(), NetworkCaller<JSONObject> {
 
     override fun onCallSuccess(result: JSONObject?) {
         Log.i("MangaReaderActivity", result.toString())
-        val chapterPages = ArrayList<ChapterPage>()
-        for (key in result!!.keys()) {
-            val chapterPage = ChapterPage(key.toInt(), result.getString(key))
-            chapterPages.add(chapterPage)
+        val chapterPages = ArrayList<ChapterPage>() // Cleared by re-initialization
+        if (result != null) {
+            for (key in result.keys()) {
+                try {
+                    val pageNumber = key.toInt()
+                    val chapterPage = ChapterPage(pageNumber, result.getString(key))
+                    chapterPages.add(chapterPage)
+                } catch (e: NumberFormatException) {
+                    Log.e("MangaReaderActivity", "Invalid page number format for key: $key", e)
+                    continue // Skip this entry and continue with the next key
+                }
+            }
+        } else {
+            // Handle null result, maybe show an error message
+            Toast.makeText(this@MangaReaderActivity, "Failed to load chapter pages.", Toast.LENGTH_LONG).show()
+            // Potentially load a placeholder or allow retry
+            return // Exit if there's no data to display
         }
+
+        // It's good practice to sort pages by key if not already sorted
+        chapterPages.sortBy { it.pageNo }
+
         val gestureDetector = GestureDetector(
             this@MangaReaderActivity,
             object : GestureDetector.SimpleOnGestureListener() {
                 override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-                    Log.i("Very Weird", "This Behaviour")
-                    if (mangaReaderBinding.nextChapter.isVisible) {
-                        mangaReaderBinding.nextChapter.hide()
-                        mangaReaderBinding.previousChapter.hide()
-                        mangaReaderBinding.goBack.hide()
-                    } else {
-                        mangaReaderBinding.nextChapter.show()
-                        mangaReaderBinding.previousChapter.show()
-                        mangaReaderBinding.goBack.show()
-                    }
+                    // Log.i("Very Weird", "This Behaviour")
+                    // Toggle visibility of controls
+                    val controlsVisible = mangaReaderBinding.nextChapter.isVisible
+                    mangaReaderBinding.nextChapter.visibility = if (controlsVisible) android.view.View.GONE else android.view.View.VISIBLE
+                    mangaReaderBinding.previousChapter.visibility = if (controlsVisible) android.view.View.GONE else android.view.View.VISIBLE
+                    mangaReaderBinding.goBack.visibility = if (controlsVisible) android.view.View.GONE else android.view.View.VISIBLE
                     return true
                 }
             })
-        val recyclerView = mangaReaderBinding.mangaReaderRecyclerView
-        recyclerView.setHasFixedSize(true)
+        // recyclerView is already initialized in onCreate and setHasFixedSize is called there.
+        // We only need to set up the adapter and touch listener if it's the first time or they need reconfiguration.
+        // For this refactor, simply setting a new adapter is fine.
+        recyclerView.clearOnItemTouchListeners() // Clear previous listeners if any
         recyclerView.addOnItemTouchListener(object : RecyclerView.SimpleOnItemTouchListener() {
             override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
                 return gestureDetector.onTouchEvent(e)
             }
         })
         recyclerView.adapter = ChapterPageAdapter(chapterPages)
+        // Potentially scroll to top
+        recyclerView.scrollToPosition(0)
     }
 
+    override fun onCallFail() {
+        super.onCallFail() // Calls the default Log.e
+        runOnUiThread {
+            Toast.makeText(
+                this@MangaReaderActivity,
+                "Error: Could not load chapter. Please check your connection or try again.",
+                Toast.LENGTH_LONG
+            ).show()
+            // Optionally, re-enable navigation buttons or offer a retry mechanism here
+            // For now, just showing the toast as per requirements.
+            // If buttons were hidden before the call, they might need to be shown again.
+            // Example:
+            // mangaReaderBinding.nextChapter.show()
+            // mangaReaderBinding.previousChapter.show()
+            // mangaReaderBinding.goBack.show()
+        }
+    }
 }
